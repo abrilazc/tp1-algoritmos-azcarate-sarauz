@@ -4,7 +4,7 @@
 
 #include "config.h"
 #include "fisica.h"
-#include "polilineas.h"
+#include "polilinea.h"
 
 #define RADIONAVE
 

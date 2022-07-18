@@ -1,5 +1,9 @@
 #include "funciones.h"
 
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdint.h>
+#include "polilinea.h"
 
 const char* figura_tipo_a_cadena(figura_tipo_t figura){
     static const char* tipo[]={[ICONO]="Icono",[NIVEL]="Nivel",[SPRITE]="Sprite",[OTRO]="Otro"};

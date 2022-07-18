@@ -1,9 +1,7 @@
 #ifndef FUNCIONES_H
 #define FUNCIONES_H
-#include "polilinea.h"
+
 #include <stdbool.h>
-#include <stdio.h>
-#include <stdint.h>
 
 #define LONG_NOM 20
 #define INF_MASK 0x01

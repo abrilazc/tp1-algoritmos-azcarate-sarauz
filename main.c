@@ -20,7 +20,7 @@ int main() {
     // Mi nave:
     const float nave[][2] = {{8, 0}, {-1, 6}, {-4, 4}, {-4, 2}, {-2, 0}, {-4, -2}, {-4, -4}, {-1, -6}, {8, 0}};
     size_t nave_tam = 9;
-    float pos_nave[2]={0,0};
+    float pos_nave[2]={100,0};
 
     // El chorro de la nave:
     const float chorro[][2] = {{-4, 2}, {-8, 0}, {-4, -2}};

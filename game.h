@@ -1,11 +1,13 @@
 #ifndef _GAME_H_
 #define _GAME_H_
 
-#include "polilineas.h"
+
+typedef struct elemento elemento_t;
+
+void render_nave(elemento_t nave); //llamada para renderizar la nave del jugador en tal posicion con tal angulo
+
+void render_entorno();
 
 
-void render_nave(polilinea_t *nave, polilinea_t *chorro, float angulo, float *pos);
-
-typedef
 
 #endif

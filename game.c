@@ -1,15 +1,27 @@
 
 #include <stdbool.h>
 #include <SDL2/SDL.h>
+#include <stdint.h>
 
-#include "polilineas.h"
+#include "polilinea.h"
 
-typedef struct {
-    char figura_nombre[20];
+typedef enum{
+    ICONO,
+    NIVEL,
+    NAVE_CHORRO,
+    ESTRELLA,
+    BASE,
+    COMBUSTIBLE,
+    TORRETA,
+    REACTOR,
+}tipo_elementos_t;
+struct elemento {
+    char nombre[20];
+
     bool infinito;
     size_t n_polilineas;
     polilinea_t *polilineas;
-}   figura_t;
+};
 
 
 

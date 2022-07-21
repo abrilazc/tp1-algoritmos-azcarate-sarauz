@@ -45,12 +45,26 @@ typedef enum {
     ICONO,
     NIVEL,
     SPRITE,
+    CUATRO,
+    CINCO,
+    SEIS,
+    SIETE,
+    OCHO,
+    NUEVE,
+    DIEZ,
 } figura_tipo_t;
 
 char *tipos_de_figura[]={
-    [ICONO]="Icono",
-    [NIVEL]="Nivel",
-    [SPRITE]="Sprite",
+    [ICONO]="1",
+    [NIVEL]="2",
+    [SPRITE]="3",
+    [CUATRO]="4",
+    [CINCO]="5",
+    [SEIS]="6",
+    [SIETE]="7",
+    [OCHO]="8",
+    [NUEVE]="9",
+    [DIEZ]="10",
 };
 
 const char* figura_tipo_a_cadena(figura_tipo_t figura){

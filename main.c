@@ -2,6 +2,7 @@
 #include <stdbool.h>
 
 #include "config.h"
+#include "game.h"
 
 
 int main() {
@@ -21,7 +22,7 @@ int main() {
     const float nave[][2] = {{8, 0}, {-1, 6}, {-4, 4}, {-4, 2}, {-2, 0}, {-4, -2}, {-4, -4}, {-1, -6}, {8, 0}};
     size_t nave_tam = 9;
     float pos_nave[2]={100,0};
-
+    size_t nivel= 0;
     // El chorro de la nave:
     const float chorro[][2] = {{-4, 2}, {-8, 0}, {-4, -2}};
     size_t chorro_tam = 3;
@@ -70,7 +71,7 @@ int main() {
         SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
         SDL_RenderClear(renderer);
         SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0x00);
-
+        
         // BEGIN código del alumno
         // Dibujamos la nave escalada por f en el centro de la pantalla:
         SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0x00);

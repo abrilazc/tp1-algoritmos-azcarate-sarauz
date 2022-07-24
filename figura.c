@@ -1,5 +1,7 @@
 #include "figura.h"
 
+#include <stdint.h>
+
 //tipos de dato
 struct figura{
     char nombre[LONG_NOM];
@@ -8,6 +10,9 @@ struct figura{
     size_t cantidad_polilineas;
     polilinea_t **polilineas;
 };
+
+typedef struct figura figura_t;
+
 const char* figura_tipo_a_cadena(figura_tipo_t figura){
     static const char* tipo[]={
     [ICONO]="Icono",
@@ -86,6 +91,7 @@ figura_t *figura_crear(FILE *f){
 
     return figura;
 }
+
 void figura_destruir(figura_t *figura){
     size_t j=0;
     size_t i=figura->cantidad_polilineas;

@@ -2,11 +2,9 @@
 #define _FIGURA_H_
 
 #include "polilinea.h"
+
 #include <stdbool.h>
 #include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <string.h>
 
 #define LONG_NOM 20
 #define INF_MASK 0x01
@@ -20,7 +18,17 @@
 struct figura;//la figura tiene toda la informacion necesaria recogida del archivo
 typedef struct figura figura_t;
 
-typedef enum{ICONO,NIVEL,SPRITE,PLANETA,BASE,COMBUSTIBLE,TORRETA,REACTOR}figura_tipo_t;
+typedef enum{
+    ICONO,
+    NIVEL,
+    SPRITE,
+    PLANETA,
+    BASE,
+    COMBUSTIBLE,
+    TORRETA,
+    REACTOR
+}figura_tipo_t;
+
 const char* figura_tipo_a_cadena(figura_tipo_t figura);
 
 bool leer_encabezado_figura(FILE *f, char nombre[], figura_tipo_t *tipo, bool *infinito, size_t *cantidad_polilineas);

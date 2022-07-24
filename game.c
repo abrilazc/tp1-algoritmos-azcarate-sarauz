@@ -3,9 +3,12 @@
 #include <SDL2/SDL.h>
 #include <stdint.h>
 
-#include "polilinea.h"
+#include "figura.h"
 
-#define NAVE {{8, 0}, {-1, 6}, {-4, 4}, {-4, 2}, {-2, 0}, {-4, -2}, {-4, -4}, {-1, -6}, {8, 0}}
+struct nave{
+    figura_t figura;
+    
+};
 
 typedef enum{
     INICIO,
@@ -15,26 +18,8 @@ typedef enum{
     NIVEL1NW,
     NIVEL1SW,
 }niveles_t;
-typedef enum{
-    ICONO,
-    NIVEL,
-    NAVE_CHORRO,
-    ESTRELLA,
-    BASE,
-    COMBUSTIBLE,
-    TORRETA,
-    REACTOR,
-}tipo_elementos_t;
 
-struct elemento {
-    char nombre[20];
-    tipo_elementos_t tipo;
-    bool infinito;
-    size_t n_polilineas;
-    polilinea_t *polilineas;
-};
-
-void render_nave(float pos[2], float angulo){
+void render_figura(figura_t figura, float pos[2]){
     float nave[][2]={{8, 0}, {-1, 6}, {-4, 4}, {-4, 2}, {-2, 0}, {-4, -2}, {-4, -4}, {-1, -6}, {8, 0}};
     
 }

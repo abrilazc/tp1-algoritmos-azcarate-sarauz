@@ -1,8 +1,9 @@
-#ifndef POLILINEA_H
-#define POLILINEA_H
+#ifndef _POLILINEA_H
+#define _POLILINEA_H
 
-#include <stdint.h>
+
 #include <stddef.h>
+
 #include "color.h"
 
 struct polilinea;

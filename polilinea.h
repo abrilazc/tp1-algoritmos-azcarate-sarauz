@@ -4,9 +4,9 @@
 
 #include <stddef.h>
 
+
 #include "color.h"
 
-struct polilinea;
 typedef struct polilinea polilinea_t;
 
 //Creacion polilinea

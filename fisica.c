@@ -7,7 +7,7 @@
 #include "polilinea.h"
 
 #define RADIONAVE
-
+#define DT 1/JUEGO_FPS
 void colision_rebote(float pos[2], float v[2], size_t dim[2]){
     if(pos[0]<=0||pos[0]>=dim[0]){
         v[0]=-v[0];
@@ -17,9 +17,9 @@ void colision_rebote(float pos[2], float v[2], size_t dim[2]){
     }
 }
 
-void acelerar(float v[2], float angulo, float a, float dt){
-    v[0]=v[0]+a*cos(angulo)*dt;
-    v[1]=v[1]+a*sin(angulo)*dt;
+void acelerar(float v[2], float angulo){
+    v[0]=v[0]+NAVE_ACELERACION*cos(angulo)*DT;
+    v[1]=v[1]+NAVE_ACELERACION*sin(angulo)*DT;
 }
 
 static double angulo(float dx, float dy){
@@ -37,24 +37,52 @@ static double angulo(float dx, float dy){
         }
 }
 
-void gravedad(float v[2], bool planeta_infinito, float pos[2], float pos_g[2], float g, float dt){
+
+void gravedad(float v[2], bool planeta_infinito, float pos[2], float pos_g[2]){
 
     if(planeta_infinito){
-        v[1]= v[1]- g*dt;
+        v[1]= v[1]- G*DT;
     }
 
     else{
         float dx=pos[0]-pos_g[0];
         float dy=pos[1]-pos_g[1];
         double ang=angulo(dx, dy);
-        v[0]=v[0]+g*cos(ang)*dt;
-        v[1]=v[1]+g*sin(ang)*dt;
+        v[0]=v[0]+G*cos(ang)*DT;
+        v[1]=v[1]+G*sin(ang)*DT;
     }
 }
 
-void mover(float pos[2],float v[2],float dt){
-    pos[0]=pos[0]+v[0]*dt;
-    pos[1]=pos[1]+v[1]*dt;
+void mover(float pos[2],float v[2]){
+    pos[0]=pos[0]+v[0]*DT;
+    pos[1]=pos[1]+v[1]*DT;
+}
+
+void rotar_polilinea(polilinea_t *polilinea, double angulo){
+    float x,y;
+    for(size_t i=0; i<polilinea->n; i++){
+        x = polilinea[i][0];
+        y = polilinea[i][1];
+        polilinea[i][0] = x*cos(angulo) - y*sin(angulo);
+        polilinea[i][1] = x*sin(angulo) + y*cos(angulo);
+        } 
+}
+
+void rotar_nave(polilinea_t *polilinea, double *angulo, bool horario){
+{
+    double delta_angulo;
+    if(horario){
+        *angulo-=NAVE_ROTACION_PASO;
+        delta_angulo=-NAVE_ROTACION_PASO;
+        }
+    else{
+        *angulo+=NAVE_ROTACION_PASO;
+        delta_angulo=NAVE_ROTACION_PASO;
+    }
+
+    
+}
+
 }
 
 static double dist_puntos(double ax, double ay, double bx, double by){

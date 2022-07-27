@@ -1,6 +1,7 @@
 #include "figura.h"
 
 #include <stdint.h>
+#include <stdio.h>
 
 //tipos de dato
 struct figura{

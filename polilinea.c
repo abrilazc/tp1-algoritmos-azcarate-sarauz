@@ -79,3 +79,13 @@ bool polilinea_setear_color(polilinea_t *polilinea, color_t color) {
     printf("POLILINEA COLOR: (%d, %d, %d)\n", r, g, b);
     return true;
 }
+
+bool polilinea_rotar(polilinea_t *polilinea, double angulo){
+    float x,y;
+    for(size_t i=0; i<polilinea->n; i++){
+        x = polilinea->puntos[i][0];
+        y = polilinea->puntos[i][1];
+        polilinea->puntos[i][0] = x*cos(angulo) - y*sin(angulo);
+        polilinea->puntos[i][1] = x*sin(angulo) + y*cos(angulo);
+        }
+}

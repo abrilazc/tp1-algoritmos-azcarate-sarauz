@@ -58,7 +58,7 @@ void mover(float pos[2],float v[2]){
     pos[1]=pos[1]+v[1]*DT;
 }
 
-void rotar_nave(double polilinea[][2], size_t n, double *angulo, bool horario){
+void rotar_nave(polilinea_t *polilinea, double *angulo, bool horario){
 {
     double delta_angulo;
     if(horario){
@@ -70,13 +70,7 @@ void rotar_nave(double polilinea[][2], size_t n, double *angulo, bool horario){
         delta_angulo=NAVE_ROTACION_PASO;
     }
     float x,y;
-    for(size_t i=0; i<polilinea; i++){
-        x = polilinea[i][0];
-        y = polilinea[i][1];
-        polilinea[i][0] = x*cos(delta_angulo) - y*sin(delta_angulo);
-        polilinea[i][1] = x*sin(delta_angulo) + y*cos(delta_angulo);
-        } 
-    
+    polilinea_rotar(polilinea, *angulo);
 }
 
 }

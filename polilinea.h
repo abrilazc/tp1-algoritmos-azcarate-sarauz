@@ -1,5 +1,5 @@
-#ifndef _POLILINEA_H
-#define _POLILINEA_H
+#ifndef _POLILINEA_H_
+#define _POLILINEA_H_
 
 
 #include <stddef.h>

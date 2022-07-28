@@ -3,7 +3,10 @@
 
 #include "polilinea.h"
 #include <stdbool.h>
-
+#include <stdio.h>
+#include <stddef.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define LONG_NOM 20
 #define INF_MASK 0x01
@@ -14,27 +17,24 @@
 
 #define LON_NOM
 
-struct figura;//la figura tiene toda la informacion necesaria recogida del archivo
+//si la funciones de setteo o creacion fallan se mata todo
+
+//tipos de dato
+//cada figura tiene toda la informacion necesaria recogida del archivo
+struct figura;
 typedef struct figura figura_t;
 
-typedef enum{
-    ICONO,
-    NIVEL,
-    SPRITE,
-    PLANETA,
-    BASE,
-    COMBUSTIBLE,
-    TORRETA,
-    REACTOR
-}figura_tipo_t;
-    
+//tabla de busqueda (tipo)
+typedef enum{ICONO,NIVEL,SPRITE,PLANETA,BASE,COMBUSTIBLE,TORRETA,REACTOR}figura_tipo_t;
 const char* figura_tipo_a_cadena(figura_tipo_t figura);
 
+//seteo
 bool leer_encabezado_figura(FILE *f, char nombre[], figura_tipo_t *tipo, bool *infinito, size_t *cantidad_polilineas);
 polilinea_t *leer_polilinea(FILE *f);
 
+//creacion
 figura_t *figura_crear(FILE *f);
-void figura_destruir(figura_t *figura);
+figura_t **crear_figuras(FILE *f,size_t *i);
 
 //getter
 char *nombre_fig(const figura_t *figura); //hacerlo con tabla de busqueda
@@ -42,10 +42,14 @@ bool infinito_fig(const figura_t *figura);
 char *tipo_fig(const figura_t *figura);
 size_t cantidad_poli_fig(const figura_t *figura);
 polilinea_t **polilinea_fig(const figura_t *figura);
-figura_t *cargar(const figura_t **bloque,char *nombre_figura,size_t cantidad);
 
-//bloques
-figura_t **crear_figuras(FILE *f,size_t *i);
+//manipulacion de datos
+figura_t *cargar_nombre(figura_t **bloque,char *nombre_figura);
+figura_t **cargar_tipo(figura_t **bloque,char *tipo);
+//bool dibujar_polilineas(figura_t **bloque,char *nombre, size_t cantidad,float escalado,float posicion[2]);
+
+//destrucción- liberacion de la memoria
+void figura_destruir(figura_t *figura);
 void destruir_bloque(figura_t **bloque,size_t i);
 
 #endif 

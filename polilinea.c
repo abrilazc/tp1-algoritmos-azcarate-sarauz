@@ -80,7 +80,7 @@ bool polilinea_setear_color(polilinea_t *polilinea, color_t color) {
     return true;
 }
 
-bool polilinea_rotar(polilinea_t *polilinea, double angulo){
+bool polilinea_rotar(polilinea_t *polilinea, double angulo, bool horario){
     float x,y;
     for(size_t i=0; i<polilinea->n; i++){
         x = polilinea->puntos[i][0];

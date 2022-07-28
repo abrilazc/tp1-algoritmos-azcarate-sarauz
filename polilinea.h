@@ -1,9 +1,8 @@
-#ifndef _POLILINEA_H
-#define _POLILINEA_H
+#ifndef _POLILINEA_H_
+#define _POLILINEA_H_
 
 
 #include <stddef.h>
-
 
 #include "color.h"
 
@@ -20,6 +19,7 @@ bool polilinea_obtener_punto(const polilinea_t *polilinea, size_t pos, float *x,
 //Setters
 bool polilinea_setear_punto(polilinea_t *polilinea, size_t pos, float x, float y);
 bool polilinea_setear_color(polilinea_t *polilinea, color_t color);
+bool polilinea_rotar(polilinea_t *polilinea, double angulo);
 //Memoria
 polilinea_t *polilinea_clonar(const polilinea_t *polilinea);
 #endif

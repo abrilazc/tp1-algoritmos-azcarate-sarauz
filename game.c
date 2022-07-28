@@ -17,6 +17,6 @@ typedef enum{
 }niveles_t;
 
 void render_figura(float pos[2]){
-    float nave[][2]={{8, 0}, {-1, 6}, {-4, 4}, {-4, 2}, {-2, 0}, {-4, -2}, {-4, -4}, {-1, -6}, {8, 0}};
+    
     
 }

@@ -57,6 +57,7 @@ bool polilinea_obtener_punto(const polilinea_t *polilinea, size_t pos, float *x,
 	
 	return true;
 }
+
 bool polilinea_setear_punto(polilinea_t *polilinea, size_t pos, float x, float y){
 
 	if(pos>(polilinea->n)-1) return false;
@@ -65,6 +66,26 @@ bool polilinea_setear_punto(polilinea_t *polilinea, size_t pos, float x, float y
 	polilinea->puntos[pos][1]=y;
 	
 	return true;
+}
+
+void polilinea_trasladar(polilinea_t *polilinea, double traslacion[2]){
+    float x,y;
+    for(size_t i=0; i<polilinea->n; i++){
+        x = polilinea->puntos[i][0];
+        y = polilinea->puntos[i][1];
+        polilinea->puntos[i][0] = traslacion[0];
+        polilinea->puntos[i][1] = traslacion[1];
+        }
+}
+
+void polilinea_rotar(polilinea_t *polilinea, double angulo){
+    float x,y;
+    for(size_t i=0; i<polilinea->n; i++){
+        x = polilinea->puntos[i][0];
+        y = polilinea->puntos[i][1];
+        polilinea->puntos[i][0] = x*cos(angulo) - y*sin(angulo);
+        polilinea->puntos[i][1] = x*sin(angulo) + y*cos(angulo);
+        }
 }
 
 polilinea_t *polilinea_clonar(const polilinea_t *polilinea){
@@ -80,12 +101,3 @@ bool polilinea_setear_color(polilinea_t *polilinea, color_t color) {
     return true;
 }
 
-bool polilinea_rotar(polilinea_t *polilinea, double angulo, bool horario){
-    float x,y;
-    for(size_t i=0; i<polilinea->n; i++){
-        x = polilinea->puntos[i][0];
-        y = polilinea->puntos[i][1];
-        polilinea->puntos[i][0] = x*cos(angulo) - y*sin(angulo);
-        polilinea->puntos[i][1] = x*sin(angulo) + y*cos(angulo);
-        }
-}

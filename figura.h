@@ -31,6 +31,8 @@ const char* figura_tipo_a_cadena(figura_tipo_t figura);
 //seteo
 bool leer_encabezado_figura(FILE *f, char nombre[], figura_tipo_t *tipo, bool *infinito, size_t *cantidad_polilineas);
 polilinea_t *leer_polilinea(FILE *f);
+void figura_trasladar(figura_t *figura, double traslacion[2]);
+void figura_rotar(figura_t *figura, double angulo);
 
 //creacion
 figura_t *figura_crear(FILE *f);

@@ -2,9 +2,10 @@
 #define _FIGURA_H_
 
 #include "polilinea.h"
+#include "fisica.h"
 #include <stdbool.h>
 #include <stdio.h>
-#include <stddef.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -27,7 +28,17 @@ struct figura;
 typedef struct figura figura_t;
 
 //tabla de busqueda (tipo)
-typedef enum{ICONO,NIVEL,SPRITE,PLANETA,BASE,COMBUSTIBLE,TORRETA,REACTOR}figura_tipo_t;
+typedef enum{
+    ICONO,
+    NIVEL,
+    SPRITE,
+    PLANETA,
+    BASE,
+    COMBUSTIBLE,
+    TORRETA,
+    REACTOR,
+}figura_tipo_t;
+
 const char* figura_tipo_a_cadena(figura_tipo_t figura);
 
 //seteo
@@ -43,7 +54,7 @@ figura_t **crear_figuras(FILE *f,size_t *i);
 //getter
 char *nombre_fig(const figura_t *figura); //hacerlo con tabla de busqueda
 bool infinito_fig(const figura_t *figura);
-char *tipo_fig(const figura_t *figura);
+figura_tipo_t tipo_fig(const figura_t *figura);
 size_t cantidad_poli_fig(const figura_t *figura);
 polilinea_t **polilinea_fig(const figura_t *figura);
 

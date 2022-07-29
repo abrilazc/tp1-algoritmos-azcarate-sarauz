@@ -10,6 +10,7 @@ struct figura{
     bool infinito;
     size_t cantidad_polilineas;
     polilinea_t **polilineas;
+    
 };
 
 typedef struct figura figura_t;
@@ -104,6 +105,18 @@ void figura_destruir(figura_t *figura){
     }
     
     free(figura);
+}
+
+void figura_trasladar(figura_t *figura, double traslacion[2]){
+    for(size_t i=0; i<(figura->cantidad_polilineas);i++){
+        polilinea_trasladar((figura->polilineas)+i, traslacion);
+    }
+}
+
+void figura_rotar(figura_t *figura, double angulo){
+    for(size_t i=0; i<(figura->cantidad_polilineas);i++){
+        polilinea_rotar((figura->polilineas)+i, angulo);
+    }
 }
 
 //getters

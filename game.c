@@ -6,7 +6,7 @@
 #include "figura.h"
 #include "nave.h"
 
-
+// UWU PRUEBA DE GIT UWU 
 typedef enum{
     INICIO,
     NIVEL1NE,

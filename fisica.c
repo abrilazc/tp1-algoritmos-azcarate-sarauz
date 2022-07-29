@@ -36,7 +36,7 @@ static double angulo(float dx, float dy){
             return tan(dy/dx)+PI;
         }
 }
-
+//prueba de git
 
 void gravedad(float v[2], bool planeta_infinito, float pos[2], float pos_g[2]){
 

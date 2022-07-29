@@ -13,7 +13,7 @@ void gravedad(float v[2], bool planeta_infinito, float pos[2], float pos_g[2]); 
 
 void mover(float pos[2],float v[2]); //llamada para mover un objeto
 
-void rotar_nave(polilinea_t *polilinea, double *angulo, bool horario); //llamada para cambiar el angulo de la nave
+void nave_rotar(polilinea_t *polilinea, double *angulo, bool horario); //llamada para cambiar el angulo de la nave
 
 bool colision(const float polilinea[][2], size_t n, float pos[2], float radio); //llamada para verificar si la nave chocó, return true si chocó
 

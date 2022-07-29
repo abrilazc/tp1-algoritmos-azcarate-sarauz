@@ -1,9 +1,8 @@
 #include "nave.h"
-
 #include <stdint.h>
-
+#include "figura.h"
 typedef struct{
-    polilinea_t **polilinea;
+    figura_t **figura;
     double direccion;
     double v[2];
     uint16_t combustible;
@@ -15,6 +14,9 @@ nave_t *nave_crear(){
     nave_t *nave=malloc(sizeof(nave_t));
     if(nave==NULL)
         return NULL;
-    nave->polilinea=polilinea_fig();
-}
+    nave->figura=malloc(sizeof(*figura_t)*2);
+    if(nave->figura==NULL){
+        free (nave);
+        return NULL;
+    }
 

@@ -4,10 +4,9 @@
 #include "polilinea.h"
 #include "fisica.h"
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdint.h>
-#include <stdlib.h>
-#include <string.h>
 
 #define LONG_NOM 20
 #define INF_MASK 0x01

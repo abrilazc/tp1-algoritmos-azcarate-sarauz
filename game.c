@@ -3,8 +3,9 @@
 #include <SDL2/SDL.h>
 #include <stdint.h>
 
-#include "figura.h"
+#include "game.h"
 #include "nave.h"
+#include "figura.h"
 
 // UWU PRUEBA DE GIT UWU 
 typedef enum{
@@ -16,22 +17,43 @@ typedef enum{
     NIVEL1SW,
 }niveles_t;
 
-figura_t ***inicio(){
-
+void inicio(figura_t **figuras_tipo_lista, size_t n_fig[8]){
     FILE *f = fopen("/figuras.bin", "rb");
     if(f == NULL) {
         fprintf(stderr, "No pudo abrirse el archivo\n");
         return 1;
     }
-    figura_t *auxiliar=NULL;
+
     figura_t ***figuras=malloc(8*sizeof(figura_t ***));
     if(figuras==NULL){
         fclose(f);
         return NULL;
     }
-    figura_t **figuras_tipo=malloc(sizeof(figura_t **));
+    figura_t **figuras_tipo=malloc(sizeof(figura_t **)*8);
+    if(figuras_tipo==NULL){
+        free(figuras);
+        fclose(f);
+        return NULL;
+    }
+
+    figura_t *auxiliar=NULL;
+
+    for(int i=0; i<8; i++){
+        figuras_tipo[i]=malloc(sizeof(figura_t *));
+        if(figuras_tipo[i]==NULL){
+            for(size_t n=0;n<=i;i++){
+                free(figuras_tipo[n]);
+            }
+            free(figuras);
+            fclose(f);
+            return NULL;
+        }
+        n_fig[i]=0;
+    }
+
     while((auxiliar=figura_crear(f))!=NULL){
-        tipo_fig(auxiliar);
+        figura_tipo_t auxiliar_tipo=tipo_fig(auxiliar);
+        figuras_tipo[tipo_fig(auxiliar)][n_fig[tipo_fig(auxiliar)]]=auxiliar; 
     }
     size_t cantidad_figuras=0;
     /*

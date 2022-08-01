@@ -14,7 +14,7 @@ nave_t *nave_crear(){
     nave_t *nave=malloc(sizeof(nave_t));
     if(nave==NULL)
         return NULL;
-    nave->figura=malloc(sizeof(*figura_t)*2);
+    nave->figura=malloc(sizeof(figura_t *)*2);
     if(nave->figura==NULL){
         free (nave);
         return NULL;

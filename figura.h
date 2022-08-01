@@ -4,10 +4,9 @@
 #include "polilinea.h"
 #include "fisica.h"
 #include <stdbool.h>
+#include <stddef.h>
 #include <stdio.h>
 #include <stdint.h>
-#include <stdlib.h>
-#include <string.h>
 
 //esto no lo stegeamos
 

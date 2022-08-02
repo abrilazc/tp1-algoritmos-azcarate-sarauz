@@ -155,15 +155,26 @@ figura_t *cargar_nombre(figura_t **bloque,char *nombre_figura){
     }
     return NULL;
 }
-figura_t **cargar_tipo(figura_t **bloque,char *tipo){
+figura_t **cargar_tipo(figura_t **bloque,figura_tipo_t tipo){
     size_t i=0;
     size_t j=0;
-    figura_t **figura=NULL;
+    figura_t **figura=malloc(sizeof(figura_t*));
+    if(figura==NULL) return NULL;//no estoy redimensionando memoria
     while(bloque[i]!=NULL){
-        char *tipo=tipo_fig(bloque[i]);
-        if(strcmp(tipo,tipo)==0){
-            figura[j]=(figura_t *)bloque[i];
+        printf("posicion: %zd\n",i);
+        figura_tipo_t tipo2=tipo_fig(bloque[i]);
+        printf("numero %d\n",tipo2);
+        if(tipo==tipo2){
+            printf("hubo coincidencia \n");
+            figura[j]=bloque[i];
             j++;
+            printf("tamaño j= %zd\n",j);
+            figura_t **aux=realloc(figura,sizeof(figura_t*)*(j+1));
+            if(aux==NULL){
+                printf("a casa");
+                return figura;
+            }
+            figura=aux;
         }
         i++;
     }

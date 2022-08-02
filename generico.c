@@ -1,3 +1,105 @@
+1/8
+Cargar tipos de datos, 2 maneras:
+
+POR NOMBRE: bien clarito, pero largo:
+
+figura_t **memoria=crear_figuras(f);
+figura_t **figuras_icono=cargar_tipo(memoria,ICONO);
+figura_t **figuras_nivel=cargar_tipo(memoria,NIVEL);
+figura_t **figuras_sprite=cargar_tipo(memoria,SPRITE);
+figura_t **figura_planeta=cargar_tipo(memoria,PLANETA);
+figura_t **figura_base=cargar_tipo(memoria,BASE);
+figura_t **figura_combustible=cargar_tipo(memoria,COMBUSTIBLE);
+figura_t **figura_torreta=cargar_tipo(memoria,TORRETA);
+figura_t **figura_reactor=cargar_tipo(memoria,REACTOR);
+
+....................................................
+
+SINTETICA: forma corta pero poco clara de "que es cada indice":
+
+define MAX_TIPOS 8
+
+figura_t **memoria=crear_figuras(f);
+figura_t ***lista_figuras=malloc(sizeof(lista_figuras **)*8);
+for(size_t i=0;i<MAX_TIPOS;i++){
+lista_figuras[i]=cargar_tipo(i);
+}
+
+--------------------------------------------------------------------
+DINAMICA DE CARGA DEL JUEGO:
+
+//Borrador
+iniciar juego
+    cargar todo a memoria;
+    cargar tipo niveles (copia);
+    cargar tipo planeta (copia);
+
+dibujar_inicio
+    dibujar base;
+    dibujar estrella;
+    dibujar planeta;
+
+iteraciones:
+    tecla
+    nave: direccion,aceleracion, velocidad, posicion, combustible,
+    colision contra:
+        paredes: cambia direccion velociddad colision
+        sol: pierde una vida, vuelve a base
+        planeta: carga planeta contra el que choco
+
+planeta:
+    carga elementos
+    dibuja
+    acomoda camara
+    empieza iteraciones
+
+    iteraciones planeta:
+    tecla
+    nave: aceleracion, velocidad, posicion, direccion, combustible,
+    torreta: cantidad y cuales siguen.
+    tanque: cantidad y cuales siguen.
+    reactor: si sigue estando.
+    colisiones:
+        Escudo:
+            tanque: recarga combustible
+        Nave:
+            borde pantalla:
+                tipo no infinito:
+                    cualquier borde:
+                        funcion_cambiar nivel: chequear si terminó el nivel e ir a pantalla principal
+                tipo infinito:
+                    borde superior:
+                        acomodar pantalla (hasta cota maxima);
+                        cota maxima: funcion cambiar nivel
+                    borde lateral:
+                        acomodar pantalla
+            polilinea planeta:
+                pierde una vida y regresa a la posicion inicial si tiene vidas todavia;
+                la funcion perder vida debe chequear que tenga vidas todavia
+             disparo:
+                pierde una vida y regresa a la posicion inicial si tiene vidas todavia;
+                la funcion perder vida debe chequear que tenga vidas todavia
+        Torreta: disparo;
+        Reactor: disparo;
+--------------------------------------------------------------------
+BORRAR:
+
+ej 4
+figuras.txt
+funciones.c y .h
+generico abru (este dejemoslo de borrador).
+polilinea tengo que hacerle una comparacion con la que tengo aca y a funciones tambien
+----------------------------------------------------------------------
+Cargo nivel.c y nivel.h: les falta hacer correcciones, en general, pero para hacer los otros TDA sirve.
+--------------------------------------------------------------------------
+FIN DE CARGA DEL DIA
+
+
+
+
+------------------------------
+28/7 (o antes)
+
 movimiento de nave:
 getchar+tabla de busqueda sobre wasd o sistema similar
 otras teclas pueden habilitar el escudo y el propulsr (y sus funciones respectivas).

@@ -59,7 +59,7 @@ polilinea_t **polilinea_fig(const figura_t *figura);
 
 //manipulacion de datos
 figura_t *cargar_nombre(figura_t **bloque,char *nombre_figura);
-figura_t **cargar_tipo(figura_t **bloque,char *tipo);
+figura_t **cargar_tipo(figura_t **bloque,figura_tipo_t tipo);
 //bool dibujar_polilineas(figura_t **bloque,char *nombre, size_t cantidad,float escalado,float posicion[2]);
 
 //destrucción- liberacion de la memoria

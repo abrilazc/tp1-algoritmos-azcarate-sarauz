@@ -8,7 +8,7 @@ struct nave;
 
 typedef struct nave nave_t;
 
-void inicio(figura_t **figuras_tipo_lista, size_t n_fig[8]);
+figura_t ***inicio(void);
 
 void cargar_nivel(size_t nivel);
 

@@ -2,7 +2,6 @@
 #include <stdbool.h>
 
 #include "config.h"
-#include "game.h"
 
 
 int main() {
@@ -51,10 +50,10 @@ int main() {
                         //
                     case SDLK_RIGHT:
                         //rotar horario
-                        nave_rotar_horario(nave, direccion); //TEST
+                        //nave_rotar_horario(nave, direccion); //TEST
                     case SDLK_LEFT:
                         //rotar antihorario
-                        nave_rotar_antihorario(nave, direccion);
+                        //nave_rotar_antihorario(nave, direccion);
                         break;
                 }
             }

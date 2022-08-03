@@ -1,7 +1,11 @@
 #include "figura.h"
+#include "game.h"
 
 int main(){
-
+    figura_t ***figuras=inicio();
+    if(figuras==NULL)
+        return 1;
+    /*
     FILE *f = fopen("figuras.bin", "rb");
     if(f == NULL) {
         fprintf(stderr, "No pudo abrirse el archivo\n");
@@ -31,7 +35,7 @@ int main(){
         figura_torreta,
         figura_reactor
     };
-
+    */
     figura_t *planeta=figuras[3][2];
     printf("%s\n", nombre_fig(planeta));
     return 0;

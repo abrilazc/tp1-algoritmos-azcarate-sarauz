@@ -1,3 +1,8 @@
+2/8
+En físicas y polilinea:
+chequear rotar y traladar nave y polilinea. Andan raro.
+Rotar nave tienen disitnos nombres en fisica.c y fisica.h
+----------------------------------------------------
 1/8
 Cargar tipos de datos, 2 maneras:
 

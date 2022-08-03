@@ -9,6 +9,10 @@ struct figura{
     size_t cantidad_polilineas;
     polilinea_t **polilineas;
 };
+/*struct varias_figuras{
+    figura_t **figura;
+    size_t cantidad;
+};*/
 const char* figura_tipo_a_cadena(figura_tipo_t figura){
     static const char* tipo[]={
     [ICONO]="Icono",
@@ -124,7 +128,27 @@ figura_t **crear_figuras(FILE *f,size_t *i){
     }
     return bloque_figuras;
 }
-
+/*varias_figuras_t *crear_varias(FILE *f){
+    figura_t **bloque_figuras=malloc(sizeof(figura_t*));
+    if(!bloque_figuras) return NULL;
+    size_t i=0;
+    while((bloque_figuras[i]=figura_crear(f))!=NULL){
+        figura_t **aux=realloc(bloque_figuras,sizeof(figura_t*)*(i+1));
+        if(!aux){
+            destruir_bloque(bloque_figuras,i);
+            return NULL;
+        }
+        bloque_figuras=aux;
+        i++;
+    }
+    varias_figuras_t *varias_figuras=malloc(sizeof(figura_t*)*i+sizeof(size_t));
+    if(varias_figuras==NULL) return NULL;
+    for(size_t j=0,j<i,j++){
+    varias_figuras->figura[i]=bloque_figuras[i];
+    }
+    varias_figuras->cantidad=i;
+    return varias_figuras;
+}*/
 
 //getters
 char *nombre_fig(const figura_t *figura){
@@ -227,3 +251,4 @@ void destruir_bloque(figura_t **bloque,size_t i){
     }
     free(bloque);
 }
+//void destruir_varias(varias_figuras_t *)

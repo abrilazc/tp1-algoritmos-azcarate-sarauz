@@ -77,9 +77,9 @@ bool polilinea_setear_color(polilinea_t *polilinea, color_t color) {
 }
 */
 bool dibujar_polilinea(polilinea_t *poli_dibu){
-    size_t cant_punt=6;//polilinea_cantidad_puntos(poli_dibu);
+    size_t cant_punt=polilinea_cantidad_puntos(poli_dibu);
     printf("\nson %zd puntos\n",cant_punt);
-    float matriz[2][cant_punt];
+    float matriz[cant_punt][2];
     printf("carga exito 3\n");
     for(size_t j=0;j<cant_punt;j++){
         printf("\nobteniendo el punto %zd\n",j);

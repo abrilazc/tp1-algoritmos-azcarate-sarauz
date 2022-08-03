@@ -3,6 +3,8 @@
 
 #include <stddef.h>
 #include <stdbool.h>
+#include <stdint.h>
+
 
 typedef uint8_t color_t;
 color_t color_crear(bool r, bool g, bool b);

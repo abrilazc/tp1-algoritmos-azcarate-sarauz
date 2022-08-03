@@ -2,7 +2,7 @@
 
 int main(){
 
-    FILE *f = fopen("/figuras.bin", "rb");
+    FILE *f = fopen("figuras.bin", "rb");
     if(f == NULL) {
         fprintf(stderr, "No pudo abrirse el archivo\n");
         return 1;

@@ -1,11 +1,11 @@
 CC = gcc
-CFLAGS = -Wall -g -std=c99 -pedantic -Werror 
-LDFLAGS = -lm
+CFLAGS = -Wall -g -std=c99 -pedantic -Werror
+LDFLAGS = -lm -lSDL2
 
 SRC_FILES = $(wildcard *.c)
 OBJ_FILES = $(SRC_FILES:.c=.o)
 
-PROGRAM = E4_99465
+PROGRAM = UwU
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@ $(LDFLAGS)

@@ -57,7 +57,7 @@ bool polilinea_setear_color(polilinea_t *polilinea, color_t color) {
     printf("POLILINEA COLOR: (%d, %d, %d)\n", r, g, b);
     return true;
 }
-void polilinea_trasladar(polilinea_t *polilinea, double traslacion[2]){
+/*void polilinea_trasladar(polilinea_t *polilinea, double traslacion[2]){
     float x,y;
     for(size_t i=0; i<polilinea->n; i++){
         x = polilinea->puntos[i][0];
@@ -75,6 +75,7 @@ void polilinea_rotar(polilinea_t *polilinea, double angulo){
         polilinea->puntos[i][1] = x*sin(angulo) + y*cos(angulo);
         }
 }
+*/
 
 //getter
 size_t polilinea_cantidad_puntos(const polilinea_t *polilinea){

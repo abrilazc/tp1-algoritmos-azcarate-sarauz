@@ -76,6 +76,31 @@ bool polilinea_setear_color(polilinea_t *polilinea, color_t color) {
         }
 }
 */
+bool dibujar_polilinea(polilinea_t *poli_dibu){
+    size_t cant_punt=6;//polilinea_cantidad_puntos(poli_dibu);
+    printf("\nson %zd puntos\n",cant_punt);
+    float matriz[2][cant_punt];
+    printf("carga exito 3\n");
+    for(size_t j=0;j<cant_punt;j++){
+        printf("\nobteniendo el punto %zd\n",j);
+        if(polilinea_obtener_punto(poli_dibu,j,&matriz[j][0],&matriz[j][1])==0) return false;
+        printf("obtenido\n");
+    }
+    color_t color=0;
+    polilinea_setear_color(poli_dibu,color);
+    uint8_t r, g, b;
+    color_a_rgb(color, &r, &g, &b);
+    /*SDL_SetRenderDrawColor(renderer, 0xFF, r, g, b);
+    //arreglar matriz[][] de las cosas de abajo
+    for(size_t j=0;j<cant_punt;j++){
+    SDL_RenderDrawLine(render,(matriz[j][0]+posicion[0])*escalado,-(matriz[j][1]+posicion[1])*escalado,(matriz[j+1][0]+posicion[0])*escalado,-(matriz[j+1][1]+posicion[1])*escalado);
+    }
+    */
+    for(size_t j=0;j<cant_punt;j++){
+        printf("%f %f\n",matriz[j][0],matriz[j][1]);
+    }
+   return true;
+}
 
 //getter
 size_t polilinea_cantidad_puntos(const polilinea_t *polilinea){

@@ -1,4 +1,4 @@
-#include "nave.h"
+//#include "nave.h"
 #include <stdint.h>
 #include "figura.h"
 typedef struct{
@@ -19,4 +19,5 @@ nave_t *nave_crear(){
         free (nave);
         return NULL;
     }
+}
 

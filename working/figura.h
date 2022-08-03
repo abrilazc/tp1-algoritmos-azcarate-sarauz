@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <stdint.h>
 
+//esto no lo stegeamos
+
 #define LONG_NOM 20
 #define INF_MASK 0x01
 #define TIPO_MASK 0x07

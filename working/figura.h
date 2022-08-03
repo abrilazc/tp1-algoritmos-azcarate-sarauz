@@ -2,7 +2,7 @@
 #define _FIGURA_H_
 
 #include "polilinea.h"
-#include "fisica.h"
+//#include "fisica.h"
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
@@ -45,7 +45,6 @@ void figura_trasladar(figura_t *figura, double traslacion[2]);
 void figura_rotar(figura_t *figura, double angulo);
 
 //creacion
-figura_t *figura_crear(FILE *f);
 figura_t **crear_figuras(FILE *f,size_t *i);
 
 //getter

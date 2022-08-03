@@ -65,8 +65,8 @@ bool polilinea_setear_color(polilinea_t *polilinea, color_t color) {
         polilinea->puntos[i][0] = traslacion[0];
         polilinea->puntos[i][1] = traslacion[1];
         }
-}
-void polilinea_rotar(polilinea_t *polilinea, double angulo){
+}*/
+/*void polilinea_rotar(polilinea_t *polilinea, double angulo){
     float x,y;
     for(size_t i=0; i<polilinea->n; i++){
         x = polilinea->puntos[i][0];

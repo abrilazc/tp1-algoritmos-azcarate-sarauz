@@ -26,6 +26,7 @@ bool polilinea_setear_punto(polilinea_t *polilinea, size_t pos, float x, float y
 bool polilinea_setear_color(polilinea_t *polilinea, color_t color);
 //void polilinea_trasladar(polilinea_t *polilinea, double traslacion[2]);
 //void polilinea_rotar(polilinea_t *polilinea, double angulo);
+bool dibujar_polilinea(polilinea_t *polilinea);
 
 //Memoria
 polilinea_t *polilinea_clonar(const polilinea_t *polilinea);

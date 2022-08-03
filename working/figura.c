@@ -201,31 +201,24 @@ figura_t **cargar_tipo(figura_t **bloque,figura_tipo_t tipo){
     if(j==0) return NULL;
     return figura;
 }
-/*bool dibujar_poli(figura_t *figura, size_t cantidad,float escalado,float posicion[2]){
-    figura_t *dibujo=cargar(figura,nombre,cantidad);
+bool dibujar_figura(figura_t **figura,char *nombre){
+    figura_t *dibujo=cargar_nombre(figura,nombre);
     if(!dibujo) return false;
     
-    size_t cant_poli=figura->cantidad_polilineas;
+    size_t cant_poli=cantidad_poli_fig(dibujo);
+    printf("\nson %zd figuras\n",cant_poli);
+    polilinea_t **polilineas=polilinea_fig(dibujo);
+
+    printf("carga exito 1\n");
     
-    for(size_t i=0,i<cant_poli,i++){
-        polilinea_t *poli_dibu=figura->polilineas[i];
-        size_t cant_punt=polilinea_cantidad_puntos(poli_dibu);
-        float matriz[2][cant_punt];//revisar que esto sea legal
-        for(size_t j=0,j<cant_punt,j++){
-            //if(lodeabajo==0) return NULL;
-            polilinea_obtener_punto(poli_dibu,j,matriz[0][i],matriz[1][i]);// asi es la firma -> float *x, float *y
-        }
-        //existe polilinea_setear_color(polilinea_t *polilinea, color_t color)
-        //pero no le encuentro mucho sentido...
-        uint8_t r, g, b;
-        color_a_rgb(poli_dibu->color, &r, &g, &b); //en funciones.h habría que hacer #include "color.h"
-        SDL_SetRenderDrawColor(renderer, 0xFF, r, g, b);
-        //arreglar matriz[][] de las cosas de abajo
-        SDL_RenderDrawLine(render,(matriz[i][0]+posicion[0])*escalado,-(matriz[i][1]+posicion[1])*escalado,(matriz[i+1][0]+posicion[0])*escalado,-(matriz[i+1][1]+posicion[1])*escalado);
+    for(size_t i=0;i<cant_poli;i++){
+        polilinea_t *poli_dibu=polilineas[i];
+        printf("carga exito 2\n");
+        if(dibujar_polilinea(poli_dibu)==false) return false;
     }
     return true;
 }
-*/
+
 
 //destruir
 void figura_destruir(figura_t *figura){

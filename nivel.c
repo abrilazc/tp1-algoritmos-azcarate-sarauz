@@ -1,3 +1,5 @@
+#include "nivel.h"
+
 struct nivel{
     char[20] nombre;
     figura_t *figura;

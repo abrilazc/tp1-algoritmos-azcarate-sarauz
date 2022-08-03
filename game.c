@@ -17,67 +17,38 @@ typedef enum{
     NIVEL1SW,
 }niveles_t;
 
-void inicio(figura_t **figuras_tipo_lista, size_t n_fig[8]){
+figura_t ***inicio(void){
+
     FILE *f = fopen("/figuras.bin", "rb");
     if(f == NULL) {
         fprintf(stderr, "No pudo abrirse el archivo\n");
-        return 1;
-    }
-
-    figura_t ***figuras=malloc(8*sizeof(figura_t ***));
-    if(figuras==NULL){
-        fclose(f);
         return NULL;
     }
-    figura_t **figuras_tipo=malloc(sizeof(figura_t **)*8);
-    if(figuras_tipo==NULL){
-        free(figuras);
-        fclose(f);
-        return NULL;
-    }
-
-    figura_t *auxiliar=NULL;
-
-    for(int i=0; i<8; i++){
-        figuras_tipo[i]=malloc(sizeof(figura_t *));
-        if(figuras_tipo[i]==NULL){
-            for(size_t n=0;n<=i;i++){
-                free(figuras_tipo[n]);
-            }
-            free(figuras);
-            fclose(f);
-            return NULL;
-        }
-        n_fig[i]=0;
-    }
-
-    while((auxiliar=figura_crear(f))!=NULL){
-        figura_tipo_t auxiliar_tipo=tipo_fig(auxiliar);
-        figuras_tipo[tipo_fig(auxiliar)][n_fig[tipo_fig(auxiliar)]]=auxiliar; 
-    }
-    size_t cantidad_figuras=0;
-    /*
-    figura_t **memoria=crear_figuras(f,&cantidad_figuras);
-
-    if(memoria==NULL){
-        printf("problema de memoria (NULL)");
-        fclose(f);
-        //destruir_bloque(memoria,cantidad_figuras);
-        return 1;
-    }
-    printf("\nson %zd figuras\n",cantidad_figuras);
-
-    figura_t *fig_generica=cargar_nombre(memoria,"NAVE");
-    printf("%s\n",nombre_fig(fig_generica));
-
-/*  figura_t **planetas=cargar_tipo(memoria,"Planeta");
-    figura_t *planeta_generico=cargar_nombre(planetas,"PLANETA4");
-    figura_t *planeta1=planetas[1];
-    printf("%s",nombre_fig(planeta_generico));
-*/
-//    destruir_bloque(memoria,cantidad_figuras);
-
+    
+    size_t cant_figuras=0;
+    figura_t **memoria=crear_figuras(f, &cant_figuras);
     fclose(f);
+
+    figura_t **figuras_icono=cargar_tipo(memoria,ICONO);
+    figura_t **figuras_nivel=cargar_tipo(memoria,NIVEL);
+    figura_t **figuras_sprite=cargar_tipo(memoria,SPRITE);
+    figura_t **figura_planeta=cargar_tipo(memoria,PLANETA);
+    figura_t **figura_base=cargar_tipo(memoria,BASE);
+    figura_t **figura_combustible=cargar_tipo(memoria,COMBUSTIBLE);
+    figura_t **figura_torreta=cargar_tipo(memoria,TORRETA);
+    figura_t **figura_reactor=cargar_tipo(memoria,REACTOR);
+
+    figura_t **figuras[8]={
+        figuras_icono,
+        figuras_nivel,
+        figuras_sprite,
+        figura_planeta,
+        figura_base,
+        figura_combustible,
+        figura_torreta,
+        figura_reactor
+    };
+
 }
 
 void render_figura(float pos[2]){

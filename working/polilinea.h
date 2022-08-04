@@ -21,6 +21,7 @@ polilinea_t *polilinea_crear(const float puntos[][2], size_t n,color_t color);
 //Getters
 size_t polilinea_cantidad_puntos(const polilinea_t *polilinea);
 bool polilinea_obtener_punto(const polilinea_t *polilinea, size_t pos, float *x, float *y);
+color_t polilinea_color(const polilinea_t *polilinea);
 
 //Setters
 bool polilinea_setear_punto(polilinea_t *polilinea, size_t pos, float x, float y);

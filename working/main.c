@@ -20,8 +20,7 @@ int main() {
 
     // BEGIN código del alumno
     // Mi nave:
-    size_t cantidad_figuras=0;
-    figura_t ***figuras=inicio(&cantidad_figuras);
+    figura_t ***figuras=inicio();
     if(figuras==NULL)
         return 1;
 
@@ -44,8 +43,8 @@ int main() {
     //double direccion=0;
     //size_t nivel= 0;
     // El chorro de la nave:
-    //const float chorro[][2] = {{-4, 2}, {-8, 0}, {-4, -2}};
-    //size_t chorro_tam = 3;
+    const float chorro[][2] = {{-4, 2}, {-8, 0}, {-4, -2}};
+    size_t chorro_tam = 3;
 
     bool chorro_prendido = false;
 
@@ -96,12 +95,30 @@ int main() {
         
         // BEGIN código del alumno
         // Dibujamos la nave escalada por f en el centro de la pantalla:
+        /*
+        SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0x00);
         
-
+        for(int i = 0; i < nave_tam - 1; i++)
+            SDL_RenderDrawLine(
+                renderer,
+                nave[i][0] * f + pos_nave[0] + VENTANA_ANCHO / 2,
+                -nave[i][1] * f + pos_nave[1] + VENTANA_ALTO / 2,
+                nave[i+1][0] * f + pos_nave[0] + VENTANA_ANCHO / 2,
+                -nave[i+1][1] * f +pos_nave[1] + VENTANA_ALTO / 2
+            );
+        */
         if(dibujar_figura(renderer, nave, "NAVE",pos_nave,f)==false) printf("fail");
         if(chorro_prendido) {
             // Dibujamos el chorro escalado por f en el centro de la pantalla:
-            if(dibujar_figura(renderer, nave, "NAVE+CHORRO",pos_nave,f)==false) printf("fail");
+            SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0x00);
+            for(int i = 0; i < chorro_tam - 1; i++)
+                SDL_RenderDrawLine(
+                    renderer,
+                    chorro[i][0] * f + pos_nave[0] + VENTANA_ANCHO / 2,
+                    -chorro[i][1] * f + pos_nave[1] + VENTANA_ALTO / 2,
+                    chorro[i+1][0] * f + pos_nave[0] + VENTANA_ANCHO / 2,
+                    -chorro[i+1][1] * f + pos_nave[1] + VENTANA_ALTO / 2
+                );
         }
 
         // END código del alumno
@@ -123,8 +140,7 @@ int main() {
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
-    free(nave);
-    destruir_bloque(figuras, cantidad_figuras);
+
     SDL_Quit();
     return 0;
 }

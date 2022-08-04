@@ -2,19 +2,13 @@
 #define _GAME_H_
 
 
-#include <stdbool.h>
-#include <SDL2/SDL.h>
-#include <stdint.h>
-
-#include "game.h"
-//#include "nave.h"
 #include "figura.h"
 
 struct nave;
 
 typedef struct nave nave_t;
 
-figura_t ***inicio(size_t *cant_figuras);
+figura_t ***inicio(void);
 
 void cargar_nivel(size_t nivel);
 

@@ -76,26 +76,29 @@ bool polilinea_setear_color(polilinea_t *polilinea, color_t color) {
         }
 }
 */
-bool dibujar_polilinea(polilinea_t *poli_dibu){
+
+bool dibujar_polilinea(SDL_Renderer *renderer,polilinea_t *poli_dibu, float posicion[2], float escala){
     size_t cant_punt=polilinea_cantidad_puntos(poli_dibu);
-    printf("\nson %zd puntos\n",cant_punt);
     float matriz[cant_punt][2];
-    printf("carga exito 3\n");
     for(size_t j=0;j<cant_punt;j++){
-        printf("\nobteniendo el punto %zd\n",j);
         if(polilinea_obtener_punto(poli_dibu,j,&matriz[j][0],&matriz[j][1])==0) return false;
-        printf("obtenido\n");
     }
     color_t color=0;
     polilinea_setear_color(poli_dibu,color);
     uint8_t r, g, b;
     color_a_rgb(color, &r, &g, &b);
-    /*SDL_SetRenderDrawColor(renderer, 0xFF, r, g, b);
+    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0xFF, 0x00);
     //arreglar matriz[][] de las cosas de abajo
     for(size_t j=0;j<cant_punt;j++){
-    SDL_RenderDrawLine(render,(matriz[j][0]+posicion[0])*escalado,-(matriz[j][1]+posicion[1])*escalado,(matriz[j+1][0]+posicion[0])*escalado,-(matriz[j+1][1]+posicion[1])*escalado);
+    SDL_RenderDrawLine(
+        renderer,
+        (matriz[j][0]*escala+posicion[0]) + VENTANA_ANCHO / 2,
+        -(matriz[j][1]*escala+posicion[1]) + VENTANA_ALTO / 2,
+        (matriz[j+1][0]*escala+posicion[0]) + VENTANA_ANCHO / 2,
+        -(matriz[j+1][1]*escala+posicion[1]) + VENTANA_ALTO / 2
+        );
     }
-    */
+    
     for(size_t j=0;j<cant_punt;j++){
         printf("%f %f\n",matriz[j][0],matriz[j][1]);
     }

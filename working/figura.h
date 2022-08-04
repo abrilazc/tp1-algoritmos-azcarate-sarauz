@@ -7,7 +7,6 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <stdint.h>
-
 //esto no lo stegeamos
 
 #define LONG_NOM 20
@@ -59,7 +58,7 @@ polilinea_t **polilinea_fig(const figura_t *figura);
 //manipulacion de datos
 figura_t *cargar_nombre(figura_t **bloque,char *nombre_figura);
 figura_t **cargar_tipo(figura_t **bloque,figura_tipo_t tipo);
-bool dibujar_figura(figura_t **bloque,char *nombre);
+bool dibujar_figura(SDL_Renderer *renderer,figura_t **bloque,char *nombre, float posicion[2], float escala);
 
 //destrucción- liberacion de la memoria
 void figura_destruir(figura_t *figura);

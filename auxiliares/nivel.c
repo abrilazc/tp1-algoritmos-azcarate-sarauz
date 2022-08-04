@@ -4,10 +4,171 @@ struct nivel{
     char[20] nombre;
     figura_t *figura;
     bool infinito;
-    tanque_t *tanque;
-    torreta_t *torreta;
+    lista_t *tanque;
+    lista_t *torreta;
     reactor_t *reactor;
 };
+
+//Estructuras nodos
+struct lista{
+    struct nodo *primer_nodo;
+    size_t cantidad_elementos;
+};
+struct nodo{
+    struct nodo *proximo;
+    float[2] posicion;
+    float direccion;
+}
+struct nodo_bala{
+    struct nodo *proximo;
+    float[2] posicion;
+    float direccion;
+    size_t respawn;
+}
+//Nodos
+
+/*
+    Buscar nodos no se si es necesaria
+    Quitar nodo (revisar)
+*/
+nodo_t *crear_nodo(float posicion [2], float direccion){
+    nodo_t *nodo=malloc(sizeof(nodo));
+    if(nodo==NULL) return NULL;
+
+    nodo->proximo=NULL;
+    nodo->posicion[0]=posicion[0];
+    nodo->posicion[1]=posicion[1];
+    nodo->direccion=direccion;
+
+    return nodo;
+}
+lista_t *crear_lista(float *posicion [2], float *direccion, size_t cantidad){
+    lista_t *nueva=malloc(sizeof(lista_t));
+    if(nueva==NULL) return NULL;
+    
+    nodo_t *nodo[cantidad];
+    for(size_t i=0; i<cantidad; i++){
+        nodo[i]=crear_nodo(posicion[i],direccion[i]);
+        if(i>1){
+        (nodo->proximo)[i-1]=nodo[i];
+        }
+    }
+    nueva->primer_nodo=nodo[0];
+    nueva->cantidad_elementos=cantidad;
+
+    return nueva;
+}
+nodo_pos_t *crear_nodo_bala(float posicion[2]){
+    nodo_pos_t *nodo=malloc(sizeof(nodo_pos_t));
+    if(nodo==NULL) return NULL;
+
+    nodo->proximo=NULL;
+    nodo->posicion[0]=posicion[0];
+    nodo->posicion[1]=posicion[1];
+
+    return nodo;
+}
+nodo_t *buscar_nodo(lista_t lista, float posicion[2]){
+    size_t cantidad=lista->cantidad_elementos;
+    
+    nodo_t *nodo=lista->primer_nodo;
+    float pos_nodo[2]=nodo->posicion;
+
+    for(size_t i=0; i<cantidad; i++){
+        if(posicion==pos_nodo) return nodo;
+        pos_nodo=nodo->proximo->posicion;
+        nodo=nodo->proximo;
+    }
+    return NULL;
+}
+void quitar_nodo(lista_t *lista, float posicion[2]){
+    if(lista->primer_nodo==NULL) return;
+    size_t cantidad=lista->cantidad_elementos;
+    
+    nodo_t *nodo=lista->primer_nodo;
+    nodo_t *nodo_ant=NULL;
+    float pos_nodo[2]=nodo->posicion;
+
+    for(size_t i=0; i<cantidad; i++){
+        if(posicion==pos_nodo){
+            nodo_ant->proximo=nodo->proximo;
+            if(i==0){
+                lista->primer_nodo=nodo_ant;
+            }
+            lista->canditad_elementos--;
+            destruir(nodo);
+        }
+        nodo_ant=nodo;
+        nodo=nodo->proximo;
+        pos_nodo=nodo->posicion;  
+    }
+}
+void destruir_nodo(nodo_t nodo){
+    free(nodo->proximo);
+    free(nodo);
+}
+void destruir_lista(lista_t *lista){
+    nodo_t *nodo_act=lista->primer_nodo;
+    while(nodo_act!=NULL){
+        nodo_t *aux=nodo_act;
+        nodo_act=nodo_act->proximo;
+        destruir_nodo(aux);
+    }
+    free(lista);
+}
+
+/*
+    iteracion
+        
+        size_t cantidad_torretas=cantidad(lista_torretas);
+        size_t cantidad_tanques=cantidad(lista_tanques);
+        size_t cantidad_balas=cantidad(lista_balas);
+        size_t tiempo=0;
+        
+        tiempo+=DT;
+        if(cantidad_torretas!=0)
+        float torretas_pos[cantidad_torretas][2]=posiciones(lista_torretas);
+        //dibujar
+        for(size_t i=0;i<cantidad_torretas;i++){
+            if(interseccion(nave_pos,alcance_torretas[i]) && (tiempo%4==0)){
+                //si puede hacer una bala:
+                crear_nodo_bala(lista_bala);
+                cantidad_balas++;
+                //dibujar
+            }
+        }
+        
+
+        if(cantidad_tanques!=0)
+        float tanques_pos[cantidad_tanques][2]=posiciones(lista_tanques);
+        //dibujar
+
+        if(cantidad_balas!=0)
+            float balas_pos[cantidad_balas][2]=posiciones(lista_balas);
+            //dibujar
+            for(size_t j=0;j<cantidad_balas;j++){
+                if(interseccion(nave_pos,balas_pos[i])){
+                    //pierde_vida;
+                    cantidad_torretas=cantidad(lista_torretas);
+                    torretas_pos=posiciones(lista_torretas);
+                    //dibujar
+                }
+            }
+
+            if(cantidad_torretas!=0){
+                for(size_t i=0;i<cantidad_torretas;i++){
+                    for(size_t j=0;j<cantidad_balas;j++){
+                        if(interseccion(torretas_pos[j],balas_pos[i])){
+                            quitar_nodo(lista_torretas,torretas_pos[j]);
+                            cantidad_torretas=cantidad(lista_torretas);
+                            torretas_pos=posiciones(lista_torretas);
+                            //dibujar
+                        }
+                    }
+                }
+            }
+*/
+
 //Creacion niveles
 nivel_t *crear_nivel(figura_t figura){
     nivel_t *nivel_nuevo=malloc(sizeof(nivel_t));

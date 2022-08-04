@@ -50,7 +50,7 @@ polilinea_t *polilinea_clonar(const polilinea_t *polilinea){
     if(!nueva_polilinea) return NULL;
     return nueva_polilinea;
 }
-//hay que hacer ajuste dependiendo para que se use
+//sirve esta funcion setear color?
 bool polilinea_setear_color(polilinea_t *polilinea, color_t color) {
     uint8_t r, g, b;
     color_a_rgb(color, &r, &g, &b);
@@ -83,8 +83,8 @@ bool dibujar_polilinea(SDL_Renderer *renderer,polilinea_t *poli_dibu, float posi
     for(size_t j=0;j<cant_punt;j++){
         if(polilinea_obtener_punto(poli_dibu,j,&matriz[j][0],&matriz[j][1])==0) return false;
     }
-    color_t color=0;
-    polilinea_setear_color(poli_dibu,color);
+    color_t color=polilinea_color(poli_dibu);
+    
     uint8_t r, g, b;
     color_a_rgb(color, &r, &g, &b);
     SDL_SetRenderDrawColor(renderer, r, g, b, 0x00);
@@ -117,6 +117,9 @@ bool polilinea_obtener_punto(const polilinea_t *polilinea, size_t pos, float *x,
 	*y=polilinea->puntos[pos][1];
 	
 	return true;
+}
+color_t polilinea_color(const figura_t *polilinea_t){
+    return polilinea->color;
 }
 
 //destruccion

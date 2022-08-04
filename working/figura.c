@@ -201,20 +201,17 @@ figura_t **cargar_tipo(figura_t **bloque,figura_tipo_t tipo){
     if(j==0) return NULL;
     return figura;
 }
-bool dibujar_figura(figura_t **figura,char *nombre){
+bool dibujar_figura(SDL_Renderer *renderer,figura_t **figura,char *nombre, float posicion[2], float escala){
     figura_t *dibujo=cargar_nombre(figura,nombre);
     if(!dibujo) return false;
     
     size_t cant_poli=cantidad_poli_fig(dibujo);
-    printf("\nson %zd figuras\n",cant_poli);
+    
     polilinea_t **polilineas=polilinea_fig(dibujo);
-
-    printf("carga exito 1\n");
     
     for(size_t i=0;i<cant_poli;i++){
         polilinea_t *poli_dibu=polilineas[i];
-        printf("carga exito 2\n");
-        if(dibujar_polilinea(poli_dibu)==false) return false;
+        if(dibujar_polilinea(renderer, poli_dibu, posicion, escala)==false) return false;
     }
     return true;
 }

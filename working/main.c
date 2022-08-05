@@ -4,6 +4,7 @@
 #include "config.h"
 #include "figura.h"
 #include "game.h"
+#include "fisica.h"
 
 
 int main() {
@@ -20,43 +21,34 @@ int main() {
 
     // BEGIN código del alumno
     // Mi nave:
-    size_t cantidad_figuras=0;
-    figura_t ***figuras=inicio(&cantidad_figuras);
+    size_t cantidad_figuras[8]={0,0,0,0,0,0,0,0};
+    figura_t ***figuras=inicio(cantidad_figuras);
     if(figuras==NULL)
         return 1;
 
     
     figura_t **nave=figuras[2];
-    /*
-    figura_t *planeta=figuras[3][2];
-    printf("%s\n", nombre_fig(planeta));
-    
-    polilinea_t **polilinea_nave;
-    polilinea_nave=polilinea_fig(figura_nave);
-    size_t cp=polilinea_cantidad_puntos(polilinea_nave[0]);
-    float nave[cp][2];
-    for(size_t i=0; i<cp;i++){
-        polilinea_obtener_punto(polilinea_nave[0],i,&nave[i][0],&nave[i][1]);
-    }
-    */
-    //size_t nave_tam = 9;
-    float pos_nave[2]={100,0};
-    //double direccion=0;
-    //size_t nivel= 0;
-    // El chorro de la nave:
 
+    float pos_nave[2]={0,0};
+    float velocidad[2] ={0,0};
+    float aceleracion[]={0,-5*G}; //BORRAR
     bool chorro_prendido = false;
-
+    size_t frame=0;
     // Queremos que todo se dibuje escalado por f:
     float f = 10;
     // END código del alumno
 
     unsigned int ticks = SDL_GetTicks();
     while(1) {
+        frame++;
         if(SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT)
                 break;
             // BEGIN código del alumno
+            computar_velocidad(velocidad,aceleracion);
+            trasladar(pos_nave,velocidad);
+            printf("\nframe: %zd posicion: (%.2f,%.2f) velocidad: (%.2f,%.2f)  ",frame,pos_nave[0],pos_nave[1],velocidad[0],velocidad[1]);
+
             if (event.type == SDL_KEYDOWN) {
                 // Se apretó una tecla
                 switch(event.key.keysym.sym) {

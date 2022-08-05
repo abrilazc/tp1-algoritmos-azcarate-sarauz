@@ -1,7 +1,7 @@
 #include "fisica.h"
 
 //Angulares
-
+/*
 static float angulo(float dx, float dy){
         if(dx >=0 && dy >= 0){
             return atan(dy/dx);
@@ -16,7 +16,7 @@ static float angulo(float dx, float dy){
             return tan(dy/dx)+PI;
         }
 }
-
+*/
 //chequear esta funcion
 /*void rotar_nave(polilinea_t *polilinea, float *angulo, bool horario){
     {
@@ -37,6 +37,7 @@ static float angulo(float dx, float dy){
 //MRUV
 //Falta la funcion aceleracion, a una le pusiste "acelerar" pero es muy confuso.
 //cambiar gravedad a un float
+/*
 void gravedad(float v[2], bool planeta_infinito, float pos[2], float pos_g[2]){
 
     if(planeta_infinito){
@@ -50,21 +51,24 @@ void gravedad(float v[2], bool planeta_infinito, float pos[2], float pos_g[2]){
         v[0]=v[0]+G*cos(ang)*DT;
         v[1]=v[1]+G*sin(ang)*DT;
     }
+    printf("\nvelocidad %.2f,%.2f  ",v[0],v[1]);
 }
+*/
 /*
 void computar_aceleracion(float aceleracion[2], float gravedad, bool propulsion,float direccion){
    aceleracion[0]=gravedad+propulsion*cos(direccion)*G;
    aceleracion[1]=gravedad+propulsion*sin(direccion)*G;
 }
 */
+
 //Respecto a aceleracion, un poco confuso, pero podría pasar a ser una static si reacomodamos la firma
 //Propongo
-/*
-static void computar_velocidad(float velocidad[2], float aceleracion[2]){
+
+void computar_velocidad(float velocidad[2], float aceleracion[2]){
    velocidad[0]+=aceleracion[0]*DT;
    velocidad[1]+=aceleracion[1]*DT;
 }
-*/
+
 void acelerar(float v[2], float angulo){
     v[0]+=NAVE_ACELERACION*cos(angulo)*DT;
     v[1]+=NAVE_ACELERACION*sin(angulo)*DT;

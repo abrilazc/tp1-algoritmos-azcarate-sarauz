@@ -3,8 +3,9 @@
 #include "figura.h"
 typedef struct{
     figura_t **figura;
-    double direccion;
-    double v[2];
+    float posicion[2];
+    float v[2];
+    float direccion;
     uint16_t combustible;
     bool escudo;
     bool chorro;

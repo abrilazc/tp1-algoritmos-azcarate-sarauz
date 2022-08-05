@@ -100,7 +100,7 @@ bool dibujar_polilinea(SDL_Renderer *renderer,polilinea_t *poli_dibu, float posi
     }
     
     for(size_t j=0;j<cant_punt;j++){
-        printf("%f %f\n",matriz[j][0],matriz[j][1]);
+        //printf("%f %f\n",matriz[j][0],matriz[j][1]);
     }
    return true;
 }

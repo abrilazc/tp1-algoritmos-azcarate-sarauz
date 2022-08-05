@@ -20,11 +20,11 @@ void acelerar(float v[2], float angulo); //llamada para cambiar la velocidad de 
 
 void gravedad(float v[2], bool planeta_infinito, float pos[2], float pos_g[2]); //llamada para cambiar la velocidad de la nave por efecto de la gravedad
 
-void mover(float pos[2],float v[2]); //llamada para mover un objeto
+void trasladar(float pos[2],float v[2]); //llamada para mover un objeto
 
 //chequear esta funcion
 //void rotar_nave(polilinea_t *polilinea, double *angulo, bool horario); //llamada para cambiar el angulo de la nave
 
-bool colision(const float polilinea[][2], size_t n, float pos[2], float radio); //llamada para verificar si la nave chocó, return true si chocó
+bool colision(float polilinea[][2], size_t n, float pos[2], float radio); //llamada para verificar si la nave chocó, return true si chocó
 
 #endif 

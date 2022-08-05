@@ -9,7 +9,7 @@
 
 #define MAX_TIPOS 8
 
-figura_t ***inicio(void){
+figura_t ***inicio(size_t *cant_figuras){
 
     FILE *f = fopen("figuras.bin", "rb");
     if(f == NULL) {

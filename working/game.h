@@ -4,11 +4,15 @@
 
 #include "figura.h"
 
+#include <stdbool.h>
+#include <SDL2/SDL.h>
+#include <stdint.h>
+
 struct nave;
 
 typedef struct nave nave_t;
 
-figura_t ***inicio(void);
+figura_t ***inicio(size_t *cant_figuras);
 
 void cargar_nivel(size_t nivel);
 

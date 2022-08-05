@@ -118,7 +118,7 @@ bool polilinea_obtener_punto(const polilinea_t *polilinea, size_t pos, float *x,
 	
 	return true;
 }
-color_t polilinea_color(const figura_t *polilinea_t){
+color_t polilinea_color(const polilinea_t *polilinea){
     return polilinea->color;
 }
 

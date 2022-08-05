@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include "figura.h"
+
+#define TIEMPO_B 5
 //#include "rompibles.h" el que tiene torretas, tnaques y reactores
 
 struct nivel;

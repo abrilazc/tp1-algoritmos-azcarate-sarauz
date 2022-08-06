@@ -31,9 +31,22 @@ int main() {
     }
 
     printf("%zd\n",j);
-
+    for(size_t i=1;i<6;i++){
+        char planeta_p[9]="PLANETA";
+        char ii=i+48;
+        strcat(planeta_p,&ii);
+        printf("%s",planeta_p);
+    }
+    
+/*
+    nave_t *nave=crear_nave(figura[2]);
+    nivel_t **niveles=crear_niveles(figuras);
+    pantalla_inicio(nave,figuras,nivel_t **niveles);
     
     destruir_figuras(figuras,cantidad_figuras);
+    destruir_niveles(niveles);
+    destruir_nave(nave);
+*/
 
 
     return 0;

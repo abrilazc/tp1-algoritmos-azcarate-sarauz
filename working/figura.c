@@ -71,19 +71,19 @@ polilinea_t *leer_polilinea(FILE *f){
 
     return polilinea;
 }
-/*
+
 void figura_trasladar(figura_t *figura, double traslacion[2]){
     for(size_t i=0; i<(figura->cantidad_polilineas);i++){
-        polilinea_trasladar((figura->polilineas)+i, traslacion);
+        polilinea_trasladar(*((figura->polilineas)+i), traslacion);
     }
 }
 
 void figura_rotar(figura_t *figura, double angulo){
     for(size_t i=0; i<(figura->cantidad_polilineas);i++){
-        polilinea_rotar((figura->polilineas)+i, angulo);
+        polilinea_rotar(*((figura->polilineas)+i), angulo);
     }
 }
-*/
+
 
 //creacion 
 figura_t *figura_crear(FILE *f){

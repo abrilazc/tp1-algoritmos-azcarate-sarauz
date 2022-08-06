@@ -90,7 +90,11 @@ figura_t *figura_crear(FILE *f){
     figura_t *figura=malloc(sizeof(figura_t));
     if(figura==NULL)return NULL;
     
-    if(leer_encabezado_figura(f,figura->nombre,&figura->tipo_figura,&figura->infinito,&figura->cantidad_polilineas)==0) return NULL;
+    if(leer_encabezado_figura(f,figura->nombre,&figura->tipo_figura,&figura->infinito,&figura->cantidad_polilineas)==0){
+        free(figura);
+        return NULL;
+    }
+     
 
     size_t cantidad_polilineas=figura->cantidad_polilineas;
 
@@ -115,9 +119,9 @@ figura_t **crear_figuras(FILE *f,size_t *i){
 
     if(!bloque_figuras) return NULL;
 
-    while((*i)<24){
-    //while((bloque_figuras[*i]=figura_crear(f))!=NULL){//trae un leak
-        bloque_figuras[*i]=figura_crear(f);//con while((*i)<24){ evita leak
+    //while((*i)<24){
+    while((bloque_figuras[*i]=figura_crear(f))!=NULL){//trae un leak
+        //bloque_figuras[*i]=figura_crear(f);//con while((*i)<24){ evita leak
         (*i)++;
         figura_t **aux=realloc(bloque_figuras,sizeof(figura_t*)*((*i)+1));
         if(!aux){
@@ -184,8 +188,9 @@ figura_t **cargar_tipo(figura_t **bloque,figura_tipo_t tipo,size_t *cantidad){
     size_t i=0;
     size_t j=0;
     figura_t **figura=malloc(sizeof(figura_t*));
-    if(figura==NULL) return NULL;//no estoy redimensionando memoria
-    while(bloque[i]!=NULL){
+    if(figura==NULL) return NULL;//no estoy redimensionando memoria 
+    //while(bloque[i]!=NULL){
+    while(i<24){    
         figura_tipo_t tipo2=tipo_fig(bloque[i]);
         if(tipo==tipo2){
             figura[j]=bloque[i];
@@ -198,7 +203,10 @@ figura_t **cargar_tipo(figura_t **bloque,figura_tipo_t tipo,size_t *cantidad){
         }
         i++;
     }
-    if(j==0) return NULL;
+    if(j==0){
+        free(figura);
+        return NULL;
+    }
     *cantidad=j;
     return figura;
 }

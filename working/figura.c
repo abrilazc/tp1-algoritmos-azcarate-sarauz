@@ -111,21 +111,20 @@ figura_t *figura_crear(FILE *f){
     return figura;
 }
 figura_t **crear_figuras(FILE *f,size_t *i){
-    figura_t **bloque_figuras=malloc(sizeof(figura_t*));
+    figura_t **bloque_figuras=malloc(sizeof(figura_t*));//reserva espacio para 1 *figura_t
+
     if(!bloque_figuras) return NULL;
 
-    while((bloque_figuras[*i]=figura_crear(f))!=NULL){
-        /*if((bloque_figuras[*i]=figura_crear(f))==NULL){
-            destruir_bloque(bloque_figuras,(*i));
-            return NULL;
-        }*/
-        (*i)++;
+    while((bloque_figuras[*i]=figura_crear(f))!=NULL){//A bloque[0] le asigna el valor de figura_crear
+    //bloque[1] es un *figura_t y figura_crear tambien. i vale 0 en este paso
+        (*i)++;//i pasa a valer 1
         figura_t **aux=realloc(bloque_figuras,sizeof(figura_t*)*((*i)+1));
-        if(!aux){
+        if(!aux){//a bloque_figuras se lo quiere pasr de 1 espacio de figura_t* a i+1 espacios, que son 2
             destruir_bloque(bloque_figuras,(*i));
             return NULL;
         }
-        bloque_figuras=aux;
+        bloque_figuras=aux;//aux tenia espacio para 2 figuras_t
+        //free(aux);
     }
     return bloque_figuras;
 }
@@ -180,7 +179,7 @@ figura_t *cargar_nombre(figura_t **bloque,char *nombre_figura){
     }
     return NULL;
 }
-figura_t **cargar_tipo(figura_t **bloque,figura_tipo_t tipo){
+figura_t **cargar_tipo(figura_t **bloque,figura_tipo_t tipo,size_t *cantidad){
     size_t i=0;
     size_t j=0;
     figura_t **figura=malloc(sizeof(figura_t*));
@@ -199,6 +198,7 @@ figura_t **cargar_tipo(figura_t **bloque,figura_tipo_t tipo){
         i++;
     }
     if(j==0) return NULL;
+    *cantidad=j;
     return figura;
 }
 bool dibujar_figura(SDL_Renderer *renderer,figura_t **figura,char *nombre, float posicion[2], float escala){
@@ -236,5 +236,13 @@ void destruir_bloque(figura_t **bloque,size_t i){
         j++;
     }
     free(bloque);
+}
+void destruir_figuras(figura_t ***figuras, size_t *cantidad){
+    size_t j=0;
+    while(j<8){
+        destruir_bloque(figuras[j],cantidad[j]);
+        j++;
+    }
+    free(figuras);
 }
 //void destruir_varias(varias_figuras_t *)

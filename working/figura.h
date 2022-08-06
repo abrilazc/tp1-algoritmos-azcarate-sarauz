@@ -57,11 +57,12 @@ polilinea_t **polilinea_fig(const figura_t *figura);
 
 //manipulacion de datos
 figura_t *cargar_nombre(figura_t **bloque,char *nombre_figura);
-figura_t **cargar_tipo(figura_t **bloque,figura_tipo_t tipo);
+figura_t **cargar_tipo(figura_t **bloque,figura_tipo_t tipo,size_t *cantidad);
 bool dibujar_figura(SDL_Renderer *renderer,figura_t **bloque,char *nombre, float posicion[2], float escala);
 
 //destrucción- liberacion de la memoria
 void figura_destruir(figura_t *figura);
 void destruir_bloque(figura_t **bloque,size_t i);
+void destruir_figuras(figura_t ***figuras, size_t *cantidad);
 
 #endif 

@@ -21,10 +21,12 @@ figura_t ***inicio(size_t cant_figuras[MAX_TIPOS]){
     fclose(f);
 
 
-    figura_t ***figuras=malloc(sizeof(figura_t***)*8);
+    figura_t ***figuras=malloc(sizeof(figura_t**)*8);
 
     for(figura_tipo_t i=ICONO;i<MAX_TIPOS;i++){
-    figuras[i]=cargar_tipo(memoria,i);
+    figuras[i]=cargar_tipo(memoria,i,&cant_figuras[i]);
     }
+
+    free(memoria);
     return figuras;
 }

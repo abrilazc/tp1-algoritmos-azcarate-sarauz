@@ -1,7 +1,7 @@
 #ifndef _NAVE_H_
 #define _NAVE_H_
 
-#include "figura.h"
+//#include "figura.h"
 
 struct nave;
 

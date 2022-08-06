@@ -9,6 +9,7 @@ typedef struct{
     bool escudo;
     bool chorro;
     uint8_t vidas;
+    size_t puntos;
 }nave_t;
 
 nave_t *nave_crear(){
@@ -56,6 +57,20 @@ bool vidas_decrementar(nave_t *nave){
         return false;
         nave->vidas--;
 }
+void combustible_cargar(nave_t *nave){
+    nave->combustible+=3000;
+}
+bool combustible_usar(nave_t *nave){
+    if(nave->chorro)
+        nave->combustible-=(JUEGO_COMBUSTIBLE_POT_X_SEG/JUEGO_FPS);    
+    if(nave->escudo)
+        nave->combustible-=(JUEGO_COMBUSTIBLE_ESC_X_SEG/JUEGO_FPS);
+    if(nave->combustible<=0)
+        return false;
+    else
+        return true;
+}
+
 
 //getters
 bool chorro_get(nave_t *nave){
@@ -73,4 +88,8 @@ void velocidad_get(nave_t *nave, float velocidad[2]){
 }
 uint8_t vidas_get(nave_t *nave){
     return nave->vidas;
+    
+}
+size_t combustible_get(nave_t *nave){
+    return  nave->combustible;
 }

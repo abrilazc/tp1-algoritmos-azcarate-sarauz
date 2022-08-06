@@ -115,13 +115,12 @@ figura_t *figura_crear(FILE *f){
     return figura;
 }
 figura_t **crear_figuras(FILE *f,size_t *i){
-    figura_t **bloque_figuras=malloc(sizeof(figura_t*));//reserva espacio para 1 *figura_t
+    figura_t **bloque_figuras=malloc(sizeof(figura_t*));
 
     if(!bloque_figuras) return NULL;
 
-    //while((*i)<24){
-    while((bloque_figuras[*i]=figura_crear(f))!=NULL){//trae un leak
-        //bloque_figuras[*i]=figura_crear(f);//con while((*i)<24){ evita leak
+
+    while((bloque_figuras[*i]=figura_crear(f))!=NULL){
         (*i)++;
         figura_t **aux=realloc(bloque_figuras,sizeof(figura_t*)*((*i)+1));
         if(!aux){
@@ -188,8 +187,8 @@ figura_t **cargar_tipo(figura_t **bloque,figura_tipo_t tipo,size_t *cantidad){
     size_t i=0;
     size_t j=0;
     figura_t **figura=malloc(sizeof(figura_t*));
-    if(figura==NULL) return NULL;//no estoy redimensionando memoria 
-    //while(bloque[i]!=NULL){
+    if(figura==NULL) return NULL;
+
     while(i<24){    
         figura_tipo_t tipo2=tipo_fig(bloque[i]);
         if(tipo==tipo2){

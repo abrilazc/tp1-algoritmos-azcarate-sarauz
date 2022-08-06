@@ -57,16 +57,14 @@ bool polilinea_setear_color(polilinea_t *polilinea, color_t color) {
     printf("POLILINEA COLOR: (%d, %d, %d)\n", r, g, b);
     return true;
 }
-/*void polilinea_trasladar(polilinea_t *polilinea, double traslacion[2]){
-    float x,y;
+void polilinea_trasladar(polilinea_t *polilinea, double traslacion[2]){
+
     for(size_t i=0; i<polilinea->n; i++){
-        x = polilinea->puntos[i][0];
-        y = polilinea->puntos[i][1];
-        polilinea->puntos[i][0] = traslacion[0];
-        polilinea->puntos[i][1] = traslacion[1];
-        }
-}*/
-/*void polilinea_rotar(polilinea_t *polilinea, double angulo){
+        polilinea->puntos[i][0] += traslacion[0];
+        polilinea->puntos[i][1] += traslacion[1];
+    }
+}
+void polilinea_rotar(polilinea_t *polilinea, double angulo){
     float x,y;
     for(size_t i=0; i<polilinea->n; i++){
         x = polilinea->puntos[i][0];
@@ -75,7 +73,7 @@ bool polilinea_setear_color(polilinea_t *polilinea, color_t color) {
         polilinea->puntos[i][1] = x*sin(angulo) + y*cos(angulo);
         }
 }
-*/
+
 
 bool dibujar_polilinea(SDL_Renderer *renderer,polilinea_t *poli_dibu, float posicion[2], float escala){
     size_t cant_punt=polilinea_cantidad_puntos(poli_dibu);

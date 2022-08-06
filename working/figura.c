@@ -115,17 +115,18 @@ figura_t **crear_figuras(FILE *f,size_t *i){
 
     if(!bloque_figuras) return NULL;
 
-    while((bloque_figuras[*i]=figura_crear(f))!=NULL){//A bloque[0] le asigna el valor de figura_crear
-    //bloque[1] es un *figura_t y figura_crear tambien. i vale 0 en este paso
-        (*i)++;//i pasa a valer 1
+    while((*i)<24){
+    //while((bloque_figuras[*i]=figura_crear(f))!=NULL){//trae un leak
+        bloque_figuras[*i]=figura_crear(f);//con while((*i)<24){ evita leak
+        (*i)++;
         figura_t **aux=realloc(bloque_figuras,sizeof(figura_t*)*((*i)+1));
-        if(!aux){//a bloque_figuras se lo quiere pasr de 1 espacio de figura_t* a i+1 espacios, que son 2
+        if(!aux){
             destruir_bloque(bloque_figuras,(*i));
             return NULL;
         }
-        bloque_figuras=aux;//aux tenia espacio para 2 figuras_t
-        //free(aux);
+        bloque_figuras=aux;
     }
+    
     return bloque_figuras;
 }
 /*varias_figuras_t *crear_varias(FILE *f){

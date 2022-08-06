@@ -7,7 +7,7 @@ struct nivel{
     reactor_t *reactor;
 };
 //Creacion niveles
-nivel_t *crear_nivel(figura_t figura){
+nivel_t *crear_nivel(figura_t *figura){
     nivel_t *nivel_nuevo=malloc(sizeof(nivel_t));
     if(nivel_t==NULL) return NULL;
 
@@ -26,7 +26,7 @@ nivel_t **crear_niveles(figura_t **figura){
 
     for(size_t i=0,i<cantidad_niveles,i++){
         figura_t *figura=conjunto_niveles[i];
-        conjunto_nivel[i]=crear_nivel(figura)
+        conjunto_nivel[i]=crear_nivel(figura);//ke
     }
     return conjunto_niveles;
 }

@@ -179,3 +179,32 @@ const float[3]* posicion_torretas(char *nombre){
     return posicion[nombre];
 }
 */
+
+
+/*
+struct nivel{
+	....
+	lista_t torreta;
+}
+
+
+struct torreta{
+	float[2] posicion;
+	float direccion;
+}
+
+crear lista
+for(tamaño)
+crear_torreta
+lista_agregar_al principio
+
+float torreta_n1[8][3]=...........
+float datos=torreta_n1[i];
+
+torreta_t *crear_torreta(size_t tamaño,float datos[3]){
+	torreta_t nueva=malloc(sizeof(torreta_t)*tamaño);
+	if(!nueva) return null;
+
+	nueva->posicion[0]=datos
+
+*/

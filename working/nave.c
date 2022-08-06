@@ -20,5 +20,12 @@ nave_t *nave_crear(){
         free (nave);
         return NULL;
     }
+    nave->escudo=false;
+    nave->chorro=false;
+    nave->direccion=PI/2;
+    *(nave->posicion)=0;
+    *(nave->posicion+1)=0;
+    nave->combustible=JUEGO_COMBUSTIBLE_INICIAL;
+    return nave;
 }
 

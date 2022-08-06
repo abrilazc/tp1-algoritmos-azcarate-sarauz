@@ -41,14 +41,16 @@ int main() {
     unsigned int ticks = SDL_GetTicks();
     while(1) {
         frame++;
+        printf("\nframe: %zd posicion: (%.2f,%.2f) velocidad: (%.2f,%.2f)  ",frame,pos_nave[0],pos_nave[1],velocidad[0],velocidad[1]);
         computar_velocidad(velocidad,aceleracion);
         trasladar(pos_nave,velocidad);
-        printf("\nframe: %zd posicion: (%.2f,%.2f) velocidad: (%.2f,%.2f)  ",frame,pos_nave[0],pos_nave[1],velocidad[0],velocidad[1]);
         if(SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT)
                 break;
             // BEGIN código del alumno
-            
+
+           
+
             if (event.type == SDL_KEYDOWN) {
                 // Se apretó una tecla
                 switch(event.key.keysym.sym) {

@@ -1,3 +1,8 @@
+6/8
+
+dibujar_nivel() tiene un figura_t * en vez de **
+en game agregar un tipo de dato que contenga los puntos y las vidas, pueden estar en nave
+-----------------------------------------------------
 5/8
 
 TDA nivel

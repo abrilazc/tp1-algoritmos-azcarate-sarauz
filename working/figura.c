@@ -90,7 +90,11 @@ figura_t *figura_crear(FILE *f){
     figura_t *figura=malloc(sizeof(figura_t));
     if(figura==NULL)return NULL;
     
-    if(leer_encabezado_figura(f,figura->nombre,&figura->tipo_figura,&figura->infinito,&figura->cantidad_polilineas)==0) return NULL;
+    if(leer_encabezado_figura(f,figura->nombre,&figura->tipo_figura,&figura->infinito,&figura->cantidad_polilineas)==0){
+        free(figura);
+        return NULL;
+    }
+     
 
     size_t cantidad_polilineas=figura->cantidad_polilineas;
 
@@ -111,14 +115,13 @@ figura_t *figura_crear(FILE *f){
     return figura;
 }
 figura_t **crear_figuras(FILE *f,size_t *i){
-    figura_t **bloque_figuras=malloc(sizeof(figura_t*));
+    figura_t **bloque_figuras=malloc(sizeof(figura_t*));//reserva espacio para 1 *figura_t
+
     if(!bloque_figuras) return NULL;
 
-    while((bloque_figuras[*i]=figura_crear(f))!=NULL){
-        /*if((bloque_figuras[*i]=figura_crear(f))==NULL){
-            destruir_bloque(bloque_figuras,(*i));
-            return NULL;
-        }*/
+    //while((*i)<24){
+    while((bloque_figuras[*i]=figura_crear(f))!=NULL){//trae un leak
+        //bloque_figuras[*i]=figura_crear(f);//con while((*i)<24){ evita leak
         (*i)++;
         figura_t **aux=realloc(bloque_figuras,sizeof(figura_t*)*((*i)+1));
         if(!aux){
@@ -127,6 +130,7 @@ figura_t **crear_figuras(FILE *f,size_t *i){
         }
         bloque_figuras=aux;
     }
+    
     return bloque_figuras;
 }
 /*varias_figuras_t *crear_varias(FILE *f){
@@ -180,12 +184,13 @@ figura_t *cargar_nombre(figura_t **bloque,char *nombre_figura){
     }
     return NULL;
 }
-figura_t **cargar_tipo(figura_t **bloque,figura_tipo_t tipo){
+figura_t **cargar_tipo(figura_t **bloque,figura_tipo_t tipo,size_t *cantidad){
     size_t i=0;
     size_t j=0;
     figura_t **figura=malloc(sizeof(figura_t*));
-    if(figura==NULL) return NULL;//no estoy redimensionando memoria
-    while(bloque[i]!=NULL){
+    if(figura==NULL) return NULL;//no estoy redimensionando memoria 
+    //while(bloque[i]!=NULL){
+    while(i<24){    
         figura_tipo_t tipo2=tipo_fig(bloque[i]);
         if(tipo==tipo2){
             figura[j]=bloque[i];
@@ -198,7 +203,11 @@ figura_t **cargar_tipo(figura_t **bloque,figura_tipo_t tipo){
         }
         i++;
     }
-    if(j==0) return NULL;
+    if(j==0){
+        free(figura);
+        return NULL;
+    }
+    *cantidad=j;
     return figura;
 }
 bool dibujar_figura(SDL_Renderer *renderer,figura_t **figura,char *nombre, float posicion[2], float escala){
@@ -236,5 +245,13 @@ void destruir_bloque(figura_t **bloque,size_t i){
         j++;
     }
     free(bloque);
+}
+void destruir_figuras(figura_t ***figuras, size_t *cantidad){
+    size_t j=0;
+    while(j<8){
+        destruir_bloque(figuras[j],cantidad[j]);
+        j++;
+    }
+    free(figuras);
 }
 //void destruir_varias(varias_figuras_t *)

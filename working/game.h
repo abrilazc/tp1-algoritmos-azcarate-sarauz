@@ -3,9 +3,8 @@
 
 
 #include "figura.h"
-
-#include <stdbool.h>
 #include <SDL2/SDL.h>
+#include <stdbool.h>
 #include <stdint.h>
 
 #define MAX_TIPOS 8
@@ -21,6 +20,5 @@ void cargar_nivel(size_t nivel);
 void render_elemento(figura_t); //llamada para renderizar la nave del jugador en tal posicion con tal angulo
 
 void render_entorno();
-
 
 #endif

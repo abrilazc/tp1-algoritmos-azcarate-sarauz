@@ -1,14 +1,14 @@
-//#include "nave.h"
-#include <stdint.h>
-#include "figura.h"
+#include "nave.h"
+
 typedef struct{
     figura_t **figura;
     float posicion[2];
-    float v[2];
+    float velocidad[2];
     float direccion;
-    uint16_t combustible;
+    size_t combustible;
     bool escudo;
     bool chorro;
+    uint8_t vidas;
 }nave_t;
 
 nave_t *nave_crear(){
@@ -26,6 +26,51 @@ nave_t *nave_crear(){
     *(nave->posicion)=0;
     *(nave->posicion+1)=0;
     nave->combustible=JUEGO_COMBUSTIBLE_INICIAL;
+    nave->vidas=3;
     return nave;
 }
 
+//setters
+
+void chorro_set(nave_t *nave){
+    nave->chorro=true;
+}
+void chorro_clear(nave_t *nave){
+    nave->chorro=false;
+}
+void escudo_set(nave_t *nave){
+    nave->escudo=true;
+}
+void escudo_clear(nave_t *nave){
+    nave->escudo=false;
+}
+void velocidad_set(nave_t *nave, float velocidad[2]){
+    *(nave->velocidad)=velocidad[0];
+    *(nave->velocidad+1)=velocidad[1];
+}
+void vidas_incrementar(nave_t *nave){
+    nave->vidas++;
+}
+bool vidas_decrementar(nave_t *nave){
+    if(nave->vidas==0)
+        return false;
+        nave->vidas--;
+}
+
+//getters
+bool chorro_get(nave_t *nave){
+    return nave->chorro;
+}
+bool escudo_get(nave_t *nave){
+    return nave->escudo;
+}
+double direccion_get(nave_t *nave){
+    return nave->direccion;
+}
+void velocidad_get(nave_t *nave, float velocidad[2]){
+    *(nave->velocidad)=velocidad[0];
+    *(nave->velocidad+1)=velocidad[1];
+}
+uint8_t vidas_get(nave_t *nave){
+    return nave->vidas;
+}

@@ -17,7 +17,7 @@ void escudo_set(nave_t *nave);
 void escudo_clear(nave_t *nave);
 void velocidad_set(nave_t *nave, float velocidad[2]);
 void respawnear_nave();
-void vidas_aumentar(nave_t *nave);
+void vidas_incrementar(nave_t *nave);
 bool vidas_decrementar(nave_t *nave); //devuelve false si se quedo sin vidas
 
 //getters

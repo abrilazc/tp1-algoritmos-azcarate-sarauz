@@ -1,45 +1,54 @@
-//main para ver el manejo de datos de polilineas
-//#include <SDL2/SDL.h>
-#include <stdio.h>
+#include <SDL2/SDL.h>
 #include <stdbool.h>
-#include <math.h>
+
+#include "config.h"
 #include "figura.h"
+#include "game.h"
+#include "fisica.h"
 
 
-int main(int argc, char *argv[]) {
-    if(argc != 2) {
-        fprintf(stderr, "Uso: %s <archivo>\n", argv[0]);
+int main() {
+
+    size_t cantidad_figuras[8]={0,0,0,0,0,0,0,0};
+    figura_t ***figuras=inicio(cantidad_figuras);
+    if(figuras==NULL)
         return 1;
-    }
 
-    FILE *f = fopen(argv[1], "rb");
-    if(f == NULL) {
-        fprintf(stderr, "No pudo abrirse \"%s\"\n", argv[1]);
-        return 1;
-    }
+    /*
+    figura_t **nave=figuras[2];
 
-    size_t cantidad_figuras=0;
-    figura_t **memoria=crear_figuras(f,&cantidad_figuras);
+    float pos_nave[2]={0,0};
+    float velocidad[2] ={0,0};
+    float aceleracion[2]={0,-5*G}; //BORRAR
+    */
 
-    if(memoria==NULL){
-        printf("problema de memoria (NULL)");
-        fclose(f);
-        //destruir_bloque(memoria,cantidad_figuras);
-        return 1;
-    }
-    fclose(f);
-    printf("\nson %zd figuras\n",cantidad_figuras);
-
-    figura_t *fig_generica=cargar_nombre(memoria,"NAVE");
+    figura_t *fig_generica=cargar_nombre(figuras[2],"NAVE");
     printf("%s\n",nombre_fig(fig_generica));
+    size_t j=0;
+    for(size_t i=0;i<8;i++){
+    j+=cantidad_figuras[i];
+    printf("Cantidad tipo %zd: %zd\n",i,cantidad_figuras[i]);
+    }
 
-    figura_t **nave=cargar_tipo(memoria,SPRITE);//no rediomiensiono la memoria aca
-    printf("exito\n");
+    printf("%zd\n",j);
+    for(size_t i=1;i<6;i++){
+        char planeta_p[9]="PLANETA";
+        char ii=i+48;
+        strcat(planeta_p,&ii);
+        printf("%s",planeta_p);
+    }
     
-    if(dibujar_figura(nave,"NAVE")==false) printf("fail");
+/*
+    nave_t *nave=crear_nave(figura[2]);
+    nivel_t **niveles=crear_niveles(figuras);
+    pantalla_inicio(nave,figuras,nivel_t **niveles);
+    
+    destruir_figuras(figuras,cantidad_figuras);
+    destruir_niveles(niveles);
+    destruir_nave(nave);
+*/
 
-    free(nave);
-    destruir_bloque(memoria,cantidad_figuras);
 
     return 0;
 }
+

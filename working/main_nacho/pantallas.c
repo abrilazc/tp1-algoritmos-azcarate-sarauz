@@ -9,68 +9,69 @@ pantalla_inicio(nave_t *nave,figura_t ***figura,nivel_t **niveles){
         (111, 307),//p5
         (457, 364)//estrella
     };
-    nave->posicion=planetas[0];
+    set_posicion_nave(nave,planetas[0]);
 
-    figura_t **figura_planeta=figura[];
-    figura_t **figura_nave=figura[];
+    figura_t **figura_base=figura[4];
+    figura_t **figura_planeta=figura[3];
+    figura_t **figura_nave=figura[2];
+    
     //dibujar texto;
 
-    dibujar_figura(renderer,figura_planeta,"BASE",planetas[0],1);
+    dibujar_figura(renderer,figura_base,"BASE",planetas[0],1);
+    
     for(size_t i=1;i<6;i++){
         char planeta_p[9]="PLANETA";
         char ii=i+48;
-        strcat(planeta_p,ii);
+        strcat(planeta_p,&ii);
         dibujar_figura(renderer,figura_planeta,planeta_p,planetas[i],1);
     }
+    
     dibujar_figura(renderer,figura_planeta,"ESTRELLA",planetas[7],1);
+    
     dibujar_figura(renderer,figura_nave,"NAVE",planetas[0],1);
-    float centro_grav[2]=planetas[6]
+    
+    float centro_grav[2]=planetas[6];
+    bool aceleracion=FALSE;
     while(1){
-        //chequear combustible
-        //chequear puntos
-        //dibujar texto;
+        //iteracion_fisica_nave:
+        //direccion, aceleracion, velocidad,posicion,combustible.
+        /*
+        rotar(posicion);
+        gravedad(velocidad);
+        if(aceleracion==1){
+            acelerar(velocidad);
+        }
+        trasladar(nave,velocidad);
+        set_velocidad(nave,velocidad);
+        set_posicion(nave,posicion);
+        
+        */
 
-        float posicion=get_posicion(nave);
-        float velocidad=get_velocidad(nave);
-        rotar(nave);
-        gravedad();
-        aceleracion();
-        set_velocidad(nave);
-        trasladar(nave);
-        posicion=get_posicion(nave);
+        //chequear puntos
+        
+        //dibujar texto;
+        
+        //SDL:
+        //chequear botones;
+        //fondo negro;
+        
+        
 
         if(0<posicion[0]<VENTANA_ANCHO || 0<posicion[1]<VENTANA_ALTO){
             rebotar(nave);
         }
         float radio=6;
+        
         if(colision(posicion,planeta[6],radio)){
             perder_vida(nave);
             set_posicion(nave,planeta[0]);
         }
 
-        /*
-            for(size_t i=1,i<6,i++){
-                if(colision(posicion,planeta[i],radio)){
-                    nombre_nivel nombre=i-1;
-                    cargar_nivel(nave,nombre,figuras);
-                }
+        for(size_t i=1,i<6,i++){
+            if(colision(posicion,planeta[i],radio)){
+                nombre_nivel nombre=i-1;
+                cargar_nivel(nave,nombre,figuras);
             }
-        */
-
-        if(colision(posicion,planeta[1],radio)){
-            cargar_nivel1();
-        }
-        if(colision(posicion,planeta[2],radio)){
-            cargar_nivel2();
-        }
-        if(colision(posicion,planeta[3],radio)){
-            cargar_nivel3();
-        }
-        if(colision(posicion,planeta[4],radio)){
-            cargar_nivel4();
-        }
-        if(colision(posicion,planeta[5],radio)){
-            cargar_nivel5();
         }
 
     }
@@ -79,13 +80,15 @@ void cargar_nivel(nave_t *nave,nivel_t nivel,figura_t ***figuras){
     //dibujar texto
 
     //nivel_t nivel=cargar(nombre);
+    float centro_grav[2]={0,0};
     float escala=1;
     if(get_tipo_infinito(nivel)){
-        obtener_escala();
+        centro_grav[2]={0,-ALTO}
+        escala=obtener_escala();
         acomodar_camara();
         polilinea_extendida();//dibuja la pollinea en 3 posiciones consecutivas
     }else{
-        obtener_escala();
+        escala=obtener_escala();
         dibujar_figura();
     }
 

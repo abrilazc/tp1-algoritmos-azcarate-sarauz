@@ -253,4 +253,3 @@ void destruir_figuras(figura_t ***figuras, size_t *cantidad){
     }
     free(figuras);
 }
-//void destruir_varias(varias_figuras_t *)

@@ -8,6 +8,7 @@ struct nave{
     bool escudo;
     bool chorro;
     uint8_t vidas;
+    size_t puntos_relativos;
     size_t puntos;
 };
 
@@ -32,6 +33,9 @@ nave_t *nave_crear(figura_t **figura){
     *(nave->velocidad+1)=0;
     nave->combustible=JUEGO_COMBUSTIBLE_INICIAL;
     nave->vidas=3;
+    nave->puntos=0;
+    nave->puntos_relativos=0;
+
     return nave;
 }
 
@@ -97,8 +101,22 @@ void nave_rotar_antihorario(nave_t *nave){
     if(nave->direccion>=2*PI)
         nave->direccion-=2*PI;
 }
-
-
+void puntos_torreta(nave_t *nave){
+    nave->puntos+=250;
+    nave->puntos_relativos+=250;
+    if(nave->puntos_relativos>=10000){
+        vidas_incrementar(nave);
+        nave->puntos_relativos-=10000;
+    }
+}
+void puntos_nivel(nave_t *nave, size_t puntos){
+    nave->puntos+=puntos;
+    nave->puntos_relativos+=puntos;
+    if(nave->puntos_relativos>=10000){
+        vidas_incrementar(nave);
+        nave->puntos_relativos-=10000;
+    }
+}
 //getters
 bool chorro_get(nave_t *nave){
     return nave->chorro;

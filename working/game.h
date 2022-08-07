@@ -6,16 +6,17 @@
 #include <SDL2/SDL.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include "nave.h"
 
 #define MAX_TIPOS 8
 
 
 figura_t ***inicio(size_t cant_figuras[MAX_TIPOS]);
 
-void cargar_nivel(size_t nivel);
+void registrar_teclas(nave_t *nave, SDL_Event event, bool *held_down);
 
-void render_elemento(figura_t); //llamada para renderizar la nave del jugador en tal posicion con tal angulo
+void clear_renderer(SDL_Renderer *renderer);
 
-void render_entorno();
+void render_nave(nave_t *nave, SDL_Renderer *renderer, figura_t ***figuras, size_t f);
 
 #endif

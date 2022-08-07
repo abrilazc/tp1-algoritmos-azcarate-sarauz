@@ -116,7 +116,7 @@ int main() {
     
     // BEGIN código del alumno
     nave_destruir(nave);
-    //destruir_bloque(figuras, cantidad_figuras);
+    destruir_figuras(figuras, cantidad_figuras);
     // END código del alumno
 
     SDL_DestroyRenderer(renderer);

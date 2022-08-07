@@ -90,10 +90,10 @@ bool dibujar_polilinea(SDL_Renderer *renderer,polilinea_t *poli_dibu, float posi
     for(size_t j=0;j<cant_punt-1;j++){
     SDL_RenderDrawLine(
         renderer,   
-        (matriz[j][0]*escala+posicion[0]) + VENTANA_ANCHO / 2,
-        -(matriz[j][1]*escala+posicion[1]) + VENTANA_ALTO / 2,
-        (matriz[j+1][0]*escala+posicion[0]) + VENTANA_ANCHO / 2,
-        -(matriz[j+1][1]*escala+posicion[1]) + VENTANA_ALTO / 2
+        (matriz[j][0]*escala+posicion[0]),
+        -(matriz[j][1]*escala+posicion[1]) + VENTANA_ALTO,
+        (matriz[j+1][0]*escala+posicion[0]) ,
+        -(matriz[j+1][1]*escala+posicion[1]) + VENTANA_ALTO
         );
     }
     

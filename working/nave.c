@@ -1,5 +1,4 @@
 #include "nave.h"
-#include "figura.h"
 struct nave{
     figura_t **figura;
     float posicion[2];
@@ -57,7 +56,6 @@ void escudo_clear(nave_t *nave){
     nave->escudo=false;
 }
 
-
 void vidas_incrementar(nave_t *nave){
     nave->vidas++;
 }
@@ -99,6 +97,7 @@ void nave_rotar_antihorario(nave_t *nave){
         nave->direccion-=2*PI;
 }
 
+
 //getters
 bool chorro_get(nave_t *nave){
     return nave->chorro;
@@ -133,7 +132,6 @@ float combustible_get(nave_t *nave){
 
 //destruccion
 
-void nave_destruir(nave_t *nave){
-    free(nave->figura);
+void nave_destruir(nave_t *nave){    
     free(nave);
 }

@@ -80,8 +80,3 @@ void render_nave(nave_t *nave, SDL_Renderer *renderer, figura_t ***figuras, size
         if(escudo_get(nave))
             if(dibujar_figura(renderer, figuras[2], "ESCUDO2",posicion,f)==false) printf("fail");
 }
-void clear_renderer(SDL_Renderer *renderer){
-    SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
-    SDL_RenderClear(renderer);
-    SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0x00);
-}

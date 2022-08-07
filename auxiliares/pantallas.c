@@ -1,4 +1,5 @@
 
+
 //pantallas
 void pantalla_inicio(nave_t *nave,figura_t ***figura,nivel_t **niveles){
     
@@ -37,7 +38,7 @@ void pantalla_inicio(nave_t *nave,figura_t ***figura,nivel_t **niveles){
 }
 void cargar_nivel(nave_t *nave,nivel_t *nivel,figura_t ***figuras){//quizas saco ***figuras
 
-    float centro_grav[2]={0,0};
+    float centro_grav[2]=NULL;
     float escala=1;
     bool inf=get_tipo_infinito(nivel);
 
@@ -78,9 +79,10 @@ void cargar_nivel(nave_t *nave,nivel_t *nivel,figura_t ***figuras){//quizas saco
 }
 
 //fisicas nave
-void estado_nave(nave_t nave){
+void estado_nave(nave_t *nave, float pos_g[2]){
     //revisa direccion
     //revisa velocidad
+    computar_velocidad(nave,pos_g);
     //revisa posicion
     //revisa combustible
     //chequear puntos

@@ -11,6 +11,12 @@ struct nave{
     size_t puntos;
 };
 
+static void nave_rotar(nave_t *nave, float angulo){
+    for(size_t i=0;i<4;i++){
+        figura_rotar(*(nave->figura+i),angulo);
+    }
+}
+
 nave_t *nave_crear(figura_t **figura){
     nave_t *nave=malloc(sizeof(nave_t));
     if(nave==NULL)
@@ -18,7 +24,8 @@ nave_t *nave_crear(figura_t **figura){
     nave->figura=figura;
     nave->escudo=false;
     nave->chorro=false;
-    nave->direccion=PI/2;
+    nave->direccion=NAVE_ANGULO_INICIAL;
+    nave_rotar(nave, nave->direccion);
     *(nave->posicion)=0;
     *(nave->posicion+1)=0;
     *(nave->velocidad)=0;
@@ -81,18 +88,12 @@ bool combustible_usar(nave_t *nave){
 void nave_rotar_horario(nave_t *nave){
     (nave->direccion)-=NAVE_ROTACION_PASO;
     printf("\nhorario direccion: %.2f",nave->direccion);
-    for(size_t i=0;i<4;i++){
-        figura_rotar(*(nave->figura+i),-(NAVE_ROTACION_PASO));
-    }
-    if(nave->direccion<0)
-         nave->direccion+=2*PI;
+    nave_rotar(nave,-(NAVE_ROTACION_PASO));
 }
 void nave_rotar_antihorario(nave_t *nave){
     (nave->direccion)+=NAVE_ROTACION_PASO;
     printf("\nantihorario direccion: %.2f",nave->direccion);
-    for(size_t i=0;i<4;i++){
-        figura_rotar(*(nave->figura+i),(NAVE_ROTACION_PASO));
-    }
+    nave_rotar(nave,(NAVE_ROTACION_PASO));
     if(nave->direccion>=2*PI)
         nave->direccion-=2*PI;
 }

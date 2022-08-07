@@ -1,7 +1,7 @@
 #include "fisica.h"
 
 //Angulares
-/*
+
 static float angulo(float dx, float dy){
         if(dx >=0 && dy >= 0){
             return atan(dy/dx);
@@ -16,7 +16,7 @@ static float angulo(float dx, float dy){
             return tan(dy/dx)+PI;
         }
 }
-*/
+
 //chequear esta funcion
 /*void rotar_nave(polilinea_t *polilinea, float *angulo, bool horario){
     {
@@ -40,26 +40,7 @@ static float angulo(float dx, float dy){
 
 
 
-void gravedad(nave_t *nave, bool inicio, float pos_g[2]){
 
-    float v[2];
-
-    if(!inicio){
-        v[1]-= G*DT;
-    }
-        
-
-    else{
-        float pos[2]={0,0};
-        nave_posicion_get(nave, pos);
-        float dx=pos[0]-pos_g[0];
-        float dy=pos[1]-pos_g[1];
-        float ang=angulo(dx, dy);
-        v[0]=v[0]+G*cos(ang)*DT;
-        v[1]=v[1]+G*sin(ang)*DT;
-    }
-    printf("\nvelocidad %.2f,%.2f  ",v[0],v[1]);
-}
 
 /*
 void computar_aceleracion(float aceleracion[2], float gravedad, bool propulsion,float direccion){
@@ -73,27 +54,55 @@ void computar_aceleracion(float aceleracion[2], float gravedad, bool propulsion,
 
 
 
-void computar_propulsion(float velocidad[2], float direccion){
-    velocidad[0]+=NAVE_ACELERACION*cos(direccion)*DT;
-    velocidad[1]+=NAVE_ACELERACION*sin(direccion)*DT;
-}
 
-void acelerar(float v[2], float angulo){
-    v[0]+=NAVE_ACELERACION*cos(angulo)*DT;
-    v[1]+=NAVE_ACELERACION*sin(angulo)*DT;
-}
 
 void trasladar(float pos[2],float v[2]){
     pos[0]=pos[0]+v[0]*DT;
     pos[1]=pos[1]+v[1]*DT;
 }
-void nave_velocidad(nave_t *nave){
+
+static void computar_propulsion(float velocidad[2], float direccion){
+    velocidad[0]+=NAVE_ACELERACION*cos(direccion)*DT;
+    velocidad[1]+=NAVE_ACELERACION*sin(direccion)*DT;
+}
+
+static void computar_gravedad(float pos[2], float v[2], float pos_g[2]){
+
+    if(pos_g==NULL){
+        v[1]+= G*DT;
+    }
+        
+    else{
+        float dx=pos[0]-pos_g[0];
+        float dy=pos[1]-pos_g[1];
+        float ang=angulo(dx, dy);
+        v[0]+=G*cos(ang)*DT;
+        v[1]+=G*sin(ang)*DT;
+    }
+    printf("\nvelocidad %.2f,%.2f  ",v[0],v[1]);
+}
+
+static void computar_velocidad(nave_t *nave, float pos_g[2]){
+    float posicion[2];
+    nave_posicion_get(nave,posicion);
     float velocidad[2];
     nave_velocidad_get(nave, velocidad);
     float direccion=direccion_get(nave);
     if(chorro_get(nave))
         computar_propulsion(velocidad, direccion);
-    gravedad(nave);
+    computar_gravedad(posicion,velocidad, pos_g);
+    nave_velocidad_set(nave, velocidad);
+}
+
+void computar_posicion(nave_t *nave, float pos_g[2]){
+    float posicion[2];
+    nave_posicion_get(nave,posicion);
+    computar_velocidad(nave, pos_g);
+    float velocidad[2];
+    nave_velocidad_get(nave, velocidad);
+    posicion[0]+=velocidad[0]*DT;
+    posicion[1]+=velocidad[1]*DT;
+    nave_posicion_set(nave, posicion);
 }
 
 //Una polilinea son varios puntos. LA traslacion de una polilinea sería la traslacion de los mismos:

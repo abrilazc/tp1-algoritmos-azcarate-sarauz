@@ -7,7 +7,7 @@
 #include "fisica.h"
 #include "nave.h"
 #include "pantalla.h"
-
+#include "nivel.h"
 
 int main() {
     SDL_Init(SDL_INIT_VIDEO);
@@ -28,7 +28,9 @@ int main() {
     if(figuras==NULL)
         return 1;
 
-    
+    bool pantalla_inicio_ingreso=true;
+    bool nivel_inicio=true;
+    //planeta_nombre planeta_actual=1;
     nave_t *nave=nave_crear(figuras[2]);
 
     float velocidad[2]={0,0};
@@ -37,15 +39,13 @@ int main() {
     bool held_down=false;
     size_t frame=0;
     // Queremos que todo se dibuje escalado por f:
-    float f = 1;
+    //float f = 1;
     // END código del alumno
 
     unsigned int ticks = SDL_GetTicks();
     while(1) {
         frame++;
-        computar_posicion(nave, NULL);
-        nave_velocidad_get(nave, velocidad);
-        nave_posicion_get(nave, posicion);
+        
         printf("\nframe: %zd posicion: (%.2f,%.2f) velocidad: (%.2f,%.2f)  ",frame,posicion[0],posicion[1],velocidad[0],velocidad[1]);
         if(SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT)
@@ -65,16 +65,17 @@ int main() {
         
         // BEGIN código del alumno
         // Dibujamos la nave escalada por f en el centro de la pantalla:
-        render_nave(nave,renderer, figuras, f);
-        /*
-        if(dibujar_figura(renderer, figuras[2], "NAVE",posicion,f)==false) printf("fail");
-        if(chorro_get(nave)) {
-            if(dibujar_figura(renderer, figuras[2], "NAVE+CHORRO",posicion,f)==false) printf("fail");
-        }
-        if(escudo_get(nave))
-            if(dibujar_figura(renderer, figuras[2], "ESCUDO2",posicion,f)==false) printf("fail");
+        if(nivel_inicio){
+            if(pantalla_inicio_ingreso){
+                cargar_pantalla_inicio(nave);
+                pantalla_inicio_ingreso=false;
+            }
+            pantalla_inicio_mostrar(nave, figuras, renderer);
+            }
+        //pantalla_inicio(nave, figuras, renderer);
+        nave_velocidad_get(nave, velocidad);
+        nave_posicion_get(nave, posicion);
         
-        */
         // END código del alumno
 
         SDL_RenderPresent(renderer);

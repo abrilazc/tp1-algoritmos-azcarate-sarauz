@@ -6,7 +6,8 @@
 #include <stdio.h>
 #include "fisica.h"
 //pantallas
-void pantalla_inicio(nave_t *nave,figura_t ***figura,nivel_t **niveles, SDL_Window *window, SDL_Renderer *renderer, SDL_Event event);
+void cargar_pantalla_inicio(nave_t *nave);
+void pantalla_inicio_mostrar(nave_t *nave,figura_t ***figuras, SDL_Renderer *renderer);
 void cargar_nivel(nave_t *nave,nivel_t *nivel,figura_t ***figuras);
 
 //estado nave

@@ -37,14 +37,21 @@ static float angulo(float dx, float dy){
 //MRUV
 //Falta la funcion aceleracion, a una le pusiste "acelerar" pero es muy confuso.
 //cambiar gravedad a un float
-/*
-void gravedad(float v[2], bool planeta_infinito, float pos[2], float pos_g[2]){
 
-    if(planeta_infinito){
-        v[1]= v[1]- G*DT;
+
+
+void gravedad(nave_t *nave, bool inicio, float pos_g[2]){
+
+    float v[2];
+
+    if(!inicio){
+        v[1]-= G*DT;
     }
+        
 
     else{
+        float pos[2]={0,0};
+        nave_posicion_get(nave, pos);
         float dx=pos[0]-pos_g[0];
         float dy=pos[1]-pos_g[1];
         float ang=angulo(dx, dy);
@@ -53,7 +60,7 @@ void gravedad(float v[2], bool planeta_infinito, float pos[2], float pos_g[2]){
     }
     printf("\nvelocidad %.2f,%.2f  ",v[0],v[1]);
 }
-*/
+
 /*
 void computar_aceleracion(float aceleracion[2], float gravedad, bool propulsion,float direccion){
    aceleracion[0]=gravedad+propulsion*cos(direccion)*G;
@@ -64,9 +71,11 @@ void computar_aceleracion(float aceleracion[2], float gravedad, bool propulsion,
 //Respecto a aceleracion, un poco confuso, pero podría pasar a ser una static si reacomodamos la firma
 //Propongo
 
-void computar_velocidad(float velocidad[2], float aceleracion[2]){
-   velocidad[0]+=aceleracion[0]*DT;
-   velocidad[1]+=aceleracion[1]*DT;
+
+
+void computar_propulsion(float velocidad[2], float direccion){
+    velocidad[0]+=NAVE_ACELERACION*cos(direccion)*DT;
+    velocidad[1]+=NAVE_ACELERACION*sin(direccion)*DT;
 }
 
 void acelerar(float v[2], float angulo){
@@ -77,6 +86,14 @@ void acelerar(float v[2], float angulo){
 void trasladar(float pos[2],float v[2]){
     pos[0]=pos[0]+v[0]*DT;
     pos[1]=pos[1]+v[1]*DT;
+}
+void nave_velocidad(nave_t *nave){
+    float velocidad[2];
+    nave_velocidad_get(nave, velocidad);
+    float direccion=direccion_get(nave);
+    if(chorro_get(nave))
+        computar_propulsion(velocidad, direccion);
+    gravedad(nave);
 }
 
 //Una polilinea son varios puntos. LA traslacion de una polilinea sería la traslacion de los mismos:

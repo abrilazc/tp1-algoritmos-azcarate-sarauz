@@ -25,7 +25,8 @@ void combustible_cargar(nave_t *nave);
 bool combustible_usar(nave_t *nave);//devuelve false si se quedo sin combustible, anula la propulsion y el escudo.
 void nave_rotar_horario(nave_t *nave);
 void nave_rotar_antihorario(nave_t *nave);
-
+void puntos_torreta(nave_t *nave);
+void puntos_nivel(nave_t *nave, size_t puntos);
 
 //getters
 bool chorro_get(nave_t *nave);

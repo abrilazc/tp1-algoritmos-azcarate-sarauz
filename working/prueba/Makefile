@@ -17,7 +17,7 @@ clean:
 	rm -f $(PROGRAM) $(OBJ_FILES)
 
 valgrind:
-	valgrind --leak-check=full --track-origins=yes --show-reachable=yes ./uwu
+	valgrind --leak-check=full --track-origins=yes --show-reachable=yes ./prueba
 
 valgrindsdl:
-	valgrind --suppressions=suppressions_20221_tp1.supp --leak-check=full ./uwu
+	valgrind --suppressions=suppressions_20221_tp1.supp --leak-check=full ./prueba

@@ -9,9 +9,6 @@
 
 #define MAX_TIPOS 8
 
-struct nave;
-
-typedef struct nave nave_t;
 
 figura_t ***inicio(size_t cant_figuras[MAX_TIPOS]);
 

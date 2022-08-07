@@ -30,25 +30,22 @@ int main() {
     
     nave_t *nave=nave_crear(figuras[2]);
 
-    float aceleracion[]={0,0}; //BORRAR
     float velocidad[2]={0,0};
-    float posicion[2] ={0,0};
+    float posicion[2] ={VENTANA_ANCHO/2,VENTANA_ALTO/2};
+    nave_posicion_set(nave, posicion);
     
     size_t frame=0;
     // Queremos que todo se dibuje escalado por f:
-    float f = 10;
+    float f = 1;
     // END código del alumno
 
     unsigned int ticks = SDL_GetTicks();
     while(1) {
-        frame++;   
+        frame++;
+        computar_posicion(nave, NULL);
         nave_velocidad_get(nave, velocidad);
         nave_posicion_get(nave, posicion);
-        computar_velocidad(velocidad,aceleracion);
-        trasladar(posicion,velocidad);
         printf("\nframe: %zd posicion: (%.2f,%.2f) velocidad: (%.2f,%.2f)  ",frame,posicion[0],posicion[1],velocidad[0],velocidad[1]);
-        nave_posicion_set(nave, posicion);
-        nave_velocidad_set(nave, velocidad);
         if(SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT)
                 break;

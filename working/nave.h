@@ -3,7 +3,6 @@
 
 #include "figura.h"
 #include "config.h"
-#include "fisica.h"
 #include <stdint.h>
 
 struct nave;

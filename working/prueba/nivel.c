@@ -21,7 +21,7 @@ struct nivel{
     reactor_t *reactor;
 };
 
-//Tablas de busqueda
+//Tablas de busqueda y areglos estaticos
 //Cantidades
 const size_t cantidad_combustible(planeta_nombre nombre){
     static const size_t cantidad[]={
@@ -131,7 +131,7 @@ nivel_t *crear_nivel(figura_t **figuras,planeta_nombre nombre){
     nivel_t *nivel=malloc(sizeof(nivel_t));
     if(nivel==NULL) return NULL;
     
-    figura_t *figura=cargar_nombre(figuras,nombre_asignado(nombre));
+    figura_t *figura=cargar_nombre(figuras,(char *)nombre_asignado(nombre));
     
     nivel->figura=figura;
     nivel->infinito=infinito_fig(figura);
@@ -147,7 +147,7 @@ nivel_t **crear_niveles(figura_t **figuras, size_t cantidad){
     if(conjunto_niveles==NULL) return NULL;
 
     for(size_t i=0;i<cantidad;i++){
-        figura_t *figura=conjunto_niveles[i];
+        //figura_t *figura=conjunto_niveles[i];
         conjunto_niveles[i]=crear_nivel(figuras,i);//ke
     }
     return conjunto_niveles;
@@ -197,20 +197,6 @@ objeto_t *crear_objeto(vector_t *referencia, size_t fila){
     
     return objeto;
 }
-/*void armar_lista(lista_t *lista, objeto_t *objeto, planeta_nombre planeta,vector_t* funcion (planeta_nombre planeta,*(int) cantidad)){
-    cantidad=0;
-    size_t fila=0;
-    float posicion[2]={0,0};
-    float direccion=0;
-
-    vector_t *referencia=funcion(planeta,&cantidad);
-  
-    while(fila<cantidad){
-        combustible=crear_objeto(referencia,fila);
-        lista_insertar_primero(lista,objeto);
-        fila++;
-    }
-}*/
 void armar_lista_combustible(lista_t *lista, planeta_nombre planeta){
     
     objeto_t *objeto=NULL;
@@ -226,6 +212,7 @@ void armar_lista_combustible(lista_t *lista, planeta_nombre planeta){
         lista_insertar_primero(lista,objeto);
         objeto_a_posicion(objeto,posicion);
         objeto_a_direccion(objeto,&direccion);
+        printf("\ncombustible de fila %zd\n",fila);
         printf("%f %f %f\n",posicion[0],posicion[1],direccion);
         fila++;
     }
@@ -245,28 +232,48 @@ void armar_lista_torreta(lista_t *lista, planeta_nombre planeta){
         lista_insertar_primero(lista,objeto);
         objeto_a_posicion(objeto,posicion);
         objeto_a_direccion(objeto,&direccion);
+        printf("\ntorreta de fila %zd\n",fila);
         printf("%f %f %f\n",posicion[0],posicion[1],direccion);
         fila++;
     }
 }
 
-
-
-
+//CARGAS
+//nivel
+nivel_t *cargar_nivel(nivel_t **niveles,planeta_nombre nombre){
+    nivel_t *nivel=niveles[nombre];
+    return nivel;
+}
+//getter externo
+bool get_bool_nivel(reactor_t *reactor){
+    if(reactor==NULL) return false;
+    return true;
+}
+size_t get_cantidad_torretas(nivel_t *nivel){
+    return lista_largo(nivel->torreta);
+}
+size_t get_cantidad_combustible(nivel_t *nivel){
+    return lista_largo(nivel->combustible);
+}
+lista_t *get_lista_torreta(nivel_t *nivel){
+    lista_t *torreta=nivel->torreta;
+    return torreta;
+}
+lista_t *get_lista_combustible(nivel_t *nivel){
+    lista_t *torreta=nivel->torreta;
+    return torreta;
+}
+/*
+void get_posicion_torretas(nivel_t *nivel, float *posicion){
+    posicion[0]=lista
+}*/
 //getter interno
-//lista_largo
 void objeto_a_posicion(objeto_t *objeto,float *posicion){
     posicion[0]=objeto->posicion[0];
     posicion[1]=objeto->posicion[1];
 }
 void objeto_a_direccion(objeto_t *objeto,float *direccion){
     *direccion=objeto->direccion;
-}
-
-//getter externo
-bool get_bool_nivel(reactor_t *reactor){
-    if(reactor==NULL) return false;
-    return true;
 }
 
 //DESTRUIR

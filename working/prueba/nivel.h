@@ -19,7 +19,7 @@ typedef struct nivel nivel_t;
 
 typedef enum{NIVEL1NE,NIVEL1SE,NIVEL1R,NIVEL1NW,NIVEL1SW}planeta_nombre;
 
-//Crear
+//CREAR
 //niveles
 nivel_t *crear_nivel(figura_t **figura,planeta_nombre planeta);
 nivel_t **crear_niveles(figura_t **figura, size_t cantidad);
@@ -27,27 +27,33 @@ nivel_t **crear_niveles(figura_t **figura, size_t cantidad);
 lista_t *lista_combustible(planeta_nombre planeta);
 lista_t *lista_torreta(planeta_nombre planeta);
 reactor_t *crear_reactor(planeta_nombre planeta);
-
-//Admin
+//objetos
 objeto_t *crear_objeto(vector_t *referencia, size_t fila);
 void armar_lista_combustible(lista_t *lista, planeta_nombre planeta);
 void armar_lista_torreta(lista_t *lista, planeta_nombre planeta);
 
+//CARGAS
+//cargar nivel
+nivel_t *cargar_nivel(nivel_t **niveles,planeta_nombre nombre);
+
+//TABLAS DE BUSQUEDA Y ARREGLOS
 //Cantidades
 const size_t cantidad_combustible(planeta_nombre nombre);
 const size_t cantidad_torretas(planeta_nombre nombre);
 const bool cantidad_reactores(planeta_nombre nombre);
-
 //Nombres
 const char* nombre_asignado(planeta_nombre nombre);
 
+//getter externo
+bool get_bool_nivel(reactor_t *reactor);
+size_t get_cantidad_torretas(nivel_t *nivel);
+size_t get_cantidad_combustible(nivel_t *nivel);
 //getter interno
 //lista_largo
 void objeto_a_posicion(objeto_t *objeto,float *posicion);
 void objeto_a_direccion(objeto_t *objeto,float *direccion);
+lista_t *get_lista_torreta(nivel_t *nivel);
 
-//getter externo
-bool get_bool_nivel(reactor_t *reactor);
 
 //DESTRUIR
 //lista_destruir

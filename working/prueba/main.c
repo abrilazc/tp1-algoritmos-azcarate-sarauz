@@ -2,9 +2,59 @@
 #include "game.h"
 //#include "lista.h"
 
+polilinea_t *get_polilinea(polilinea_t **polilineas,size_t numero_poli,size_t cantida_poli){
+    if(numero_poli<cantidad_poli) return NULL;
+    polilinea_t *polilinea=polilineas[numero_poli];
+    return polilinea;
+}
+//fuerzo posicion nave: nave_t nave,
+void interseccion_lista_nave(float posi[2],size_t *cantidad, lista_iter_t *lista,figura_t **figuras,char *nombre){
+    for(size_t i=0;i<(*cantidad);i++){
+        float posicion_objeto[2];
+        float posicion_nave[2]=posi;//forzado
+        float r=100;//radio de colision
+
+        objeto_t objeto=lista_iter_ver_actual(lista);
+        objeto_a_posicion(objeto,&posicion_objeto);
+        //get_posicion(nave,&posicion_nave);
+
+        figura_t *figura=cargar_nombre(figuras,nombre);
+        size_t cantidad_poli=cantidad_poli_fig(figura);
+        
+        polilinea_t **polilineas=polilinea_fig(figura);
+        polilinea_t *polilinea=get_polilinea(polilinea_t **polilineas,size_t numero_poli,cantida_poli)
+        size_t puntos=get_cantidad_puntos_polilinea(polilinea);
+        
+        polilinea_trasladar(polilinea,posicion_objeto);
+
+        if(colision(polilinea, puntos, posicion_nave, r)){
+            printf("toco nave");
+            lista_iter_borrar(lista);
+            (*cantidad)--;
+        }
+        if(lista_iter_al_final(lista)){
+            lista_iter_destruir(lista);
+            break;
+        }
+        lista_iter_avanzar(lista);
+    }
+}
+
+/*void dibujar_lista(size_t cantidad, float posicion[2], lista_iter_t *lista){
+    for(size_t i=0;i<cantidad;i++){
+        //direccion=get_direccion
+        //dibujar
+    }
+    figura_t **combustible=figuras[];
+    float posicion_combustible[cantidad_combustible][2]=get_posicion_combustible(nivel);
+    for(size_t i=0;i<cantidad_combustible,i++){
+        dibujar_figura(renderer,combustible,"COMBUSTIBLE",posicion_combustible[i]);
+    }    //falta colision (nave,tanque) 
+}*/
+
 int main(void){
 
-     size_t cantidad_figuras[8]={0,0,0,0,0,0,0,0};
+    size_t cantidad_figuras[8]={0,0,0,0,0,0,0,0};
     figura_t ***figuras=inicio(cantidad_figuras);
     if(figuras==NULL)
         return 1;
@@ -13,49 +63,46 @@ int main(void){
 
     printf("%zd\n", cantidad_niveles);
 
+    //creo niveles
     nivel_t **niveles=crear_niveles(figuras[1],cantidad_niveles);
     
     //cargo nivel
     nivel_t *nivel=cargar_nivel(niveles,NIVEL1NE);
 
     //inicializo variables
-    lista_t *torreta=get_lista_torreta(nivel);
     lista_t *combustible=get_lista_combustible(nivel);
+    //lista_t *torreta=get_lista_torreta(nivel);
+
+    //veo tamaños
+    size_t cantidad_combustible= get_cantidad_combustible(nivel);
+    //size_t cantidad_torretas= get_cantidad_torretas(nivel);
+
+    //verifico tamaños
+    if(cantidad_combustible!=0){
+        lista_iter_t *combustible_iter=lista_iter_crear(combustible);
+    }
+/*  if(cantidad_torretas!=0){
+        lista_iter_t *torretas_iter=lista_iter_crear(torretas);
+    }*/
+
+    //ITERADOR
+    float posi[2]={5,3};
+    char combustible[20]="COMBUSTIBLE";
+    void interseccion_lista_nave(posi,&cantidad, combustible_iter,figuras[5],char *nombre)
+    printf("cantidad cambiada: %zd\n", cantidad_combustible);
+
+    //pantalla_inicio(nave,figuras,nivel_t **niveles);
     
-    float posicion_combustible[2];
-    float posicion_torreta[2];
-    float direccion_combustible;
-    float direccion_torreta;
+    destruir_figuras(figuras,cantidad_figuras);
+    destruir_niveles(niveles,cantidad_niveles);
+    //destruir_nave(nave);
 
-    lista_iter_t *torreta_iter;
-    lista_iter_t *combustible_iter;
-
-    size_t cantidad_torretas;
-    size_t cantidad_combustible;
-
-    //iterador
-    cantidad_torretas= get_cantidad_torretas(nivel);
-    cantidad_torretas= get_cantidad_torretas(nivel);
-    
-    torreta_iter=lista_iter_crear(torreta);
-    combustible_iter=lista_iter_ver_actual(combustible);
-
+    return 1;
+}
     //eventos
 
     //localizar combustible
-    //destruir combustible
-    //dibujar combustible
-
-    void iteracion_combustible(size_t cantidad, float posicion[2], lista_iter_t *lista){
-    for(size_t i=0;i<cantidad;i++){
-        posicion=get_posicion
-    }
-    figura_t **combustible=figuras[];
-    float posicion_combustible[cantidad_combustible][2]=get_posicion_combustible(nivel);
-    for(size_t i=0;i<cantidad_combustible,i++){
-        dibujar_figura(renderer,combustible,"COMBUSTIBLE",posicion_combustible[i]);
-    }    //falta colision (nave,tanque) 
-}
+    //dibujar combustible 
     
     //localizar torretas  
     //destruir torretas  
@@ -70,6 +117,16 @@ int main(void){
 
 
 
+
+/* AUXILIARES
+float posicion_combustible[2];
+float posicion_torreta[2];
+float direccion_combustible;
+float direccion_torreta;
+*/
+
+//prueba vieja
+/*
     objeto_t *objeto=lista_iter_ver_actual(iteradora);
     objeto_a_posicion(objeto,posicion);
 
@@ -79,18 +136,8 @@ int main(void){
     lista_iter_destruir(iteradora);
     cantidad= get_cantidad_torretas(nivel);
     printf("cantidad cambiada: %zd\n", cantidad);
+*/
 
-    //pantalla_inicio(nave,figuras,nivel_t **niveles);
-    
-    destruir_figuras(figuras,cantidad_figuras);
-    destruir_niveles(niveles,cantidad_niveles);
-    //destruir_nave(nave);
-
-
-
-
-    return 1;
-}
 
 //Por si hay que hacer punteros a funciones:
 

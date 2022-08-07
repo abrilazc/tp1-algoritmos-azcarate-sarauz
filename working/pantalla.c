@@ -35,6 +35,7 @@ void pantalla_inicio_mostrar(nave_t *nave,figura_t ***figuras, SDL_Renderer *ren
     centro_grav[0]=planetas[6][0];
     centro_grav[1]=planetas[6][1];
     computar_posicion(nave, centro_grav);
+    colision_rebote(nave);
     render_nave(nave,renderer, figuras, f);
     //bool aceleracion=false;
     dibujar_planetas(planetas,renderer,figuras);

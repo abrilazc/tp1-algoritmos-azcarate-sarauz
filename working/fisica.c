@@ -18,45 +18,6 @@ static float angulo(float dx, float dy){
         }
 }
 
-//chequear esta funcion
-/*void rotar_nave(polilinea_t *polilinea, float *angulo, bool horario){
-    {
-    float delta_angulo;
-    if(horario){
-        *angulo-=NAVE_ROTACION_PASO;
-        delta_angulo=-NAVE_ROTACION_PASO;
-        }
-    else{
-        *angulo+=NAVE_ROTACION_PASO;
-        delta_angulo=NAVE_ROTACION_PASO;
-    }
-    //float x,y; //q uedaron cometnadas porque no se estbaan usando
-    polilinea_rotar(polilinea, *angulo);
-    }
-}*/
-
-//MRUV
-//Falta la funcion aceleracion, a una le pusiste "acelerar" pero es muy confuso.
-//cambiar gravedad a un float
-
-
-
-
-
-/*
-void computar_aceleracion(float aceleracion[2], float gravedad, bool propulsion,float direccion){
-   aceleracion[0]=gravedad+propulsion*cos(direccion)*G;
-   aceleracion[1]=gravedad+propulsion*sin(direccion)*G;
-}
-*/
-
-//Respecto a aceleracion, un poco confuso, pero podría pasar a ser una static si reacomodamos la firma
-//Propongo
-
-
-
-
-
 void trasladar(float pos[2],float v[2]){
     pos[0]=pos[0]+v[0]*DT;
     pos[1]=pos[1]+v[1]*DT;
@@ -117,13 +78,20 @@ void trasladar_polilinea(float polilinea[][2], size_t n, float velocidad[2]){
 
 //colision
 
-void colision_rebote(float pos[2], float v[2], size_t dim[2]){
-    if(pos[0]<=0||pos[0]>=dim[0]){
-        v[0]=-v[0];
+void colision_rebote(nave_t *nave){
+    float pos[2];
+    float v[2];
+    nave_posicion_get(nave, pos);
+    nave_velocidad_get(nave, v);
+    if(pos[0]<=0||pos[0]>=VENTANA_ANCHO){
+        printf("rebote x %.2f\n",v[0]);
+        v[0]=(-v[0]);
     }
-    else if(pos[1]<=0||pos[1]>=dim[1]){
-        v[1]=-v[1];
+    else if(pos[1]<=0||pos[1]>=VENTANA_ALTO){
+        v[1]=(-v[1]);
+        printf("rebote y %.2f\n",v[1]);
     }
+    nave_velocidad_set(nave, v);
 }
 
 //procesamiento logico

@@ -12,7 +12,7 @@
 #include "nave.h"
 
 #define RADIONAVE 1//o cualquier valor
-#define DT 1/JUEGO_FPS
+#define DT 1/(JUEGO_FPS*1.00)
 
 
 void colision_rebote(float pos[2], float v[2], size_t dim[2]); //llamada en caso de colisiones que causan un rebote

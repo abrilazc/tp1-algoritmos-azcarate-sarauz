@@ -1,5 +1,6 @@
 #include "fisica.h"
 
+
 //Angulares
 
 static float angulo(float dx, float dy){
@@ -69,7 +70,8 @@ static void computar_propulsion(float velocidad[2], float direccion){
 static void computar_gravedad(float pos[2], float v[2], float pos_g[2]){
 
     if(pos_g==NULL){
-        v[1]+= G*DT;
+        double gravedad=G*DT;
+        v[1]-= gravedad;
     }
         
     else{
@@ -79,7 +81,6 @@ static void computar_gravedad(float pos[2], float v[2], float pos_g[2]){
         v[0]+=G*cos(ang)*DT;
         v[1]+=G*sin(ang)*DT;
     }
-    printf("\nvelocidad %.2f,%.2f  ",v[0],v[1]);
 }
 
 static void computar_velocidad(nave_t *nave, float pos_g[2]){

@@ -15,7 +15,7 @@
 #define DT 1/(JUEGO_FPS*1.00)
 
 
-void colision_rebote(float pos[2], float v[2], size_t dim[2]); //llamada en caso de colisiones que causan un rebote
+void colision_rebote(nave_t *nave); //llamada en caso de colisiones que causan un rebote
 
 void computar_posicion(nave_t *nave, float pos_g[2]);
 

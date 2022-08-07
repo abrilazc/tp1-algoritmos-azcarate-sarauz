@@ -1,31 +1,45 @@
 #include "pantalla.h"
+#include <string.h>
+
+#define POS_BASE {388, 218}
+#define POS_P1 {663, 473}
+#define POS_P2 {671, 145}
+#define POS_P3 {110, 79}
+#define POS_P4 {204, 455}
+#define POS_P5 {111,307}
+#define POS_ESTRELLA {457, 364}
 
 //pantallas
-void pantalla_inicio(nave_t *nave,figura_t ***figura,nivel_t **niveles, SDL_Window *window, SDL_Renderer *renderer, SDL_Event event){
-    
+
+void cargar_pantalla_inicio(nave_t *nave){
+    float pos[2]=POS_BASE;
+    nave_posicion_set(nave, pos);
+}
+
+void pantalla_inicio_mostrar(nave_t *nave,figura_t ***figuras, SDL_Renderer *renderer){
+    float f=1;
     float planetas[7][2]={
-        {388, 218},//base
-        {663, 473},//p1
-        {671, 145},//p2
-        {110, 79},//p3
-        {204, 455},//p4
-        {111, 307},//p5
-        {457, 364}//estrella
+        POS_BASE,
+        POS_P1,
+        POS_P2,
+        POS_P3,
+        POS_P4,
+        POS_P5,
+        POS_ESTRELLA
     };
-    
-    nave_posicion_set(nave,planetas[0]);
 
     //figura_t **figura_base=figura[4];
     //figura_t **figura_planeta=figura[3];
     //figura_t **figura_nave=figura[2];
-        
     float centro_grav[2];
     centro_grav[0]=planetas[6][0];
     centro_grav[1]=planetas[6][1];
+    computar_posicion(nave, centro_grav);
+    colision_rebote(nave);
+    render_nave(nave,renderer, figuras, f);
     //bool aceleracion=false;
-    bool held_down=false;
-    unsigned int ticks = SDL_GetTicks();
-    int dormir=0;
+    dibujar_planetas(planetas,renderer,figuras);
+    /*
     while(1){
         //SDL:
         if(SDL_PollEvent(&event)) {
@@ -41,18 +55,7 @@ void pantalla_inicio(nave_t *nave,figura_t ***figura,nivel_t **niveles, SDL_Wind
         dibujar_planetas(planetas,renderer,figura);
         render_nave(nave, renderer, figura, 1);
         //iteracion_nave_inicio(nave,planetas);
-        
-    }
-    SDL_RenderPresent(renderer);
-        ticks = SDL_GetTicks() - ticks;
-        if(dormir) {
-            SDL_Delay(dormir);
-            dormir = 0;
-        }
-        else if(ticks < 1000 / JUEGO_FPS)
-            SDL_Delay(1000 / JUEGO_FPS - ticks);
-        ticks = SDL_GetTicks();
-}
+        */
 }
 /*
 void cargar_nivel(nave_t *nave, nivel_t *nivel, figura_t ***figuras){//quizas saco ***figuras
@@ -113,15 +116,14 @@ void estado_nave(nave_t *nave, float pos_g[2]){
 void dibujar_planetas(float planeta[7][2], SDL_Renderer *renderer, figura_t ***figuras){
     
     dibujar_figura(renderer,figuras[4],"BASE",planeta[0],1);
-
-    for(size_t i=1;i<6;i++){
-        char planeta_p[9]="PLANETA";
-        char ii=i+48;
-        strcat(planeta_p,&ii);
-        dibujar_figura(renderer,figuras[3],planeta_p,planeta[i],1);
-    }
-
     dibujar_figura(renderer,figuras[3],"ESTRELLA",planeta[6],1);
+    dibujar_figura(renderer,figuras[3],"PLANETA1",planeta[1],1);
+    dibujar_figura(renderer,figuras[3],"PLANETA2",planeta[2],1);
+    dibujar_figura(renderer,figuras[3],"PLANETA3",planeta[3],1);
+    dibujar_figura(renderer,figuras[3],"PLANETA4",planeta[4],1);
+    dibujar_figura(renderer,figuras[3],"PLANETA5",planeta[5],1);
+    
+    
 }
 /*void iteracion_nave_inicio(nave_t *nave,float planeta[7][2]){
     iteraciones_colisiones_inicio(nave,planeta);

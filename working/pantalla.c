@@ -154,14 +154,15 @@ void iteracion_nave_nivel_no_inf(nave_t nave,nivel_t nivel){
 }*/
 
 //sirve para iterar contra COMNUSTIBLE si este no es 0
-void interseccion_lista_nave(nave_t *nave,size_t *cantidad, lista_t *lista,figura_t **figuras,char *nombre){
+//cambiar a bool
+bool interseccion_lista_nave(nave_t *nave,size_t *cantidad, lista_t *lista,figura_t **figuras,char *nombre){
     lista_iter_t *lista_iter;
     lista_iter=lista_iter_crear(lista);
     
     for(size_t i=0;i<(*cantidad);i++){
         float posicion_objeto[2];
         float posicion_nave[2]; 
-        float r=1681;//radio de colision
+        float r=100;//radio de colision
         
         objeto_t *objeto=lista_iter_ver_actual(lista_iter);
         objeto_a_posicion(objeto,posicion_objeto);
@@ -183,18 +184,24 @@ void interseccion_lista_nave(nave_t *nave,size_t *cantidad, lista_t *lista,figur
         for(size_t g=0; g<puntos;g++){
             polilinea_obtener_punto(polilinea, g, &puntos_polilinea[g][0], &puntos_polilinea[g][1]);
         }
-        
 
         if(colision(puntos_polilinea, puntos, posicion_nave, r)){//posi=posicion_nave
+            if(!strcmp(nombre,torreta)){
+                //disparar
+                lista_iter_destruir(lista_iter);
+                *c=i;
+                return true;
+            }
             objeto_t *dest=lista_iter_borrar(lista_iter);
-            (*cantidad)--;
             lista_iter_destruir(lista_iter);
             destruir_cosa(dest);
-            return;
+            (*cantidad)--;
+            return true;
         }
         lista_iter_avanzar(lista_iter);
     }
     lista_iter_destruir(lista_iter);
+    return false;
 }
 void dibujar_lista(figura_t **figuras, lista_t *lista,char *nombre,SDL_Renderer *renderer, float escala){
     size_t cantidad=lista_largo(lista);
@@ -213,63 +220,77 @@ void dibujar_lista(figura_t **figuras, lista_t *lista,char *nombre,SDL_Renderer 
     }
     lista_iter_destruir(liter);
 }
+//si cualquier punto de la lsita  1 alcanza las poliines del 2, destruye a este ultimo.
+size_t interseccion_lista_lista(lista_t *lista, lista_t *lista_2,size_t *cantidad_2){
+    size_t intersecciones=0;
+    
+    lista_iter_t *lista_iter;
+    lista_iter_t *lista_iter_2;
+    
+    size_t cantidad=lista_largo(lista);
+    float posicion_lista[2];
+    float posicion_lista_2[2]; 
+    float r=100;//radio de colision
+    
+    for(size_t i=0;i<cantidad;i++){
+        bool pasar=false;
+        lista_iter=lista_iter_crear(lista);
+        objeto_t *objeto=lista_iter_ver_actual(lista_iter);
+        objeto_a_posicion(objeto,posicion_lista);    
 
-/*
-void iteracion_torretas(figura_t ***figuras,nivel_t nivel){
-    figura_t **torretas=figuras[];//posiciones(lista_torretas)
-    float posicion_torretas[cantidad_torretas][2]=get_posicion_torretas(nivel);
-    for(size_t i=0;i<cantidad_torretas;i++){
-        if(interseccion(nave_pos,alcance_torretas[i])){//interseccion=colision
-            //si puede hacer una bala:
-            //dibujar_torreta_disparando;
-            crear_nodo_bala(lista_bala);
-            cantidad_balas++;
-            //dibujar
-        }else{
-            dibujar_figura(renderer,torretas,"TORRETAS",posicion_torretas[i]);
-        }
-    }
-}
-void iteracion_nivel(figura_t ***figuras,nivel_t nivel){
-    figura_t **reactor=figuras[];
-    float posicion_reactor[2]=get_posicion_reactor(nivel);
-    dibujar_figura(renderer,reactor,"REACTOR",posicion_reactor);
-}
-void iteracion_balas(figura_t ***figuras,nivel_t nivel){
-    float balas_pos[cantidad_balas][2]=posiciones(lista_balas);
-    //dibujar
-    for(size_t j=0;j<cantidad_balas;j++){
-        if(interseccion(nave_pos,balas_pos[i])){
-            //pierde_vida;
-            cantidad_torretas=cantidad(lista_torretas);
-            torretas_pos=posiciones(lista_torretas);
-            //dibujar
-        }
-    }
+        for(size_t j=0;j<(*cantidad_2) || pasar==true;j++){
+            lista_iter_2=lista_iter_crear(lista_2);
+            objeto_t *objeto_2=lista_iter_ver_actual(lista_iter_2);
+            objeto_a_posicion(objeto_2,posicion_lista_2);
+            size_t puntos=sizeof(objeto_2)/sizeof(float);
 
-    if(cantidad_torretas!=0){
-        for(size_t i=0;i<cantidad_torretas;i++){
-            for(size_t j=0;j<cantidad_balas;j++){
-                if(interseccion(torretas_pos[j],balas_pos[i])){
-                    quitar_nodo(lista_torretas,torretas_pos[j]);
-                    cantidad_torretas=cantidad(lista_torretas);
-                    torretas_pos=posiciones(lista_torretas);
-                    //dibujar
-                }
+            if(colision(posicion_lista_2, puntos, posicion_lista, r)){
+                objeto_t *dest=lista_iter_borrar(lista_iter);
+                (*cantidad_2)--;
+                lista_iter_destruir(lista_iter_2);
+                destruir_cosa(dest);
+                intersecciones++;
+                pasar=true;
+            }else{
+                lista_iter_avanzar(lista_iter_2);
             }
         }
+        lista_iter_destruir(lista_iter);
     }
-
-    for(size_t j=0;j<cantidad_balas;j++){
-        size_t vida_bala=lista_balas->nodo_actual->vida;
-        if(vida_bala>5){
-            quitar_nodo//bala?
-        }else{
-            lista_balas->nodo_actualvida++;
-        }
-    }  
+    return intersecciones;
 }
-*/
+
+bool interseccion_nave_polilinea(nave_t *nave,figura_t **figura,planeta_nombre nombre){
+    float posicion_nave[2]; 
+    nave_posicion_get(nave,posicion_nave);
+
+    figura_t *figura=figuras[nombre];
+    size_t cantidad_poli=cantidad_poli_fig(figura);
+    
+    polilinea_t **polilineas=polilinea_fig(figura);
+    
+    for(size_t i=0;i<cant_poli;i++){
+        polilinea_t *polilinea=polilineas[i];
+        size_t puntos=polilinea_cantidad_puntos(polilinea);    
+        float puntos_polilinea[puntos][2];
+
+        for(size_t g=0; g<puntos;g++){
+            polilinea_obtener_punto(polilinea, g, &puntos_polilinea[g][0], &puntos_polilinea[g][1]);
+        }
+
+        if(colision(puntos_polilinea, puntos, posicion_nave, r)){//posi=posicion_nave
+            objeto_t *dest=lista_iter_borrar(lista_iter);
+            (*cantidad)--;
+            lista_iter_destruir(lista_iter);
+            destruir_cosa(dest);
+            return true;
+        }
+        lista_iter_avanzar(lista_iter);
+    }
+    lista_iter_destruir(lista_iter);
+    return false;
+}
+
 
 //static void dibujar_letras(char *texto, float posicion[2]){}
 

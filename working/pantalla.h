@@ -19,9 +19,11 @@ void dibujar_planetas(float planeta[7][2], SDL_Renderer *renderer, figura_t ***f
 void iteracion_nave_inicio(nave_t *nave,float planeta[7][2]);
 void iteraciones_colisiones_inicio(nave_t nave, float planeta[7][2]);
 
-void interseccion_lista_nave(nave_t *nave,size_t *cantidad, lista_t *lista,figura_t **figuras,char *nombre);
-void dibujar_lista(figura_t **figuras, lista_t *lista,char *nombre,SDL_Renderer *renderer, float escala);
+bool interseccion_lista_nave(nave_t *nave,size_t *cantidad, lista_t *lista,figura_t **figuras,char *nombre);
+void dibujar_lista(figura_t **figuras, lista_t *lista,char *nombre,SDL_renderer *renderer);
+size_t interseccion_lista_lista(lista_t *lista, lista_t *lista_2,size_t *cantidad_2);
+bool interseccion_nave_polilinea(nave_t *nave,figura_t **figura,planeta_nombre nombre);
 
-void texto(nave_t *nave, figura_t ***figuras, SDL_Renderer *renderer);
+void texto(nave_t *nave);
 
 void dibujar_letras(char *texto, float posicion[2]);

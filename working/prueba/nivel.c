@@ -11,8 +11,9 @@ struct reactor{
     bool estar;
     float posicion[2];
     float direccion;
-    size_t tiempo;
+    float tiempo;
 };
+
 struct nivel{
     figura_t *figura;
     bool infinito;
@@ -21,7 +22,8 @@ struct nivel{
     reactor_t *reactor;
 };
 
-//Tablas de busqueda y areglos estaticos
+
+//Tablas de busqueda, arreglos estaticos y getters
 //Cantidades
 const size_t cantidad_combustible(planeta_nombre nombre){
     static const size_t cantidad[]={
@@ -152,7 +154,7 @@ nivel_t **crear_niveles(figura_t **figuras, size_t cantidad){
     }
     return conjunto_niveles;
 }
-//listas y reactor
+//combustible, torreta y reactor
 lista_t *lista_combustible(planeta_nombre planeta){
     lista_t *l_combustible=lista_crear();
     armar_lista_combustible(l_combustible,planeta);
@@ -234,6 +236,12 @@ void armar_lista_torreta(lista_t *lista, planeta_nombre planeta){
         fila++;
     }
 }
+//Seteos o reseteos
+void decremento_reactor(reactor_t *reactor){
+    (reactor->tiempo)-=1/(JUEGO_FPS*25);
+}
+
+
 
 //CARGAS
 //nivel
@@ -245,10 +253,10 @@ nivel_t *cargar_datos_nivel(nivel_t **niveles,planeta_nombre nombre){
 bool get_infinito(nivel_t *nivel){
     return nivel->infinito;
 }
-bool get_reactor_nivel(reactor_t *reactor){
-    if(reactor==NULL) return false;
-    return true;
-}
+/*reactor_t *get_reactor_nivel(nivel_t *nivel){
+    reactor_t reactor=nivel->reactor;
+    return reactor;
+}*/
 size_t get_cantidad_torretas(nivel_t *nivel){
     return lista_largo(nivel->torreta);
 }
@@ -267,13 +275,33 @@ figura_t *get_figura_nivel(nivel_t *nivel){
   figura_t *figura=nivel->figura;
   return figura;
 }
-//getter interno
 void objeto_a_posicion(objeto_t *objeto,float *posicion){
     posicion[0]=objeto->posicion[0];
     posicion[1]=objeto->posicion[1];
 }
 void objeto_a_direccion(objeto_t *objeto,float *direccion){
     *direccion=objeto->direccion;
+}
+//reactor
+bool check_reactor_nivel(nivel_t *nivel){
+    reactor_t *reactor=nivel->reactor;
+    if(reactor==NULL) return false;
+    return true;
+}
+void get_posicion_reactor(nivel_t *nivel, float *posicion){
+    reactor_t *reactor=nivel->reactor;
+    posicion[0]=reactor->posicion[0];
+    posicion[1]=reactor->posicion[1];
+}
+float get_direccion_reactor(nivel_t *nivel){
+    reactor_t *reactor=nivel->reactor;
+    float direccion=reactor->direccion;
+    return direccion;
+}
+float get_tiempo(nivel_t *nivel){
+    reactor_t *reactor=nivel->reactor;
+    float tiempo=reactor->tiempo;
+    return tiempo;
 }
 
 //DESTRUIR

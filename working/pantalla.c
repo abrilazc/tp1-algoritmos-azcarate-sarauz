@@ -66,49 +66,6 @@ void pantalla_nivel(nave_t *nave, figura_t ***figuras, SDL_Renderer *renderer, b
     texto_bis(nave, figuras, renderer);
 }
 
-/*
-void cargar_nivel(nave_t *nave, nivel_t *nivel, figura_t ***figuras){//quizas saco ***figuras
-
-    float centro_grav[2]=NULL;
-    float escala=1;
-    bool inf=get_tipo_infinito(nivel);
-
-    
-    //iteraciones 
-    
-    while(1){
-       
-        size_t cantidad_combustible=get_combustible(nivel);
-        size_t cantidad_torretas=get_torretas(nivel);
-        bool reactor_nivel=get_reactor(nivel);
-        size_t cantidad_balas=get_balas(lista_balas);
-
-        //SDL:
-            //chequear botones;
-            //fondo negro;
- 
-        estado_nave(nave);
-
-        if(inf){
-            centro_grav[2]={0,-ALTO}
-            escala=obtener_escala();
-            acomodar_camara();
-            polilinea_extendida();//dibuja la pollinea en 3 posiciones consecutivas
-            iteracion_nave_nivel_inf(nave,nivel);
-        }else{
-            escala=obtener_escala();
-            iteracion_nave_nivel_no_inf(nave,nivel);
-        }
-
-        //dibujar texto
-
-        if(cantidad_combustible!=0) iteracion_combustible(); 
-        if(cantidad_torretas!=0) iteracion_torretas();
-        if(reactor_nivel) iteracion_nivel();
-        if(cantidad_balas!=0) iteracion_balas();
-    }
-}
-*/
 //fisicas nave
 void estado_nave(nave_t *nave, float pos_g[2]){
     computar_posicion(nave, pos_g);
@@ -145,32 +102,6 @@ static bool colisiones_inicio(nave_t *nave,nivel_t **niveles, float planeta_pos[
         }
     }
     return false;
-}
-
-/*void iteracion_nave_inicio(nave_t *nave,float planeta[7][2]){
-    iteraciones_colisiones_inicio(nave,planeta);
-    dibujar_figura(renderer,figura_nave,"NAVE",posicion,1);
-}
-void iteraciones_colisiones_inicio(nave_t nave, float planeta[7][2]){
-    
-    if(0<posicion[0]<VENTANA_ANCHO || 0<posicion[1]<VENTANA_ALTO){
-        rebotar(nave);
-    }
-    float radio=6;
-
-    if(colision(posicion,planeta[6],radio)){
-        perder_vida(nave);
-        set_posicion(nave,planeta[0]);
-    }
-
-    for(size_t i=1,i<6,i++){
-        if(colision(posicion,planeta[i],radio)){
-            nombre_nivel nombre=i-1;
-            nivel_t *nivel=llamar_nivel(nombre);
-            cargar_nivel(nave,nivel,figuras);
-            return;// NULL;
-        }
-    }
 }
 
 //iteraciones niveles
@@ -294,7 +225,6 @@ size_t interseccion_lista_lista(lista_t *lista, lista_t *lista_2,size_t *cantida
     }
     return intersecciones;
 }
-
 bool interseccion_nave_polilinea(nave_t *nave,figura_t **figuras,planeta_nombre nombre){
     float posicion_nave[2]; 
     nave_posicion_get(nave,posicion_nave);
@@ -356,6 +286,5 @@ void texto_bis(nave_t *nave, figura_t ***figuras, SDL_Renderer *renderer){
     //uint8_t vidas=vidas_get(nave);
     //float pos[2]={VENTANA_ALTO*MARGEN_ALTURA, VENTANA_ANCHO-VENTANA_ANCHO*MARGEN_ANCHO};
     
-    renderizar_vidas(nave, renderer);
-     
+    renderizar_vidas(nave, renderer);  
 } 

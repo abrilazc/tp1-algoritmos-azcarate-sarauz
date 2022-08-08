@@ -17,55 +17,84 @@ int main(void){
 
     //creo niveles
     nivel_t **niveles=crear_niveles(figuras[1],cantidad_niveles);
-
     nave_t *nave=nave_crear(figuras[2]);
-    
-    //cargo nivel
     nivel_t *nivel=cargar_datos_nivel(niveles,NIVEL1NE);
     
     //inicializo variables
     lista_t *combustible=get_lista_combustible(nivel);
-    //lista_t *torreta=get_lista_torreta(nivel);
-    
+    lista_t *torreta=get_lista_torreta(nivel);
+    lista_t *balas=lista_crear();
+    lista_t *ataque_enemigo=lista_crear();
+    //chequear reactor
+
     //veo tamaños
     size_t cantidad_combustible= get_cantidad_combustible(nivel);
-    //size_t cantidad_torretas= get_cantidad_torretas(nivel);
-
-/*  if(cantidad_torretas!=0){
-        lista_iter_t *torretas_iter=lista_iter_crear(torretas);
-    }*/
-
-    //char combustible_txt[20]="COMBUSTIBLE";
-    //char *torreta_txt[20]="TORRETA";
-    
+    size_t cantidad_torretas= get_cantidad_torretas(nivel);
+    size_t cantidad_balas=lista_largo(balas);
+    size_t cantidad_ataque=lista_largo(ataque_enemigo);
     //ITERADOR
     //float posi[]={1667,113};
     printf("cantidad original: %zd\n", cantidad_combustible);
-    interseccion_lista_nave(nave,&cantidad_combustible, combustible,figuras[5], "COMBUSTIBLE");
-    printf("cantidad cambiada: %zd\n", cantidad_combustible);
     
-    /*
-    if(cantidad_combustible!=0){
-    posi[0]=1064;
-    posi[1]=12;
-    
-    interseccion_lista_nave(posi,&cantidad_combustible, combustible,figuras[5], "COMBUSTIBLE");
-    printf("cantidad cambiada: %zd\n", cantidad_combustible);
+    //revisar choque borde:
+    //if(interseccion_nave_polilinea(nave,figura[5],planeta))
+
+    if(cantidad_combustible!=0){//y el escudo activado
+        if(interseccion_lista_nave(nave,&cantidad_combustible, combustible,figuras[5], "COMBUSTIBLE")){
+            //ganar_combustible
+            printf("carga comb");
+        }
     }
-    
-    if(cantidad_combustible!=0){
-    posi[0]=5;
-    posi[1]=5;
-    interseccion_lista_nave(posi,&cantidad_combustible, combustible,figuras[5], "COMBUSTIBLE");
-    printf("cantidad cambiada: %zd\n", cantidad_combustible);
+    if(cantidad_torretas!=0){
+        if(interseccion_lista_nave(nave,&cantidad_torretas, torreta,figuras[6], "TORRETA")){
+            printf("interseccion lista nave");
+            //dispara
+        }
+        size_t bajas;
+        if(cantidad_balas!=0){
+        bajas=interseccion_lista_lista(balas, torreta,&cantidad_torretas);
+        printf("%zd",bajas);
+        }
+        
+        size_t i=0;
+        while(i<bajas){
+            i++;
+            //gana puntos
+            if(cantidad_torretas==0){
+                //gana mas puntos
+                printf("pasas nviel");
+            }
+        }
     }
-    */
-    //pantalla_inicio(nave,figuras,nivel_t **niveles);
+    if(cantidad_ataque!=0){
+    if(interseccion_lista_nave(nave,&cantidad_ataque,ataque_enemigo,figuras[2],"DISPARO")){
+        printf("nave pierde una vida");
+        }
+    }
+    if(cantidad_reactores(NIVEL1NE)){
+        reactor_t *reactor=get_reactor_nivel(nivel);
+        if(check_reactor_nivel(reactor)){
+            if(get_tiempo(reactor)>0){
+                float posicion_r[2];
+                float direccion_r=0;
+                get_posicion_reactor(reactor,posicion_r);
+                //get_inclinacion_reactor(reactor,direccion_r);
+                //dibujar
+                printf("%f %f %f \n",posicion_r[0],posicion_r[1],direccion_r);
+            }
+        }
+    }
+    //chequear_reactor
+
+    //conteo balas amigas
+    //conteo balas enemigas
+    //printf("cantidad cambiada: %zd\n", cantidad_combustible);
     
+    //dibujar todo
+
     destruir_figuras(figuras,cantidad_figuras);
     destruir_niveles(niveles,cantidad_niveles);
     nave_destruir(nave);
-    //destruir_nave(nave);
 
     return 1;
 }

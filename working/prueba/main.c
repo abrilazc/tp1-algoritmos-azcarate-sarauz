@@ -1,44 +1,62 @@
 #include "nivel.h"
 #include "game.h"
+#include "fisica.h"
+#include "nave.h"
 //#include "lista.h"
 
-polilinea_t *get_polilinea(polilinea_t **polilineas,size_t numero_poli,size_t cantida_poli){
-    if(numero_poli<cantidad_poli) return NULL;
+polilinea_t *get_polilinea(polilinea_t **polilineas,size_t numero_poli,size_t cantidad_poli){
+    
+    if(numero_poli>cantidad_poli) return NULL;
+    
     polilinea_t *polilinea=polilineas[numero_poli];
+    if(polilinea==NULL) printf("null\n");
+    
     return polilinea;
 }
 //fuerzo posicion nave: nave_t nave,
-void interseccion_lista_nave(float posi[2],size_t *cantidad, lista_iter_t *lista,figura_t **figuras,char *nombre){
+void interseccion_lista_nave(float posi[2],size_t *cantidad, lista_t *lista,figura_t **figuras,char *nombre){
+    lista_iter_t *lista_iter;
+    lista_iter=lista_iter_crear(lista);
+    
     for(size_t i=0;i<(*cantidad);i++){
         float posicion_objeto[2];
-        float posicion_nave[2]=posi;//forzado
-        float r=100;//radio de colision
-
-        objeto_t objeto=lista_iter_ver_actual(lista);
-        objeto_a_posicion(objeto,&posicion_objeto);
+        //float posicion_nave[2]; posi
+        float r=10000;//radio de colision
+        
+        objeto_t *objeto=lista_iter_ver_actual(lista_iter);
+        objeto_a_posicion(objeto,posicion_objeto);
         //get_posicion(nave,&posicion_nave);
-
+        
         figura_t *figura=cargar_nombre(figuras,nombre);
         size_t cantidad_poli=cantidad_poli_fig(figura);
         
         polilinea_t **polilineas=polilinea_fig(figura);
-        polilinea_t *polilinea=get_polilinea(polilinea_t **polilineas,size_t numero_poli,cantida_poli)
-        size_t puntos=get_cantidad_puntos_polilinea(polilinea);
+        size_t numero_poli=0;
         
-        polilinea_trasladar(polilinea,posicion_objeto);
+        polilinea_t *polilinea=get_polilinea(polilineas,numero_poli,cantidad_poli);
+        size_t puntos=polilinea_cantidad_puntos(polilinea);
+        
+        polilinea_trasladar(polilinea, posicion_objeto);
+        
+        float puntos_polilinea[puntos][2];
 
-        if(colision(polilinea, puntos, posicion_nave, r)){
-            printf("toco nave");
-            lista_iter_borrar(lista);
+        for(size_t g=0; g<puntos;g++){
+            polilinea_obtener_punto(polilinea, g, &puntos_polilinea[g][0], &puntos_polilinea[g][1]);
+        }
+        
+
+        if(colision(puntos_polilinea, puntos, posi, r)){//posi=posicion_nave
+            objeto_t *dest=lista_iter_borrar(lista_iter);
             (*cantidad)--;
+            lista_iter_destruir(lista_iter);
+            destruir_cosa(dest);
+            return;
         }
-        if(lista_iter_al_final(lista)){
-            lista_iter_destruir(lista);
-            break;
-        }
-        lista_iter_avanzar(lista);
+        lista_iter_avanzar(lista_iter);
     }
+    lista_iter_destruir(lista_iter);
 }
+
 
 /*void dibujar_lista(size_t cantidad, float posicion[2], lista_iter_t *lista){
     for(size_t i=0;i<cantidad;i++){
@@ -65,36 +83,54 @@ int main(void){
 
     //creo niveles
     nivel_t **niveles=crear_niveles(figuras[1],cantidad_niveles);
+
+    nave_t *nave=nave_crear(figuras[2]);
     
     //cargo nivel
     nivel_t *nivel=cargar_nivel(niveles,NIVEL1NE);
-
+    
     //inicializo variables
     lista_t *combustible=get_lista_combustible(nivel);
     //lista_t *torreta=get_lista_torreta(nivel);
-
+    
     //veo tamaños
     size_t cantidad_combustible= get_cantidad_combustible(nivel);
     //size_t cantidad_torretas= get_cantidad_torretas(nivel);
 
-    //verifico tamaños
-    if(cantidad_combustible!=0){
-        lista_iter_t *combustible_iter=lista_iter_crear(combustible);
-    }
 /*  if(cantidad_torretas!=0){
         lista_iter_t *torretas_iter=lista_iter_crear(torretas);
     }*/
 
+    //char combustible_txt[20]="COMBUSTIBLE";
+    //char *torreta_txt[20]="TORRETA";
+    
     //ITERADOR
-    float posi[2]={5,3};
-    char combustible[20]="COMBUSTIBLE";
-    void interseccion_lista_nave(posi,&cantidad, combustible_iter,figuras[5],char *nombre)
+    float posi[]={1667,113};
+    printf("cantidad original: %zd\n", cantidad_combustible);
+    interseccion_lista_nave(posi,&cantidad_combustible, combustible,figuras[5], "COMBUSTIBLE");
     printf("cantidad cambiada: %zd\n", cantidad_combustible);
-
+    
+    /*
+    if(cantidad_combustible!=0){
+    posi[0]=1064;
+    posi[1]=12;
+    
+    interseccion_lista_nave(posi,&cantidad_combustible, combustible,figuras[5], "COMBUSTIBLE");
+    printf("cantidad cambiada: %zd\n", cantidad_combustible);
+    }
+    
+    if(cantidad_combustible!=0){
+    posi[0]=5;
+    posi[1]=5;
+    interseccion_lista_nave(posi,&cantidad_combustible, combustible,figuras[5], "COMBUSTIBLE");
+    printf("cantidad cambiada: %zd\n", cantidad_combustible);
+    }
+    */
     //pantalla_inicio(nave,figuras,nivel_t **niveles);
     
     destruir_figuras(figuras,cantidad_figuras);
     destruir_niveles(niveles,cantidad_niveles);
+    nave_destruir(nave);
     //destruir_nave(nave);
 
     return 1;

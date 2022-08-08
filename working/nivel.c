@@ -236,7 +236,7 @@ void armar_lista_torreta(lista_t *lista, planeta_nombre planeta){
 }
 //Seteos o reseteos
 void decremento_reactor(reactor_t *reactor){
-    (reactor->tiempo)-=1/(FPS*25);
+    (reactor->tiempo)-=1/(JUEGO_FPS*25);
 }
 
 

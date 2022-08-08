@@ -15,7 +15,7 @@
 #define MASK_G 0x2
 #define MASK_B 0x1
 
-#define LON_NOM
+#define MAX_SIZE 200000
 
 //si la funciones de setteo o creacion fallan se mata todo
 
@@ -53,6 +53,7 @@ bool infinito_fig(const figura_t *figura);
 figura_tipo_t tipo_fig(const figura_t *figura);
 size_t cantidad_poli_fig(const figura_t *figura);
 polilinea_t **polilinea_fig(const figura_t *figura);
+float minimo_x_figura(figura_t *figura);
 
 //manipulacion de datos
 figura_t *cargar_nombre(figura_t **bloque,char *nombre_figura);

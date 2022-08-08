@@ -263,10 +263,10 @@ lista_t *get_lista_combustible(nivel_t *nivel){
     lista_t *combustible=nivel->combustible;
     return combustible;
 }
-/*
-void get_posicion_torretas(nivel_t *nivel, float *posicion){
-    posicion[0]=lista
-}*/
+figura_t *get_figura_nivel(nivel_t *nivel){
+  figura_t *figura=nivel->figura;
+  return figura;
+}
 //getter interno
 void objeto_a_posicion(objeto_t *objeto,float *posicion){
     posicion[0]=objeto->posicion[0];

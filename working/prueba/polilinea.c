@@ -57,7 +57,7 @@ bool polilinea_setear_color(polilinea_t *polilinea, color_t color) {
     printf("POLILINEA COLOR: (%d, %d, %d)\n", r, g, b);
     return true;
 }
-void polilinea_trasladar(polilinea_t *polilinea, double traslacion[2]){
+void polilinea_trasladar(polilinea_t *polilinea, float traslacion[2]){
 
     for(size_t i=0; i<polilinea->n; i++){
         polilinea->puntos[i][0] += traslacion[0];

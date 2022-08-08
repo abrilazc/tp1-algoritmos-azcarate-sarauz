@@ -212,8 +212,7 @@ void armar_lista_combustible(lista_t *lista, planeta_nombre planeta){
         lista_insertar_primero(lista,objeto);
         objeto_a_posicion(objeto,posicion);
         objeto_a_direccion(objeto,&direccion);
-        printf("\ncombustible de fila %zd\n",fila);
-        printf("%f %f %f\n",posicion[0],posicion[1],direccion);
+        
         fila++;
     }
 }
@@ -232,8 +231,6 @@ void armar_lista_torreta(lista_t *lista, planeta_nombre planeta){
         lista_insertar_primero(lista,objeto);
         objeto_a_posicion(objeto,posicion);
         objeto_a_direccion(objeto,&direccion);
-        printf("\ntorreta de fila %zd\n",fila);
-        printf("%f %f %f\n",posicion[0],posicion[1],direccion);
         fila++;
     }
 }
@@ -245,7 +242,10 @@ nivel_t *cargar_nivel(nivel_t **niveles,planeta_nombre nombre){
     return nivel;
 }
 //getter externo
-bool get_bool_nivel(reactor_t *reactor){
+bool get_infinito(nivel_t *nivel){
+    return nivel->infinito;
+}
+bool get_reactor_nivel(reactor_t *reactor){
     if(reactor==NULL) return false;
     return true;
 }
@@ -260,8 +260,8 @@ lista_t *get_lista_torreta(nivel_t *nivel){
     return torreta;
 }
 lista_t *get_lista_combustible(nivel_t *nivel){
-    lista_t *torreta=nivel->torreta;
-    return torreta;
+    lista_t *combustible=nivel->combustible;
+    return combustible;
 }
 /*
 void get_posicion_torretas(nivel_t *nivel, float *posicion){

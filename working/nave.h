@@ -10,7 +10,7 @@ struct nave;
 typedef struct nave nave_t;
 
 //setters
-nave_t *nave_crear();
+nave_t *nave_crear(figura_t **figura);
 void nave_posicion_set(nave_t *nave, float posicion[2]);
 void nave_velocidad_set(nave_t *nave, float velocidad[2]);
 void nave_direccion_set(nave_t *nave, float direccion);

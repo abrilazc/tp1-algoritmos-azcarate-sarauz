@@ -18,6 +18,6 @@ void dibujar_planetas(float planeta[7][2], SDL_Renderer *renderer, figura_t ***f
 void iteracion_nave_inicio(nave_t *nave,float planeta[7][2]);
 void iteraciones_colisiones_inicio(nave_t nave, float planeta[7][2]);
 
-void texto(nave_t *nave);
 
-void dibujar_letras(char *texto, float posicion[2]);
+void texto(nave_t *nave, figura_t ***figuras, SDL_Renderer *renderer);
+

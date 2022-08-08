@@ -13,6 +13,9 @@ struct figura{
     figura_t **figura;
     size_t cantidad;
 };*/
+
+
+
 const char* figura_tipo_a_cadena(figura_tipo_t figura){
     static const char* tipo[]={
     [ICONO]="Icono",

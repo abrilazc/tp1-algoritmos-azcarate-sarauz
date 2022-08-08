@@ -3,21 +3,6 @@
 
 //Angulares
 
-static float angulo(float dx, float dy){
-        if(dx >=0 && dy >= 0){
-            return atan(dy/dx);
-        }
-        else if(dx >= 0 && dy < 0){
-            return atan(dy/dx)+2*PI;
-        }
-        else if(dx < 0 && dy >= 0){
-            return PI-atan(dy/dx);
-        }
-        else{
-            return tan(dy/dx)+PI;
-        }
-}
-
 void trasladar(float pos[2],float v[2]){
     pos[0]=pos[0]+v[0]*DT;
     pos[1]=pos[1]+v[1]*DT;
@@ -38,9 +23,9 @@ static void computar_gravedad(float pos[2], float v[2], float pos_g[2]){
     else{
         float dx=pos[0]-pos_g[0];
         float dy=pos[1]-pos_g[1];
-        float ang=angulo(dx, dy);
-        v[0]+=G*cos(ang)*DT;
-        v[1]+=G*sin(ang)*DT;
+        float ang=atan2(dy, dx);
+        v[0]-=G*cos(ang)*DT;
+        v[1]-=G*sin(ang)*DT;
     }
 }
 

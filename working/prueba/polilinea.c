@@ -1,5 +1,6 @@
 #include "polilinea.h"
 
+
 //tipos de datos
 struct polilinea{
     float (*puntos)[2];

@@ -35,6 +35,7 @@ nave_t *nave_crear(figura_t **figura){
     nave->vidas=3;
     nave->puntos=0;
     nave->puntos_relativos=0;
+    
 
     return nave;
 }

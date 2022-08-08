@@ -119,6 +119,15 @@ bool polilinea_obtener_punto(const polilinea_t *polilinea, size_t pos, float *x,
 color_t polilinea_color(const polilinea_t *polilinea){
     return polilinea->color;
 }
+polilinea_t *get_polilinea(polilinea_t **polilineas,size_t numero_poli,size_t cantidad_poli){
+    
+    if(numero_poli>cantidad_poli) return NULL;
+    
+    polilinea_t *polilinea=polilineas[numero_poli];
+    if(polilinea==NULL) printf("null\n");
+    
+    return polilinea;
+}
 
 //destruccion
 void polilinea_destruir(polilinea_t *polilinea){

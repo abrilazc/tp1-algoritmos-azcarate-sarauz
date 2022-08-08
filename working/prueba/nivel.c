@@ -13,6 +13,7 @@ struct reactor{
     float direccion;
     float tiempo;
 };
+
 struct nivel{
     figura_t *figura;
     bool infinito;
@@ -20,6 +21,7 @@ struct nivel{
     lista_t *torreta;
     reactor_t *reactor;
 };
+
 
 //Tablas de busqueda, arreglos estaticos y getters
 //Cantidades
@@ -152,7 +154,7 @@ nivel_t **crear_niveles(figura_t **figuras, size_t cantidad){
     }
     return conjunto_niveles;
 }
-//listas y reactor
+//combustible, torreta y reactor
 lista_t *lista_combustible(planeta_nombre planeta){
     lista_t *l_combustible=lista_crear();
     armar_lista_combustible(l_combustible,planeta);
@@ -251,9 +253,10 @@ nivel_t *cargar_datos_nivel(nivel_t **niveles,planeta_nombre nombre){
 bool get_infinito(nivel_t *nivel){
     return nivel->infinito;
 }
-reactor_t *get_reactor_nivel(nivel_t *nivel){
-    return nivel->reactor;
-}
+/*reactor_t *get_reactor_nivel(nivel_t *nivel){
+    reactor_t reactor=nivel->reactor;
+    return reactor;
+}*/
 size_t get_cantidad_torretas(nivel_t *nivel){
     return lista_largo(nivel->torreta);
 }
@@ -280,19 +283,23 @@ void objeto_a_direccion(objeto_t *objeto,float *direccion){
     *direccion=objeto->direccion;
 }
 //reactor
-bool check_reactor_nivel(reactor_t *reactor){
+bool check_reactor_nivel(nivel_t *nivel){
+    reactor_t *reactor=nivel->reactor;
     if(reactor==NULL) return false;
     return true;
 }
-void get_posicion_reactor(reactor_t *reactor, float *posicion){
+void get_posicion_reactor(nivel_t *nivel, float *posicion){
+    reactor_t *reactor=nivel->reactor;
     posicion[0]=reactor->posicion[0];
     posicion[1]=reactor->posicion[1];
 }
-float get_direccion_reactor(reactor_t *reactor){
+float get_direccion_reactor(nivel_t *nivel){
+    reactor_t *reactor=nivel->reactor;
     float direccion=reactor->direccion;
     return direccion;
 }
-float get_tiempo(reactor_t *reactor){
+float get_tiempo(nivel_t *nivel){
+    reactor_t *reactor=nivel->reactor;
     float tiempo=reactor->tiempo;
     return tiempo;
 }

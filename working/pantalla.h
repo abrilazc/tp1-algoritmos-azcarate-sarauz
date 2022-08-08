@@ -7,9 +7,9 @@
 #include "fisica.h"
 //pantallas
 void cargar_pantalla_inicio(nave_t *nave);
-void pantalla_inicio_mostrar(nave_t *nave,figura_t ***figuras, SDL_Renderer *renderer);
-void cargar_nivel(nave_t *nave,nivel_t *nivel,figura_t ***figuras);
-void pantalla_nivel();
+bool pantalla_inicio_mostrar(nave_t *nave,figura_t ***figuras, nivel_t **niveles, SDL_Renderer *renderer, float *f, planeta_nombre *planeta_actual);
+void cargar_nivel(nave_t *nave,nivel_t **niveles, planeta_nombre planeta_actual);
+void pantalla_nivel(nave_t *nave, figura_t ***figuras, SDL_Renderer *renderer, bool *goto_inicio, planeta_nombre *planeta_actual, float *f,float *centro);
 //estado nave
 void estado_nave(nave_t *nave, float pos_g[2]);
 

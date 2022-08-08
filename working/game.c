@@ -80,3 +80,18 @@ void render_nave(nave_t *nave, SDL_Renderer *renderer, figura_t ***figuras, size
         if(escudo_get(nave))
             if(dibujar_figura(renderer, figuras[2], "ESCUDO2",posicion,f)==false) printf("fail");
 }
+
+void calcular_escala(float posicion_nave_y, float *escala){
+    if(posicion_nave_y > VENTANA_ALTO * MARGEN_ALTURA)
+        *escala = VENTANA_ALTO * MARGEN_ALTURA / posicion_nave_y;
+    if(*escala < ESCALA_MINIMA)
+        *escala = ESCALA_MINIMA;
+
+}
+
+void calcular_centro(const float escala,const float posicion_nave_x, float *centro){
+    if((posicion_nave_x - *centro) * escala > VENTANA_ANCHO / 2 * MARGEN_ANCHO)
+        *centro = posicion_nave_x - VENTANA_ANCHO / 2 * MARGEN_ANCHO / escala;
+    else if((*centro - posicion_nave_x) * escala > VENTANA_ANCHO / 2 * MARGEN_ANCHO)
+        *centro = posicion_nave_x + VENTANA_ANCHO / 2 * MARGEN_ANCHO / escala;
+}

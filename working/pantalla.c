@@ -39,24 +39,10 @@ void pantalla_inicio_mostrar(nave_t *nave,figura_t ***figuras, SDL_Renderer *ren
     render_nave(nave,renderer, figuras, f);
     //bool aceleracion=false;
     dibujar_planetas(planetas,renderer,figuras);
-    /*
-    while(1){
-        //SDL:
-        if(SDL_PollEvent(&event)) {
-        if (event.type == SDL_QUIT)
-            break;           
-        //SDL:
-        registrar_teclas(nave, event, &held_down);
-        
-        //fondo negro;
-        clear_renderer(renderer);
-        //dibujar texto;
-        estado_nave(nave,centro_grav);
-        dibujar_planetas(planetas,renderer,figura);
-        render_nave(nave, renderer, figura, 1);
-        //iteracion_nave_inicio(nave,planetas);
-        */
+    texto(nave, figuras, renderer);
 }
+
+
 /*
 void cargar_nivel(nave_t *nave, nivel_t *nivel, figura_t ***figuras){//quizas saco ***figuras
 
@@ -167,20 +153,19 @@ void iteracion_nave_nivel_no_inf(nave_t nave,nivel_t nivel){
     dibujar_figura(renderer,figura_nave,"NAVE",posicion,1);
 }*/
 
-//fuerzo posicion nave: nave_t nave,
 //sirve para iterar contra COMNUSTIBLE si este no es 0
-void interseccion_lista_nave(float posi[2],size_t *cantidad, lista_t *lista,figura_t **figuras,char *nombre){
+void interseccion_lista_nave(nave_t *nave,size_t *cantidad, lista_t *lista,figura_t **figuras,char *nombre){
     lista_iter_t *lista_iter;
     lista_iter=lista_iter_crear(lista);
     
     for(size_t i=0;i<(*cantidad);i++){
         float posicion_objeto[2];
-        //float posicion_nave[2]; posi
-        float r=10000;//radio de colision
+        float posicion_nave[2]; 
+        float r=1681;//radio de colision
         
         objeto_t *objeto=lista_iter_ver_actual(lista_iter);
         objeto_a_posicion(objeto,posicion_objeto);
-        //get_posicion(nave,&posicion_nave);
+        nave_posicion_get(nave,posicion_nave);
         
         figura_t *figura=cargar_nombre(figuras,nombre);
         size_t cantidad_poli=cantidad_poli_fig(figura);
@@ -200,7 +185,7 @@ void interseccion_lista_nave(float posi[2],size_t *cantidad, lista_t *lista,figu
         }
         
 
-        if(colision(puntos_polilinea, puntos, posi, r)){//posi=posicion_nave
+        if(colision(puntos_polilinea, puntos, posicion_nave, r)){//posi=posicion_nave
             objeto_t *dest=lista_iter_borrar(lista_iter);
             (*cantidad)--;
             lista_iter_destruir(lista_iter);
@@ -211,8 +196,23 @@ void interseccion_lista_nave(float posi[2],size_t *cantidad, lista_t *lista,figu
     }
     lista_iter_destruir(lista_iter);
 }
-
-
+void dibujar_lista(figura_t **figuras, lista_t *lista,char *nombre,SDL_renderer *renderer){
+    size_t cantidad=lista_largo(lista);
+    lista_iter_t *liter;
+    float direccion;
+    float posicion[2];
+    float origen[2]={0,0};
+    liter=lista_iter_crear(lista);
+    for(size_t i=0;i<cantidad,i++){
+        objeto_t *objeto=lista_iter_ver_actual(liter);
+        objeto_a_direccion(objeto,direccion);
+        objeto_a_posicion(objeto,posicion);
+        rotar_puntos(posicion,origen,direccion);
+        dibujar_figura(renderer,figuras,nombre,posicion);
+        lista_iter_avanzar(liter);
+    }
+    lista_iter_destruir(liter);
+}
 
 /*
 void iteracion_torretas(figura_t ***figuras,nivel_t nivel){
@@ -270,3 +270,32 @@ void iteracion_balas(figura_t ***figuras,nivel_t nivel){
     }  
 }
 */
+
+//static void dibujar_letras(char *texto, float posicion[2]){}
+
+polilinea_t *simbolo_vida_crear(){
+    const float simbolo_pol[][2]= {{8, 0}, {-1, 6}, {-4, 4}, {-4, 2}, {-2, 0}, {-4, -2}, {-4, -4}, {-1, -6}, {8, 0}};
+    polilinea_t *simbolo_vida=polilinea_crear(simbolo_pol,9,color_crear(false,true,false));
+    polilinea_rotar(simbolo_vida,3.0*PI/2);
+    return simbolo_vida;
+}
+
+static void renderizar_vidas(nave_t *nave, SDL_Renderer *renderer){
+    
+    float posicion_vidas[3][2]={{VENTANA_ANCHO*(1.0/10), VENTANA_ALTO*(9.0/10)},{VENTANA_ANCHO*(1.35/10), VENTANA_ALTO*(9.0/10)},{VENTANA_ANCHO*(1.7/10), VENTANA_ALTO*(9.0/10)}};
+    polilinea_t *vida=simbolo_vida_crear();
+    size_t cant_vidas=vidas_get(nave);
+    for(size_t i=0;i<cant_vidas;i++){
+        dibujar_polilinea(renderer, vida, posicion_vidas[i],2);
+    }
+
+    polilinea_destruir(vida);
+}   
+
+void texto(nave_t *nave, figura_t ***figuras, SDL_Renderer *renderer){
+    //uint8_t vidas=vidas_get(nave);
+    //float pos[2]={VENTANA_ALTO*MARGEN_ALTURA, VENTANA_ANCHO-VENTANA_ANCHO*MARGEN_ANCHO};
+    
+    renderizar_vidas(nave, renderer);
+     
+} 

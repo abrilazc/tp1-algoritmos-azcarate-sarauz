@@ -27,12 +27,10 @@ int main() {
     figura_t ***figuras=inicio(cantidad_figuras);
     if(figuras==NULL)
         return 1;
-
     bool pantalla_inicio_ingreso=true;
     bool nivel_inicio=true;
     //planeta_nombre planeta_actual=1;
     nave_t *nave=nave_crear(figuras[2]);
-
     float velocidad[2]={0,0};
     float posicion[2] ={VENTANA_ANCHO/2,VENTANA_ALTO/2};
     nave_posicion_set(nave, posicion);
@@ -41,13 +39,13 @@ int main() {
     // Queremos que todo se dibuje escalado por f:
     //float f = 1;
     // END código del alumno
-
+    
     unsigned int ticks = SDL_GetTicks();
     while(1) {
         frame++;
         
         printf("\nframe: %zd posicion: (%.2f,%.2f) velocidad: (%.2f,%.2f)  ",frame,posicion[0],posicion[1],velocidad[0],velocidad[1]);
-        if(SDL_PollEvent(&event)) {
+        if(SDL_PollEvent(&event)){
             if (event.type == SDL_QUIT)
                 break;
             // BEGIN código del alumno

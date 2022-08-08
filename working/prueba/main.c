@@ -2,20 +2,8 @@
 #include "game.h"
 #include "fisica.h"
 #include "nave.h"
+#include "pantalla.h"
 //#include "lista.h"
-
-/*void dibujar_lista(size_t cantidad, float posicion[2], lista_iter_t *lista){
-    for(size_t i=0;i<cantidad;i++){
-        //direccion=get_direccion
-        //dibujar
-    }
-    figura_t **combustible=figuras[];
-    float posicion_combustible[cantidad_combustible][2]=get_posicion_combustible(nivel);
-    for(size_t i=0;i<cantidad_combustible,i++){
-        dibujar_figura(renderer,combustible,"COMBUSTIBLE",posicion_combustible[i]);
-    }    //falta colision (nave,tanque) 
-}*/
-
 int main(void){
 
     size_t cantidad_figuras[8]={0,0,0,0,0,0,0,0};
@@ -33,7 +21,7 @@ int main(void){
     nave_t *nave=nave_crear(figuras[2]);
     
     //cargo nivel
-    nivel_t *nivel=cargar_nivel(niveles,NIVEL1NE);
+    nivel_t *nivel=cargar_datos_nivel(niveles,NIVEL1NE);
     
     //inicializo variables
     lista_t *combustible=get_lista_combustible(nivel);
@@ -51,9 +39,9 @@ int main(void){
     //char *torreta_txt[20]="TORRETA";
     
     //ITERADOR
-    float posi[]={1667,113};
+    //float posi[]={1667,113};
     printf("cantidad original: %zd\n", cantidad_combustible);
-    interseccion_lista_nave(posi,&cantidad_combustible, combustible,figuras[5], "COMBUSTIBLE");
+    interseccion_lista_nave(nave,&cantidad_combustible, combustible,figuras[5], "COMBUSTIBLE");
     printf("cantidad cambiada: %zd\n", cantidad_combustible);
     
     /*

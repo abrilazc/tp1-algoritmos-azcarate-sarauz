@@ -71,7 +71,8 @@ void escudo_clear(nave_t *nave){
 void nave_respawnear(nave_t *nave, float posicion[2]){
     nave_rotar(nave,(PI/2.0)-(nave->direccion));
     nave_posicion_set(nave, posicion);
-    nave_velocidad_set(nave,{0.0,0.0});
+    float velocidad[2]={0,0};
+    nave_velocidad_set(nave,velocidad);
     nave->combustible=JUEGO_COMBUSTIBLE_INICIAL;
 }
 

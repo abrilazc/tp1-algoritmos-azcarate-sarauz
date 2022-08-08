@@ -39,24 +39,10 @@ void pantalla_inicio_mostrar(nave_t *nave,figura_t ***figuras, SDL_Renderer *ren
     render_nave(nave,renderer, figuras, f);
     //bool aceleracion=false;
     dibujar_planetas(planetas,renderer,figuras);
-    /*
-    while(1){
-        //SDL:
-        if(SDL_PollEvent(&event)) {
-        if (event.type == SDL_QUIT)
-            break;           
-        //SDL:
-        registrar_teclas(nave, event, &held_down);
-        
-        //fondo negro;
-        clear_renderer(renderer);
-        //dibujar texto;
-        estado_nave(nave,centro_grav);
-        dibujar_planetas(planetas,renderer,figura);
-        render_nave(nave, renderer, figura, 1);
-        //iteracion_nave_inicio(nave,planetas);
-        */
+    texto(nave, figuras, renderer);
 }
+
+
 /*
 void cargar_nivel(nave_t *nave, nivel_t *nivel, figura_t ***figuras){//quizas saco ***figuras
 
@@ -269,3 +255,32 @@ void iteracion_balas(figura_t ***figuras,nivel_t nivel){
     }  
 }
 */
+
+//static void dibujar_letras(char *texto, float posicion[2]){}
+
+polilinea_t *simbolo_vida_crear(){
+    const float simbolo_pol[][2]= {{8, 0}, {-1, 6}, {-4, 4}, {-4, 2}, {-2, 0}, {-4, -2}, {-4, -4}, {-1, -6}, {8, 0}};
+    polilinea_t *simbolo_vida=polilinea_crear(simbolo_pol,9,color_crear(false,true,false));
+    polilinea_rotar(simbolo_vida,3.0*PI/2);
+    return simbolo_vida;
+}
+
+static void renderizar_vidas(nave_t *nave, SDL_Renderer *renderer){
+    
+    float posicion_vidas[3][2]={{VENTANA_ANCHO*(1.0/10), VENTANA_ALTO*(9.0/10)},{VENTANA_ANCHO*(1.35/10), VENTANA_ALTO*(9.0/10)},{VENTANA_ANCHO*(1.7/10), VENTANA_ALTO*(9.0/10)}};
+    polilinea_t *vida=simbolo_vida_crear();
+    size_t cant_vidas=vidas_get(nave);
+    for(size_t i=0;i<cant_vidas;i++){
+        dibujar_polilinea(renderer, vida, posicion_vidas[i],2);
+    }
+
+    polilinea_destruir(vida);
+}   
+
+void texto(nave_t *nave, figura_t ***figuras, SDL_Renderer *renderer){
+    //uint8_t vidas=vidas_get(nave);
+    //float pos[2]={VENTANA_ALTO*MARGEN_ALTURA, VENTANA_ANCHO-VENTANA_ANCHO*MARGEN_ANCHO};
+    
+    renderizar_vidas(nave, renderer);
+     
+} 

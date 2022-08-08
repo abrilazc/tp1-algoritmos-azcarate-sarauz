@@ -1,5 +1,10 @@
 #include "caracteres.h"
 
+
+float **puntero=polilinea_caracter('a');
+
+polilinea_t *polilinea=polilinea_crear()
+
 float *caracteres[][2]={
 	['a']=caracter_a,
 	['b']=caracter_b,

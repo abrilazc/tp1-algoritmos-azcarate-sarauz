@@ -21,4 +21,8 @@ void render_nave(nave_t *nave, SDL_Renderer *renderer, figura_t ***figuras, size
 
 void muerte(nave_t *nave);
 
+void calcular_escala(float posicion_nave_y, float *escala);
+
+void calcular_centro(const float escala,const float posicion_nave_x, float *centro);
+
 #endif

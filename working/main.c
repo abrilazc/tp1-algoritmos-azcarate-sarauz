@@ -29,22 +29,26 @@ int main() {
         return 1;
     bool pantalla_inicio_ingreso=true;
     bool nivel_inicio=true;
-    //planeta_nombre planeta_actual=1;
+    size_t cantidad_niveles=cantidad_figuras[1];
+    nivel_t **niveles=crear_niveles(figuras[1], cantidad_niveles);
     nave_t *nave=nave_crear(figuras[2]);
+    planeta_nombre planeta_actual=NIVEL1NE;
     float velocidad[2]={0,0};
     float posicion[2] ={VENTANA_ANCHO/2,VENTANA_ALTO/2};
+    float centro=VENTANA_ANCHO/2;
     nave_posicion_set(nave, posicion);
     bool held_down=false;
     size_t frame=0;
     // Queremos que todo se dibuje escalado por f:
-    //float f = 1;
+    float f = 1;
     // END código del alumno
     
     unsigned int ticks = SDL_GetTicks();
+    
     while(1) {
         frame++;
         
-        printf("\nframe: %zd posicion: (%.2f,%.2f) velocidad: (%.2f,%.2f)  ",frame,posicion[0],posicion[1],velocidad[0],velocidad[1]);
+        //printf("\nframe: %zd posicion: (%.2f,%.2f) velocidad: (%.2f,%.2f)  ",frame,posicion[0],posicion[1],velocidad[0],velocidad[1]);
         if(SDL_PollEvent(&event)){
             if (event.type == SDL_QUIT)
                 break;
@@ -56,7 +60,7 @@ int main() {
             // END código del alumno
             continue;
         }
-
+        
         SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
         SDL_RenderClear(renderer);
         SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0x00);
@@ -68,14 +72,18 @@ int main() {
                 cargar_pantalla_inicio(nave);
                 pantalla_inicio_ingreso=false;
             }
-            pantalla_inicio_mostrar(nave, figuras, renderer);
+            nivel_inicio=pantalla_inicio_mostrar(nave, figuras, niveles, renderer, &f, &planeta_actual);
             }
-        //pantalla_inicio(nave, figuras, renderer);
+        /*
+        else{
+            pantalla_nivel(nave,figuras,renderer,&nivel_inicio,&planeta_actual,&f, &centro);
+        }
+        
         nave_velocidad_get(nave, velocidad);
         nave_posicion_get(nave, posicion);
         
         // END código del alumno
-
+        */
         SDL_RenderPresent(renderer);
         ticks = SDL_GetTicks() - ticks;
         if(dormir) {
@@ -89,6 +97,7 @@ int main() {
     
     // BEGIN código del alumno
     nave_destruir(nave);
+    destruir_niveles(niveles, cantidad_niveles);
     destruir_figuras(figuras, cantidad_figuras);
     // END código del alumno
 

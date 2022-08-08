@@ -91,10 +91,23 @@ const size_t cantidad_filas(char caracter){
     };
     return tam_caracter[caracter];
 }
-polilinea_t **palabra_a_polilinea(char *palabra){
-	
-}
 
+
+bool numero_a_polilinea(int numero,SDL_Renderer *renderer, float posicion[2], float escala){
+	char palabra[10];
+	SDL_itoa(numero,palabra,10);//pasa el numero a palabra
+	return palabra_a_polilinea(renderer,palabra,posicion,direccion);
+}
+bool palabra_a_polilinea(SDL_Renderer *renderer,char *palabra, float posicion[2], float escala){
+	char *letra;
+	polilinea_t *polilinea;
+	float espacio[]={6,0}
+	while((letra=getchar(palabra))!='\0'){
+		polilinea=letra_a_polilinea(letra);
+		dibujar_polilinea(renderer, polilinea,posicion+espacio,escala);
+	}
+	return true;
+}
 polilinea_t *letra_a_polilinea(char caracter){
 	size_t cantidad=cantidad_filas(caracter);
 	float **matriz=polilinea_caracter(caracter);
@@ -102,8 +115,6 @@ polilinea_t *letra_a_polilinea(char caracter){
 	return polilinea;
 }
 	
-
-
 
 const float caracter_a[7][2] = {
 	{0, 0},

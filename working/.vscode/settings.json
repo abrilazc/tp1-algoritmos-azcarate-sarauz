@@ -4,6 +4,7 @@
     "files.associations": {
         "stdio.h": "c",
         "figura.h": "c",
-        "polilinea.h": "c"
+        "polilinea.h": "c",
+        "game.h": "c"
     }
 }

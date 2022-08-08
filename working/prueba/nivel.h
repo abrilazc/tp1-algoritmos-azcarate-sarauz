@@ -45,7 +45,8 @@ const bool cantidad_reactores(planeta_nombre nombre);
 const char* nombre_asignado(planeta_nombre nombre);
 
 //getter externo
-bool get_bool_nivel(reactor_t *reactor);
+bool get_infinito(nivel_t *nivel);
+bool get_reactor_nivel(reactor_t *reactor);
 size_t get_cantidad_torretas(nivel_t *nivel);
 size_t get_cantidad_combustible(nivel_t *nivel);
 //getter interno
@@ -53,6 +54,7 @@ size_t get_cantidad_combustible(nivel_t *nivel);
 void objeto_a_posicion(objeto_t *objeto,float *posicion);
 void objeto_a_direccion(objeto_t *objeto,float *direccion);
 lista_t *get_lista_torreta(nivel_t *nivel);
+lista_t *get_lista_combustible(nivel_t *nivel);
 
 
 //DESTRUIR

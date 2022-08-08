@@ -4,19 +4,6 @@
 #include "nave.h"
 #include "pantalla.h"
 //#include "lista.h"
-
-/*void dibujar_lista(size_t cantidad, float posicion[2], lista_iter_t *lista){
-    for(size_t i=0;i<cantidad;i++){
-        //direccion=get_direccion
-        //dibujar
-    }
-    figura_t **combustible=figuras[];
-    float posicion_combustible[cantidad_combustible][2]=get_posicion_combustible(nivel);
-    for(size_t i=0;i<cantidad_combustible,i++){
-        dibujar_figura(renderer,combustible,"COMBUSTIBLE",posicion_combustible[i]);
-    }    //falta colision (nave,tanque) 
-}*/
-
 int main(void){
 
     size_t cantidad_figuras[8]={0,0,0,0,0,0,0,0};

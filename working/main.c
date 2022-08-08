@@ -60,7 +60,7 @@ int main() {
             // END código del alumno
             continue;
         }
-        
+
         SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
         SDL_RenderClear(renderer);
         SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0x00);
@@ -74,16 +74,15 @@ int main() {
             }
             nivel_inicio=pantalla_inicio_mostrar(nave, figuras, niveles, renderer, &f, &planeta_actual);
             }
-        /*
         else{
             pantalla_nivel(nave,figuras,renderer,&nivel_inicio,&planeta_actual,&f, &centro);
         }
         
         nave_velocidad_get(nave, velocidad);
         nave_posicion_get(nave, posicion);
-        
+        printf("frame:%ld posicion:(%.2f,%.2f\n)",frame,posicion[0],posicion[1]);
         // END código del alumno
-        */
+
         SDL_RenderPresent(renderer);
         ticks = SDL_GetTicks() - ticks;
         if(dormir) {

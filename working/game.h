@@ -7,7 +7,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include "nave.h"
-
+#include "nivel.h"
 #define MAX_TIPOS 8
 
 
@@ -21,8 +21,10 @@ void render_nave(nave_t *nave, SDL_Renderer *renderer, figura_t ***figuras, size
 
 void muerte(nave_t *nave);
 
-void calcular_escala(float posicion_nave_y, float *escala);
+void calcular_escala_inf(float posicion_nave_y, float *escala);
 
-void calcular_centro(const float escala,const float posicion_nave_x, float *centro);
+void calcular_centro_inf(const float escala,const float posicion_nave_x, float *centro);
+
+void calcular_escala(figura_t **figuras, planeta_nombre *planeta_actual,float *escala, float *centro);
 
 #endif

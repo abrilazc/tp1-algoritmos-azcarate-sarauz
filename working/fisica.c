@@ -76,6 +76,22 @@ void colision_rebote(nave_t *nave){
     }
     nave_velocidad_set(nave, v);
 }
+void colision_rebote_ni(nave_t *nave, bool *inicio){
+    float pos[2];
+    float v[2];
+    nave_posicion_get(nave, pos);
+    nave_velocidad_get(nave, v);
+    if(pos[0]<=0||pos[0]>=VENTANA_ANCHO){
+        v[0]=(-v[0]);
+    }
+    else if(pos[1]>=VENTANA_ALTO){
+        *inicio=true;
+    }
+    else if(pos[1]<=0){
+        v[1]=(-v[1]);
+    }
+    nave_velocidad_set(nave, v);
+}
 
 float dist_puntos(float a[2], float b[2]){
     return sqrt(pow(b[0]-a[0],2)+pow(b[1]-a[1],2));

@@ -12,7 +12,7 @@
 //pantallas
 
 static bool colisiones_inicio(nave_t *nave,nivel_t **niveles, float planeta_pos[7][2], planeta_nombre *planeta_actual);
-static void render_planeta(SDL_Renderer *renderer, figura_t ***figuras, planeta_nombre *planeta_actual, float *f, float *centro);
+static void render_planeta_finito(nave_t *nave, SDL_Renderer *renderer, figura_t ***figuras, planeta_nombre *planeta_actual, float *f, float *centro);
 
 void cargar_pantalla_inicio(nave_t *nave){
     float pos[2]=POS_BASE;
@@ -25,7 +25,11 @@ void cargar_nivel(nave_t *nave, nivel_t **niveles, planeta_nombre planeta_actual
     nave_velocidad_set(nave, velocidad);
     cargar_datos_nivel(niveles, planeta_actual);
 }
-
+void planeta_finito(nave_t* nave, SDL_Renderer *renderer, figura_t ***figuras, planeta_nombre *planeta_actual, float *f, float *centro, bool *inicio){
+    calcular_escala(figuras[1],planeta_actual,f, centro);
+    colision_rebote_ni(nave, inicio);
+    render_planeta_finito(nave,renderer, figuras,planeta_actual,f,centro);
+}
 bool pantalla_inicio_mostrar(nave_t *nave,figura_t ***figuras, nivel_t **niveles, SDL_Renderer *renderer, float *f, planeta_nombre *planeta_actual){
     *f=1;
     
@@ -47,7 +51,7 @@ bool pantalla_inicio_mostrar(nave_t *nave,figura_t ***figuras, nivel_t **niveles
     colision_rebote(nave);
     render_nave(nave,renderer, figuras, *f);
     dibujar_planetas(planetas,renderer,figuras);
-    texto(nave, figuras, renderer);
+    texto_bis(nave, figuras, renderer);
     return !colisiones_inicio(nave,niveles,planetas,planeta_actual);
 }
 void pantalla_nivel(nave_t *nave, figura_t ***figuras, SDL_Renderer *renderer, bool *goto_inicio, planeta_nombre *planeta_actual, float *f, float *centro){
@@ -56,9 +60,9 @@ void pantalla_nivel(nave_t *nave, figura_t ***figuras, SDL_Renderer *renderer, b
     //calcular_escala(posicion[1],f);
     //calcular_centro(*f,posicion[0],centro);
     computar_posicion(nave, NULL);
-    render_nave(nave, renderer, figuras,*f);
-    render_planeta(renderer, figuras, planeta_actual,f, centro);
-    
+    render_nave(nave, renderer, figuras,1);
+    if(*planeta_actual==NIVEL1R||*planeta_actual==NIVEL1NW)
+        planeta_finito(nave, renderer, figuras, planeta_actual,f, centro, goto_inicio);
     texto_bis(nave, figuras, renderer);
 }
 
@@ -339,13 +343,15 @@ static void renderizar_vidas(nave_t *nave, SDL_Renderer *renderer){
     polilinea_destruir(vida);
 }   
 
-static void render_planeta(SDL_Renderer *renderer, figura_t ***figuras, planeta_nombre *planeta_actual, float *f, float *centro){
-    
-    float position[2]={0,0};
-    dibujar_figura(renderer,figuras[1], "NIVEL1R",position,1);
+static void render_planeta_finito(nave_t* nave, SDL_Renderer *renderer, figura_t ***figuras, planeta_nombre *planeta_actual, float *f, float *centro){
+    float position[2]={VENTANA_ANCHO/2.00-*centro,0.0};
+    if(*planeta_actual==NIVEL1R)
+        dibujar_figura(renderer,figuras[1], "NIVEL1R",position,*f);
+    if(*planeta_actual==NIVEL1NW)
+        dibujar_figura(renderer,figuras[1], "NIVEL1NW",position,*f);
+
 }
 
-void texto(nave_t *nave, figura_t ***figuras, SDL_Renderer *renderer);
 void texto_bis(nave_t *nave, figura_t ***figuras, SDL_Renderer *renderer){
     //uint8_t vidas=vidas_get(nave);
     //float pos[2]={VENTANA_ALTO*MARGEN_ALTURA, VENTANA_ANCHO-VENTANA_ANCHO*MARGEN_ANCHO};

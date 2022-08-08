@@ -97,38 +97,15 @@ void calcular_centro_inf(const float escala,const float posicion_nave_x, float *
 }
 
 void calcular_escala(figura_t **figuras, planeta_nombre *planeta_actual,float *escala, float *centro){
-    polilinea_t *pol_planeta=(polilinea_fig(figuras[*planeta_actual]))[0];
-    size_t n=polilinea_cantidad_puntos(pol_planeta);
-    float x,y;
-    float planeta_x_min, planeta_x_max;
-    float planeta_y_min, planeta_y_max;
-    polilinea_obtener_punto(pol_planeta,0,&planeta_x_min,&planeta_y_min);
-    planeta_x_max=planeta_x_min;
-    planeta_y_max=planeta_y_min;
-    for(size_t i=1;i<n;i++){
-        polilinea_obtener_punto(pol_planeta,i,&x,&y);
-        
-        if(x<planeta_x_min){
-            planeta_x_min=x;
-        }
-        else if(x>planeta_x_max){
-            planeta_x_max=x;
-        }
-        if(y<planeta_y_min){
-            planeta_y_min=y;
-        }
-        else if(y>planeta_y_max){
-            planeta_y_max=y;
-        }
-        else
-            continue;
-    }
-    float planeta_alto=planeta_y_max-planeta_y_min;
-    float planeta_ancho=planeta_x_max-planeta_x_min;
+    float max[2];
+    float min[2];
+    extremos_figura(figuras[*planeta_actual],max,min);
+    float planeta_alto=max[1]-min[1];
+    float planeta_ancho=max[0]-min[0];
     *escala = VENTANA_ALTO * 1.0 / planeta_alto;
-    if((VENTANA_ANCHO * 1.0 / (planeta_ancho + planeta_x_min)) < *escala)
-        *escala = VENTANA_ANCHO * 1.0 / (planeta_ancho + planeta_x_min);
-    *centro = (planeta_x_max+planeta_x_min)/2.0;
+    if((VENTANA_ANCHO * 1.0 / (planeta_ancho + min[0])) < *escala)
+        *escala = VENTANA_ANCHO * 1.0 / (planeta_ancho + min[0]);
+    *centro = (planeta_ancho + min[0]) / 2;
     printf("centro:%.2f ancho:%.2f alto:%.2f \n" ,*centro, planeta_ancho,planeta_alto);
 }
 

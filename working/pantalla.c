@@ -344,12 +344,13 @@ static void renderizar_vidas(nave_t *nave, SDL_Renderer *renderer){
 }   
 
 static void render_planeta_finito(nave_t* nave, SDL_Renderer *renderer, figura_t ***figuras, planeta_nombre *planeta_actual, float *f, float *centro){
-    float position[2]={VENTANA_ANCHO/2.00-*centro,0.0};
-    if(*planeta_actual==NIVEL1R)
+    float position[2]={-*centro,0.0};
+    if(*planeta_actual==NIVEL1R){
         dibujar_figura(renderer,figuras[1], "NIVEL1R",position,*f);
-    if(*planeta_actual==NIVEL1NW)
+    }
+    if(*planeta_actual==NIVEL1NW){
         dibujar_figura(renderer,figuras[1], "NIVEL1NW",position,*f);
-
+    }
 }
 
 void texto_bis(nave_t *nave, figura_t ***figuras, SDL_Renderer *renderer){

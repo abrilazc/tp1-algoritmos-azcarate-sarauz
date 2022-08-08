@@ -167,20 +167,19 @@ void iteracion_nave_nivel_no_inf(nave_t nave,nivel_t nivel){
     dibujar_figura(renderer,figura_nave,"NAVE",posicion,1);
 }*/
 
-//fuerzo posicion nave: nave_t nave,
 //sirve para iterar contra COMNUSTIBLE si este no es 0
-void interseccion_lista_nave(float posi[2],size_t *cantidad, lista_t *lista,figura_t **figuras,char *nombre){
+void interseccion_lista_nave(nave_t *nave,size_t *cantidad, lista_t *lista,figura_t **figuras,char *nombre){
     lista_iter_t *lista_iter;
     lista_iter=lista_iter_crear(lista);
     
     for(size_t i=0;i<(*cantidad);i++){
         float posicion_objeto[2];
-        //float posicion_nave[2]; posi
-        float r=10000;//radio de colision
+        float posicion_nave[2]; 
+        float r=1681;//radio de colision
         
         objeto_t *objeto=lista_iter_ver_actual(lista_iter);
         objeto_a_posicion(objeto,posicion_objeto);
-        //get_posicion(nave,&posicion_nave);
+        nave_posicion_get(nave,posicion_nave);
         
         figura_t *figura=cargar_nombre(figuras,nombre);
         size_t cantidad_poli=cantidad_poli_fig(figura);
@@ -200,7 +199,7 @@ void interseccion_lista_nave(float posi[2],size_t *cantidad, lista_t *lista,figu
         }
         
 
-        if(colision(puntos_polilinea, puntos, posi, r)){//posi=posicion_nave
+        if(colision(puntos_polilinea, puntos, posicion_nave, r)){//posi=posicion_nave
             objeto_t *dest=lista_iter_borrar(lista_iter);
             (*cantidad)--;
             lista_iter_destruir(lista_iter);

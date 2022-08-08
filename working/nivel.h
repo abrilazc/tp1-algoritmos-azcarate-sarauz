@@ -34,7 +34,7 @@ void armar_lista_torreta(lista_t *lista, planeta_nombre planeta);
 
 //CARGAS
 //cargar nivel
-nivel_t *cargar_nivel(nivel_t **niveles,planeta_nombre nombre);
+nivel_t *cargar_datos_nivel(nivel_t **niveles,planeta_nombre nombre);
 
 //TABLAS DE BUSQUEDA Y ARREGLOS
 //Cantidades

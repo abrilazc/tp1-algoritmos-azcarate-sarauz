@@ -1,4 +1,6 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
+make: *** No rule to make target 'all'.  Stop.
+
 # GNU Make 4.3
 # Built for x86_64-pc-linux-gnu
 # Copyright (C) 1988-2020 Free Software Foundation, Inc.
@@ -6,7 +8,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Sun Aug  7 23:45:36 2022
+# Make data base, printed on Mon Aug  8 05:13:44 2022
 
 # Variables
 
@@ -271,18 +273,15 @@ SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd
 
 # Directories
 
-# . (device 2051, inode 1068882): 9 files, no impossibilities.
+# . (device 2051, inode 1068882): 8 files, no impossibilities.
 
-# 9 files, no impossibilities in 1 directories.
+# 8 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
 # No implicit rules.
 
 # Files
- 
-make: *** No rule to make target 'all'.  Stop.
-
 
 # Not a target:
 Makefile:
@@ -297,6 +296,7 @@ Makefile:
 #  Modification time never checked.
 #  File has not been updated.
 
+ 
 # Not a target:
 all:
 #  Command line target.
@@ -326,12 +326,12 @@ GNUmakefile:
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 17 / storage = 146 B / avg = 8 B
-# current buf: size = 8162 B / used = 146 B / count = 17 / avg = 8 B
+# strcache buffers: 1 (0) / strings = 16 / storage = 140 B / avg = 8 B
+# current buf: size = 8162 B / used = 140 B / count = 16 / avg = 8 B
 
-# strcache performance: lookups = 20 / hit rate = 15%
+# strcache performance: lookups = 19 / hit rate = 15%
 # hash-table stats:
-# Load=17/8192=0%, Rehash=0, Collisions=0/20=0%
-# Finished Make data base on Sun Aug  7 23:45:36 2022
+# Load=16/8192=0%, Rehash=0, Collisions=0/19=0%
+# Finished Make data base on Mon Aug  8 05:13:44 2022
 
  

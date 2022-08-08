@@ -1,5 +1,5 @@
 #include "nave.h"
-struct nave{
+struct nave{ 
     figura_t **figura;
     float posicion[2];
     float velocidad[2];
@@ -68,6 +68,13 @@ void escudo_clear(nave_t *nave){
     nave->escudo=false;
 }
 
+void nave_respawnear(nave_t *nave, float posicion[2]){
+    nave_rotar(nave,(PI/2.0)-(nave->direccion));
+    nave_posicion_set(nave, posicion);
+    nave_velocidad_set(nave,{0.0,0.0});
+    nave->combustible=JUEGO_COMBUSTIBLE_INICIAL;
+}
+
 void vidas_incrementar(nave_t *nave){
     nave->vidas++;
 }
@@ -77,6 +84,7 @@ bool vidas_decrementar(nave_t *nave){
     nave->vidas--;
     return true;
 }
+
 void combustible_cargar(nave_t *nave){
     nave->combustible+=3000;
 }

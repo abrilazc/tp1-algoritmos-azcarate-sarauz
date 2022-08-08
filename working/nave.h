@@ -18,7 +18,7 @@ void chorro_set(nave_t *nave);
 void chorro_clear(nave_t *nave);
 void escudo_set(nave_t *nave);
 void escudo_clear(nave_t *nave);
-void respawnear_nave();
+void respawnear_nave(nave_t *nave,float posicion[2]);
 void vidas_incrementar(nave_t *nave);
 bool vidas_decrementar(nave_t *nave); //devuelve false si se quedo sin vidas
 void combustible_cargar(nave_t *nave);

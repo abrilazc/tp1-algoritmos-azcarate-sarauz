@@ -196,19 +196,19 @@ void interseccion_lista_nave(nave_t *nave,size_t *cantidad, lista_t *lista,figur
     }
     lista_iter_destruir(lista_iter);
 }
-void dibujar_lista(figura_t **figuras, lista_t *lista,char *nombre,SDL_renderer *renderer){
+void dibujar_lista(figura_t **figuras, lista_t *lista,char *nombre,SDL_Renderer *renderer, float escala){
     size_t cantidad=lista_largo(lista);
     lista_iter_t *liter;
     float direccion;
     float posicion[2];
     float origen[2]={0,0};
     liter=lista_iter_crear(lista);
-    for(size_t i=0;i<cantidad,i++){
+    for(size_t i=0;i<cantidad;i++){
         objeto_t *objeto=lista_iter_ver_actual(liter);
-        objeto_a_direccion(objeto,direccion);
+        objeto_a_direccion(objeto,&direccion);
         objeto_a_posicion(objeto,posicion);
         rotar_puntos(posicion,origen,direccion);
-        dibujar_figura(renderer,figuras,nombre,posicion);
+        dibujar_figura(renderer,figuras,nombre,posicion,escala);
         lista_iter_avanzar(liter);
     }
     lista_iter_destruir(liter);

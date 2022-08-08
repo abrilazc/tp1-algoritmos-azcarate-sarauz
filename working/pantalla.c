@@ -37,10 +37,11 @@ void pantalla_inicio_mostrar(nave_t *nave,figura_t ***figuras, SDL_Renderer *ren
     computar_posicion(nave, centro_grav);
     colision_rebote(nave);
     render_nave(nave,renderer, figuras, f);
-    //bool aceleracion=false;
+    
     dibujar_planetas(planetas,renderer,figuras);
     texto(nave, figuras, renderer);
 }
+
 
 
 /*
@@ -197,8 +198,16 @@ void interseccion_lista_nave(float posi[2],size_t *cantidad, lista_t *lista,figu
     }
     lista_iter_destruir(lista_iter);
 }
-
-
+/*
+size_t colision_inicio(nave_t *nave, float planeta[7][2]){
+    float posicion[2];
+    nave_posicion_get(nave, posicion);
+    for(size_t i=1;i<7;i++){
+        if(colision(nave,planeta[i])){
+            return i;
+    }
+}
+*/
 
 /*
 void iteracion_torretas(figura_t ***figuras,nivel_t nivel){

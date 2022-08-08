@@ -106,3 +106,10 @@ bool colision(float polilinea[][2], size_t n, float pos[2], float radio){ //reto
     }
     return false;
 }
+
+void rotar_punto(float punto[2], float pos[2], float angulo){
+    float x=punto[0]-pos[0];
+    float y=punto[1]-pos[1];
+    punto[0] = x*cos(angulo) - y*sin(angulo)+pos[0];
+    punto[1] = x*sin(angulo) + y*cos(angulo)+pos[1];
+}

@@ -19,4 +19,6 @@ void clear_renderer(SDL_Renderer *renderer);
 
 void render_nave(nave_t *nave, SDL_Renderer *renderer, figura_t ***figuras, size_t f);
 
+void muerte(nave_t *nave);
+
 #endif

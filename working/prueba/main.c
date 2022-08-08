@@ -4,60 +4,6 @@
 #include "nave.h"
 //#include "lista.h"
 
-polilinea_t *get_polilinea(polilinea_t **polilineas,size_t numero_poli,size_t cantidad_poli){
-    
-    if(numero_poli>cantidad_poli) return NULL;
-    
-    polilinea_t *polilinea=polilineas[numero_poli];
-    if(polilinea==NULL) printf("null\n");
-    
-    return polilinea;
-}
-//fuerzo posicion nave: nave_t nave,
-void interseccion_lista_nave(float posi[2],size_t *cantidad, lista_t *lista,figura_t **figuras,char *nombre){
-    lista_iter_t *lista_iter;
-    lista_iter=lista_iter_crear(lista);
-    
-    for(size_t i=0;i<(*cantidad);i++){
-        float posicion_objeto[2];
-        //float posicion_nave[2]; posi
-        float r=10000;//radio de colision
-        
-        objeto_t *objeto=lista_iter_ver_actual(lista_iter);
-        objeto_a_posicion(objeto,posicion_objeto);
-        //get_posicion(nave,&posicion_nave);
-        
-        figura_t *figura=cargar_nombre(figuras,nombre);
-        size_t cantidad_poli=cantidad_poli_fig(figura);
-        
-        polilinea_t **polilineas=polilinea_fig(figura);
-        size_t numero_poli=0;
-        
-        polilinea_t *polilinea=get_polilinea(polilineas,numero_poli,cantidad_poli);
-        size_t puntos=polilinea_cantidad_puntos(polilinea);
-        
-        polilinea_trasladar(polilinea, posicion_objeto);
-        
-        float puntos_polilinea[puntos][2];
-
-        for(size_t g=0; g<puntos;g++){
-            polilinea_obtener_punto(polilinea, g, &puntos_polilinea[g][0], &puntos_polilinea[g][1]);
-        }
-        
-
-        if(colision(puntos_polilinea, puntos, posi, r)){//posi=posicion_nave
-            objeto_t *dest=lista_iter_borrar(lista_iter);
-            (*cantidad)--;
-            lista_iter_destruir(lista_iter);
-            destruir_cosa(dest);
-            return;
-        }
-        lista_iter_avanzar(lista_iter);
-    }
-    lista_iter_destruir(lista_iter);
-}
-
-
 /*void dibujar_lista(size_t cantidad, float posicion[2], lista_iter_t *lista){
     for(size_t i=0;i<cantidad;i++){
         //direccion=get_direccion

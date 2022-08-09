@@ -7,6 +7,7 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <stdint.h>
+//esto no lo stegeamos
 
 #define LONG_NOM 20
 #define INF_MASK 0x01
@@ -15,7 +16,7 @@
 #define MASK_G 0x2
 #define MASK_B 0x1
 
-#define MAX_SIZE 200000
+#define LON_NOM
 
 //si la funciones de setteo o creacion fallan se mata todo
 
@@ -37,7 +38,7 @@ typedef enum{
 }figura_tipo_t;
 
 const char* figura_tipo_a_cadena(figura_tipo_t figura);
-polilinea_t *simbolo_vida_crear();
+
 //seteo
 bool leer_encabezado_figura(FILE *f, char nombre[], figura_tipo_t *tipo, bool *infinito, size_t *cantidad_polilineas);
 polilinea_t *leer_polilinea(FILE *f);
@@ -53,7 +54,6 @@ bool infinito_fig(const figura_t *figura);
 figura_tipo_t tipo_fig(const figura_t *figura);
 size_t cantidad_poli_fig(const figura_t *figura);
 polilinea_t **polilinea_fig(const figura_t *figura);
-float minimo_x_figura(figura_t *figura);
 
 //manipulacion de datos
 figura_t *cargar_nombre(figura_t **bloque,char *nombre_figura);

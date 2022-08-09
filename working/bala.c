@@ -14,7 +14,6 @@ bala_t *crear_bala(float posicion[2],float direccion){
     bala->posicion[0]=posicion[0];
     bala->posicion[1]=posicion[1];
     bala->direccion=direccion;
-    bala->velocidad=MAX_BAL_VELO;
     bala->tiempo=MAX_BAL_TIEM;
 
     return bala;
@@ -50,6 +49,30 @@ float obtener_tiempo(bala_t *bala){
 void restar_tiempo(bala_t *bala,float tiempo){
     bala->tiempo=(tiempo-(1/JUEGO_FPS));
 }
+void posicion_bala(bala_t *bala,float posicion[2]){
+    posicion[0]=(bala->posicion)[0];
+    posicion[1]=(bala->posicion)[1];
+}
+float direccion_bala(bala_t *bala){
+    return bala->direccion;
+}
+
+void trayectoria_disparo(lista_t *lista){
+    size_t largo=lista_largo(lista);
+    float posicion_actual[2];
+    lista_iter_t *lista_iter=lista_iter_crear(lista);
+    for(size_t i=0;i<largo;i++){
+        bala_t *bala=lista_iter_ver_actual(lista_iter);
+        float direccion=direccion_bala(bala);
+        posicion_bala(bala,posicion_actual);
+        float velocidad[]={MAX_BAL_VELO,MAX_BAL_VELO};
+        rotar_punto(velocidad,posicion_actual,direccion);
+        trasladar(posicion_actual,velocidad);
+        lista_iter_avanzar(lista_iter);
+    }
+    lista_iter_destruir(lista_iter);
+}
+
 
 void destruir_bala(bala_t *bala){
     free(bala);

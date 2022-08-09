@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include "lista.h"
 #include "config.h"
+#include "fisica.h"
 
 
 #define MAX_BAL_ENEM 10
@@ -20,6 +21,7 @@ bool disparo(lista_t *lista,float posicion[2],float direccion);
 bool destruir_disparos(lista_t *lista);
 float obtener_tiempo(bala_t *bala);
 void restar_tiempo(bala_t *bala,float tiempo);
+void trayectoria_disparo(lista_t *lista);
 
 void destruir_bala(bala_t *bala);
 void liquidar_municion(void *bala);

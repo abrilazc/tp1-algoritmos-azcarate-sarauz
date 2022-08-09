@@ -1,6 +1,4 @@
 make all --print-data-base --no-builtin-variables --no-builtin-rules --question
-make: *** No rule to make target 'all'.  Stop.
-
 # GNU Make 4.3
 # Built for x86_64-pc-linux-gnu
 # Copyright (C) 1988-2020 Free Software Foundation, Inc.
@@ -8,7 +6,7 @@ make: *** No rule to make target 'all'.  Stop.
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Mon Aug  8 05:13:44 2022
+# Make data base, printed on Mon Aug  8 14:57:32 2022
 
 # Variables
 
@@ -61,7 +59,7 @@ VSCODE_CODE_CACHE_PATH = /home/abril/.config/Code/CachedData/3b889b090b5ad5793f5
 # environment
 LANG = C
 # environment
-XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.YAEXQ1
+XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.WD5PQ1
 # default
 .LOADED := 
 # default
@@ -97,7 +95,7 @@ SNAP_REEXEC =
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 2749
+VSCODE_PID = 2805
 # environment
 XDG_SESSION_TYPE = wayland
 # automatic
@@ -105,7 +103,7 @@ XDG_SESSION_TYPE = wayland
 # environment
 BAMF_DESKTOP_FILE_HINT = /var/lib/snapd/desktop/applications/code_code.desktop
 # environment
-SESSION_MANAGER = local/abril-VirtualBox:@/tmp/.ICE-unix/1172,unix/abril-VirtualBox:/tmp/.ICE-unix/1172
+SESSION_MANAGER = local/abril-VirtualBox:@/tmp/.ICE-unix/1160,unix/abril-VirtualBox:/tmp/.ICE-unix/1160
 # automatic
 *F = $(notdir $*)
 # environment
@@ -153,7 +151,7 @@ LC_TIME = es_AR.UTF-8
 # environment
 SNAP = /snap/code/102
 # environment
-INVOCATION_ID = b63e4a755863437cbdffeff6750d977e
+INVOCATION_ID = e338b3e6683747238531def2fed83896
 # environment
 SNAP_REVISION = 102
 # environment
@@ -189,7 +187,7 @@ SNAP_ARCH = amd64
 # makefile
 .DEFAULT_GOAL := 
 # environment
-SYSTEMD_EXEC_PID = 1206
+SYSTEMD_EXEC_PID = 1195
 # environment
 DISPLAY = :0
 # environment
@@ -205,11 +203,11 @@ SNAP_DATA = /var/snap/code/102
 # environment
 SNAP_CONTEXT = Cl8BI7CyRD4Zrous5ZAiMhsRhrbVcyFLt_kfDuZ98ITSotkpcvUg
 # environment
-MANAGERPID = 970
+MANAGERPID = 980
 # environment
 LC_MEASUREMENT = es_AR.UTF-8
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 2702
+GIO_LAUNCHED_DESKTOP_FILE_PID = 2752
 # environment
 _ = /snap/code/102/usr/share/code/code
 # environment
@@ -219,7 +217,7 @@ XDG_RUNTIME_DIR = /run/user/1000
 # environment
 GDK_PIXBUF_MODULE_FILE = /home/abril/snap/code/common/.cache/gdk-pixbuf-loaders.cache
 # environment
-JOURNAL_STREAM = 8:20133
+JOURNAL_STREAM = 8:20885
 # environment
 XDG_SESSION_CLASS = user
 # environment
@@ -282,6 +280,9 @@ SNAP_LIBRARY_PATH = /var/lib/snapd/lib/gl:/var/lib/snapd/lib/gl32:/var/lib/snapd
 # No implicit rules.
 
 # Files
+ 
+make: *** No rule to make target 'all'.  Stop.
+
 
 # Not a target:
 Makefile:
@@ -296,7 +297,6 @@ Makefile:
 #  Modification time never checked.
 #  File has not been updated.
 
- 
 # Not a target:
 all:
 #  Command line target.
@@ -332,6 +332,6 @@ GNUmakefile:
 # strcache performance: lookups = 19 / hit rate = 15%
 # hash-table stats:
 # Load=16/8192=0%, Rehash=0, Collisions=0/19=0%
-# Finished Make data base on Mon Aug  8 05:13:44 2022
+# Finished Make data base on Mon Aug  8 14:57:32 2022
 
  

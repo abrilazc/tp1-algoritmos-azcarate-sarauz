@@ -147,20 +147,34 @@ size_t cantidad_poli_fig(const figura_t *figura){
 polilinea_t **polilinea_fig(const figura_t *figura){
     return figura->polilineas;
 }
-float minimo_x_figura(figura_t *figura){
+void extremos_figura(figura_t *figura, float minimos[2], float maximos[2]){
   polilinea_t **polilinea=polilinea_fig(figura);
   size_t cantidad_polilineas=cantidad_poli_fig(figura);
-  float min=MAX_SIZE;
+  minimos[0]=MAX_SIZE;
+  float x,y;
   for(size_t i=0;cantidad_polilineas;i++){
-    polilinea_t polilinea_nueva=polilinea[i];
+    polilinea_t *polilinea_nueva=polilinea[i];
     size_t puntos=polilinea_cantidad_puntos(polilinea_nueva);
-    for(size_t j=0;j<puntos;j++){
-      if(min>polilinea_nueva[j][0])
-        min=polilinea_nueva[j][0];
+    for(size_t i=1;i<puntos;i++){
+        polilinea_obtener_punto(polilinea_nueva,i,&x,&y);
+        if(x<minimos[0]){
+            minimos[0]=x;
+        }
+        else if(x>maximos[0]){
+            maximos[0]=x;
+        }
+        if(y<minimos[1]){
+            minimos[1]=y;
+        }
+        else if(y>maximos[1]){
+            maximos[1]=y;
+        }
+        else
+            continue;
+    }
     }
   }
-  return min;
-}
+
 
 
 //gestor de memoria

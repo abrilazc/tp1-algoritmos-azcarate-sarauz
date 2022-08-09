@@ -87,7 +87,6 @@ bool dibujar_polilinea(SDL_Renderer *renderer,polilinea_t *poli_dibu, float posi
     color_a_rgb(color, &r, &g, &b);
     SDL_SetRenderDrawColor(renderer, r, g, b, 0x00);
     //arreglar matriz[][] de las cosas de abajo
-    
     for(size_t j=0;j<cant_punt-1;j++){
     SDL_RenderDrawLine(
         renderer,   

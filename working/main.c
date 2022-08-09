@@ -27,7 +27,7 @@ int main() {
     figura_t ***figuras=inicio(cantidad_figuras);
     if(figuras==NULL)
         return 1;
-    bool pantalla_inicio_ingreso=true;
+    bool pantalla_inicio_spawn=true;
     bool nivel_inicio=true;
     size_t cantidad_niveles=cantidad_figuras[1];
     nivel_t **niveles=crear_niveles(figuras[1], cantidad_niveles);
@@ -68,9 +68,9 @@ int main() {
         // BEGIN código del alumno
         // Dibujamos la nave escalada por f en el centro de la pantalla:
         if(nivel_inicio){
-            if(pantalla_inicio_ingreso){
-                cargar_pantalla_inicio(nave);
-                pantalla_inicio_ingreso=false;
+            if(pantalla_inicio_spawn){
+                cargar_pantalla_inicio(nave,planeta_actual,pantalla_inicio_spawn);
+                pantalla_inicio_spawn=false;
             }
             nivel_inicio=pantalla_inicio_mostrar(nave, figuras, niveles, renderer, &f, &planeta_actual);
             }

@@ -5,6 +5,7 @@
         "stdio.h": "c",
         "figura.h": "c",
         "polilinea.h": "c",
-        "game.h": "c"
+        "game.h": "c",
+        "lista.h": "c"
     }
 }

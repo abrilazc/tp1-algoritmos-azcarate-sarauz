@@ -3,7 +3,10 @@
 #include "fisica.h"
 #include "nave.h"
 #include "pantalla.h"
+#include "bala.h"
 //#include "lista.h"
+// -Werror
+
 int main(void){
 
     size_t cantidad_figuras[8]={0,0,0,0,0,0,0,0};
@@ -27,19 +30,19 @@ int main(void){
     lista_t *balas_propias=lista_crear();
     lista_t *balas_enemigas=lista_crear();
     
-    //veo tamaños
+    //ITERADOR
+
     size_t cantidad_combustible= get_cantidad_combustible(nivel);
     size_t cantidad_torretas= get_cantidad_torretas(nivel);
     size_t cantidad_balas=lista_largo(balas_propias);
     size_t cantidad_ataques=lista_largo(balas_enemigas);
     
-    //ITERADOR
+    
     //float posi[]={1667,113};
     printf("cantidad original: %zd\n", cantidad_combustible);
-    
-    //revisar choque borde:
-    //if(interseccion_nave_polilinea(nave,figura[5],planeta))
 
+    //revisar choque borde:
+    if(interseccion_nave_polilinea(nave,figuras[5],planeta));
     if(cantidad_combustible!=0){//y el escudo activado
         if(interseccion_lista_nave(nave,&cantidad_combustible, combustible,figuras[5], "COMBUSTIBLE")){
             //ganar_combustible
@@ -48,12 +51,28 @@ int main(void){
     }
     if(cantidad_torretas!=0){
         if(interseccion_lista_nave(nave,&cantidad_torretas, torreta,figuras[6], "TORRETA")){
-            printf("se realizó disparo\n");
-        } 
-        size_t bajas;
+            if(cantidad_ataques<MAX_BAL_ENEM){
+                size_t numero_torreta=cantidad_torretas;
+                lista_iter_t *lista_iter=lista_iter_crear(torreta);
+                printf("nave apuntada por torretas\n");
+                for(size_t i=0;i<(numero_torreta+1);i++){
+                    lista_iter_avanzar(lista_iter);
+                }   
+                objeto_t *orig=lista_iter_ver_actual(lista_iter);
+                float posicion_d[2];
+                float direccion_d;
+                objeto_a_posicion(orig,posicion_d);
+                objeto_a_direccion(orig,&direccion_d);
+                disparo(balas_enemigas,posicion_d,direccion_d);
+                printf("se realizó disparo\n");
+            }
+            cantidad_torretas=lista_largo(torreta);
+        }
+        
+        size_t bajas=0;
         if(cantidad_balas!=0){
-        bajas=interseccion_lista_lista(balas, torreta,&cantidad_torretas);
-        printf("%zd bajas enemigas\n",bajas);
+            bajas=interseccion_lista_lista(balas_propias, torreta,&cantidad_torretas);
+            printf("%zd bajas enemigas\n",bajas);
         }
         size_t i=0;
         while(i<bajas){
@@ -66,7 +85,7 @@ int main(void){
         }
     }
     if(cantidad_ataques!=0){
-        if(interseccion_lista_nave(nave,&cantidad_ataque,ataque_enemigo,figuras[2],"DISPARO")){
+        if(interseccion_lista_nave(nave,&cantidad_ataques,balas_enemigas,figuras[2],"DISPARO"))
         printf("nave pierde una vida");
     }
     if(cantidad_reactores(planeta)){
@@ -82,12 +101,15 @@ int main(void){
         }
     }
     
+    destruir_disparos(balas_propias);
+    destruir_disparos(balas_enemigas);
 
-    //conteo balas amigas
-    //conteo balas enemigas
     //printf("cantidad cambiada: %zd\n", cantidad_combustible);
     
     //dibujar todo
+
+    lista_destruir(balas_propias,liquidar_municion);
+    lista_destruir(balas_enemigas,liquidar_municion);
 
     destruir_figuras(figuras,cantidad_figuras);
     destruir_niveles(niveles,cantidad_niveles);

@@ -29,7 +29,7 @@ nivel_t **crear_niveles(figura_t **figura, size_t cantidad);
 lista_t *lista_combustible(planeta_nombre planeta);
 lista_t *lista_torreta(planeta_nombre planeta);
 reactor_t *crear_reactor(planeta_nombre planeta);
-bala_t *crear_bala(float posicion[2],float direccion)
+
 //objetos
 objeto_t *crear_objeto(vector_t *referencia, size_t fila);
 void armar_lista_combustible(lista_t *lista, planeta_nombre planeta);

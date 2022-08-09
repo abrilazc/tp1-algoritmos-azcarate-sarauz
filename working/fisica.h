@@ -22,6 +22,7 @@ void colision_rebote(nave_t *nave); //llamada en caso de colisiones que causan u
 
 bool colision_rebote_ni(nave_t *nave, bool *inicio); //llamada en caso de colisiones que causan un rebote
 
+
 void computar_posicion(nave_t *nave, float pos_g[2]);
 
 void trasladar(float pos[2],float v[2]); //llamada para mover un objeto

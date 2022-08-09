@@ -93,6 +93,7 @@ bool colision_rebote_ni(nave_t *nave, bool *inicio){
     return false;
 }
 
+
 float dist_puntos(float a[2], float b[2]){
     return sqrt(pow(b[0]-a[0],2)+pow(b[1]-a[1],2));
 }

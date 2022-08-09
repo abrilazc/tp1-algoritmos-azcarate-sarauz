@@ -8,6 +8,8 @@
 #include <stdint.h>
 #include "nave.h"
 #include "nivel.h"
+#include "fisica.h"
+
 #define MAX_TIPOS 8
 
 
@@ -18,6 +20,8 @@ void registrar_teclas(nave_t *nave, SDL_Event event, bool *held_down);
 void clear_renderer(SDL_Renderer *renderer);
 
 void render_nave(nave_t *nave, SDL_Renderer *renderer, figura_t ***figuras, size_t f);
+
+bool camara_inf(nave_t *nave, bool *inicio);
 
 void muerte(nave_t *nave);
 

@@ -103,15 +103,7 @@ bool interseccion_lista_nave(nave_t *nave,size_t *cantidad, lista_t *lista,figur
         if(colision(puntos_polilinea, puntos, posicion_nave, r)){//posi=posicion_nave
             if(!strcmp(nombre,"TORRETA")){
                 printf("nave apuntada por torretas\n");
-                if(balas_enemigas<MAX_BAL_ENEM){
-                    objeto_t *orig=lista_iter_ver_actual(lista_iter);
-                    float posicion[2];
-                    float direccion;
-                    objeto_a_posicion(orig,posicion);
-                    objeto_a_direccion(orig,direccion);
-                    disparo(lista,posicion,direccion);
-                    printf("nave apuntada por torretas\n");
-                }
+                *cantidad=i;
                 lista_iter_destruir(lista_iter);
                 return true;
             }

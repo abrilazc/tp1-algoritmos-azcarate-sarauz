@@ -127,7 +127,6 @@ void puntos_nivel(nave_t *nave, size_t puntos){
         nave->puntos_relativos-=10000;
     }
 }
-
 //getters
 bool chorro_get(nave_t *nave){
     return nave->chorro;

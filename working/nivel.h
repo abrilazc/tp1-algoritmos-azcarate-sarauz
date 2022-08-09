@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include "lista.h"
 #include "figura.h"
+#include "nave.h"
 //#include "config.h"
 
 

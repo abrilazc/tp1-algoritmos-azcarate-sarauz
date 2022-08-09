@@ -4,10 +4,12 @@
 #include "nave.h"
 #include "pantalla.h"
 #include "bala.h"
+#include <SDL2/SDL.h>
 //#include "lista.h"
 // -Werror
 
 int main(void){
+
 
     size_t cantidad_figuras[8]={0,0,0,0,0,0,0,0};
     figura_t ***figuras=inicio(cantidad_figuras);
@@ -21,15 +23,20 @@ int main(void){
     //creo niveles
     nivel_t **niveles=crear_niveles(figuras[1],cantidad_niveles);
     nave_t *nave=nave_crear(figuras[2]);
-    planeta_nombre planeta=NIVEL1NE;
-    nivel_t *nivel=cargar_datos_nivel(niveles,planeta);
+    planeta_nombre planeta_actual=NIVEL1NE;
+    nivel_t *nivel=niveles[planeta_actual];
+    bool pantalla_inicio_spawn=true;
+    //float posicion_nave[]={0,0};
+    //float escala=1;
+
+
+    printf("positivo %d",pantalla_inicio_spawn);
     
     //inicializo variables
     lista_t *combustible=get_lista_combustible(nivel);
     lista_t *torreta=get_lista_torreta(nivel);
     lista_t *balas_propias=lista_crear();
     lista_t *balas_enemigas=lista_crear();
-    
     //ITERADOR
 
     size_t cantidad_combustible= get_cantidad_combustible(nivel);
@@ -37,19 +44,31 @@ int main(void){
     size_t cantidad_balas=lista_largo(balas_propias);
     size_t cantidad_ataques=lista_largo(balas_enemigas);
     
-    
+    float origen[]={VENTANA_ANCHO/2,VENTANA_ALTO*MARGEN_ALTURA};
+
     //float posi[]={1667,113};
-    printf("cantidad original: %zd\n", cantidad_combustible);
+    printf("cantidad original: %zd\n", cantidad_torretas);
 
     //revisar choque borde:
-    if(interseccion_nave_polilinea(nave,figuras[5],planeta));
+   
+
+    if(interseccion_nave_polilinea(nave,figuras[5],planeta_actual)){
+        if(!vidas_decrementar(nave)){
+        lista_destruir(balas_propias,liquidar_municion);
+        lista_destruir(balas_enemigas,liquidar_municion);
+        cargar_pantalla_inicio(nave);
+        }
+        nave_posicion_set(nave,origen);
+    }
     if(cantidad_combustible!=0){//y el escudo activado
+        //dibujar_lista(figuras[5],combustible,"COMBUSTIBLE",renderer,escala); 
         if(interseccion_lista_nave(nave,&cantidad_combustible, combustible,figuras[5], "COMBUSTIBLE")){
-            //ganar_combustible
+            combustible_cargar(nave);
             printf("carga comb");
         }
     }
     if(cantidad_torretas!=0){
+        //dibujar_lista(figuras[6],torreta,"TORRETA",renderer,escala);
         if(interseccion_lista_nave(nave,&cantidad_torretas, torreta,figuras[6], "TORRETA")){
             if(cantidad_ataques<MAX_BAL_ENEM){
                 size_t numero_torreta=cantidad_torretas;
@@ -71,40 +90,73 @@ int main(void){
         
         size_t bajas=0;
         if(cantidad_balas!=0){
+            trayectoria_disparo(balas_propias);
+            //dibujar_lista(figuras[2],balas_propias,"DISPARO",renderer,escala);
             bajas=interseccion_lista_lista(balas_propias, torreta,&cantidad_torretas);
             printf("%zd bajas enemigas\n",bajas);
         }
         size_t i=0;
         while(i<bajas){
             i++;
-            //gana puntos
+            puntos_torreta(nave);
             if(cantidad_torretas==0){
-                //gana mas puntos
+                puntos_planeta(nave,planeta_actual);
                 printf("pasas nviel");
             }
         }
     }
     if(cantidad_ataques!=0){
+        trayectoria_disparo(balas_enemigas);
+        //dibujar_lista(figuras[2],balas_enemigas,"DISPARO",renderer,escala);
         if(interseccion_lista_nave(nave,&cantidad_ataques,balas_enemigas,figuras[2],"DISPARO"))
-        printf("nave pierde una vida");
+            if(!vidas_decrementar(nave)){
+                    lista_destruir(balas_propias,liquidar_municion);
+                    lista_destruir(balas_enemigas,liquidar_municion);
+                    pantalla_inicio_spawn=false;
+                    destruir_niveles(niveles,cantidad_niveles);
+                    nave_destruir(nave);
+                    niveles=crear_niveles(figuras[1],cantidad_niveles);
+                    nave=nave_crear(figuras[2]);
+                   // break;
+            }
     }
-    if(cantidad_reactores(planeta)){
+    if(cantidad_reactores(planeta_actual)){
         if(check_reactor_nivel(nivel)){
             if(get_tiempo(nivel)>0){
                 float posicion_r[2];
                 float direccion_r=0;
                 get_posicion_reactor(nivel,posicion_r);
-                //get_inclinacion_reactor(reactor,direccion_r);
-                //dibujar
-                printf("%f %f %f \n",posicion_r[0],posicion_r[1],direccion_r);
+                direccion_r=get_direccion_reactor(nivel);
+                rotar_punto(posicion_r,origen,direccion_r);
+                //dibujar_figura(renderer,figuras[7],"REACTOR",posicion_nave,escala);
             }
+            if(!vidas_decrementar(nave)){
+                lista_destruir(balas_propias,liquidar_municion);
+                lista_destruir(balas_enemigas,liquidar_municion);
+                pantalla_inicio_spawn=false;
+                destruir_niveles(niveles, cantidad_niveles);
+                nave_destruir(nave);
+                niveles=crear_niveles(figuras[1],cantidad_niveles);
+                nave=nave_crear(figuras[2]);
+                //break;
+            }
+            nave_posicion_set(nave,origen);
         }
     }
-    
+
     destruir_disparos(balas_propias);
     destruir_disparos(balas_enemigas);
 
-    //printf("cantidad cambiada: %zd\n", cantidad_combustible);
+
+    
+       
+/*
+    dibujar_figura(renderer,figuras[2],"NAVE",posicion_nave,escala);
+    if(chorro_get(nave)){
+        dibujar_figura(renderer,figuras[2],"NAVE+CHORRO",posicion_nave,escala);
+    }
+    dibujar_figura(renderer,figuras[1],(char *)nombre_asignado(planeta_actual),posicion_nave,escala);
+*/    
     
     //dibujar todo
 
@@ -117,21 +169,7 @@ int main(void){
 
     return 1;
 }
-    //eventos
-
-    //localizar combustible
-    //dibujar combustible 
-    
-    //localizar torretas  
-    //destruir torretas  
-    //dibujar torretas
-    //dibujar torretas disparando
-
-    //afirmar reactor
-    //localizar reactor
-    //destruir reactor
-    //dibujar reactor
-    //descontar tiempo reactor
+ 
 
 
 
@@ -163,7 +201,7 @@ float direccion_torreta;
     void armar_lista(lista_t *lista, objeto_t *objeto, planeta_nombre planeta,vector_t* funcion (planeta_nombre planeta,*(int) cantidad)){
         cantidad=0;
         size_t fila=0;
-        float posicion[2]={0,0};
+        float posicion[2]=origen;;
         float direccion=0;
 
         vector_t *referencia=funcion(planeta,&cantidad);

@@ -9,7 +9,10 @@ struct figura{
     size_t cantidad_polilineas;
     polilinea_t **polilineas;
 };
-
+/*struct varias_figuras{
+    figura_t **figura;
+    size_t cantidad;
+};*/
 const char* figura_tipo_a_cadena(figura_tipo_t figura){
     static const char* tipo[]={
     [ICONO]="Icono",
@@ -147,22 +150,6 @@ size_t cantidad_poli_fig(const figura_t *figura){
 polilinea_t **polilinea_fig(const figura_t *figura){
     return figura->polilineas;
 }
-/*
-float minimo_x_figura(figura_t *figura){
-  polilinea_t **polilinea=polilinea_fig(figura);
-  size_t cantidad_polilineas=cantidad_poli_fig(figura);
-  float min=MAX_SIZE;
-  for(size_t i=0;cantidad_polilineas;i++){
-    polilinea_t polilinea_nueva=polilinea[i];
-    size_t puntos=polilinea_cantidad_puntos(polilinea_nueva);
-    for(size_t j=0;j<puntos;j++){
-      if(min>polilinea_nueva[j][0])
-        min=polilinea_nueva[j][0];
-    }
-  }
-  return min;
-}*/
-
 
 //gestor de memoria
 figura_t *cargar_nombre(figura_t **bloque,char *nombre_figura){

@@ -55,6 +55,17 @@ const bool cantidad_reactores(planeta_nombre nombre){
     };
     return cantidad[nombre];
 }
+//bonus terminar planeta
+const size_t bonus_nivel(planeta_nombre nombre){
+    static const size_t cantidad[]={
+    [NIVEL1NE]=2000,
+    [NIVEL1SE]=4000,
+    [NIVEL1R]=9000,
+    [NIVEL1NW]=8000,
+    [NIVEL1SW]=6000
+    };
+    return cantidad[nombre];
+}
 //Nombres
 const char* nombre_asignado(planeta_nombre nombre){
     static const char* asignacion[]={
@@ -253,10 +264,6 @@ nivel_t *cargar_datos_nivel(nivel_t **niveles,planeta_nombre nombre){
 bool get_infinito(nivel_t *nivel){
     return nivel->infinito;
 }
-/*reactor_t *get_reactor_nivel(nivel_t *nivel){
-    reactor_t reactor=nivel->reactor;
-    return reactor;
-}*/
 size_t get_cantidad_torretas(nivel_t *nivel){
     return lista_largo(nivel->torreta);
 }
@@ -303,6 +310,12 @@ float get_tiempo(nivel_t *nivel){
     float tiempo=reactor->tiempo;
     return tiempo;
 }
+//puntos
+void puntos_planeta(nave_t *nave,planeta_nombre planeta){
+    size_t puntos=bonus_nivel(planeta);
+    puntos_nivel(nave,puntos);
+}
+
 
 //DESTRUIR
 //lista_destruir

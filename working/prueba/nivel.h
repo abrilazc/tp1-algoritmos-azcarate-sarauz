@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include "lista.h"
 #include "figura.h"
+#include "nave.h"
 //#include "config.h"
 
 
@@ -48,7 +49,6 @@ const bool cantidad_reactores(planeta_nombre nombre);
 const char* nombre_asignado(planeta_nombre nombre);
 //getter externo
 bool get_infinito(nivel_t *nivel);
-//reactor_t *get_reactor_nivel(nivel_t *nivel)
 size_t get_cantidad_torretas(nivel_t *nivel);
 size_t get_cantidad_combustible(nivel_t *nivel);
 lista_t *get_lista_torreta(nivel_t *nivel);
@@ -61,6 +61,8 @@ bool check_reactor_nivel(nivel_t *nivel);
 void get_posicion_reactor(nivel_t *nivel, float *posicion);
 float get_direccion_reactor(nivel_t *nivel);
 float get_tiempo(nivel_t *nivel);
+//puntos
+void puntos_planeta(nave_t *nave,planeta_nombre planeta);
 
 //DESTRUIR
 //lista_destruir

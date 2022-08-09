@@ -25,3 +25,58 @@ figura_t ***inicio(size_t cant_figuras[MAX_TIPOS]){
     free(memoria);
     return figuras;
 }
+
+void registrar_teclas(nave_t *nave, SDL_Event event, bool *held_down){
+    if (event.type == SDL_KEYDOWN) {
+    // Se apretó una tecla
+        switch(event.key.keysym.sym) {
+            case SDLK_UP:
+                // Prendemos el chorro:
+                chorro_set(nave);
+                break;
+            case SDLK_DOWN:
+                //prendemos el escudo
+                if(!*held_down){
+                    if(escudo_get(nave))
+                        escudo_clear(nave);
+                    else
+                        escudo_set(nave);
+                }
+                    
+                break;
+            case SDLK_RIGHT:
+                //rotar horario
+                nave_rotar_horario(nave);
+                break;
+            case SDLK_LEFT:
+                //rotar antihorario
+                nave_rotar_antihorario(nave);
+                break;
+            case SDLK_SPACE:
+                //disparar
+                break;
+        }
+    }
+    else if (event.type == SDL_KEYUP) {
+        // Se soltó una tecla
+        switch(event.key.keysym.sym){
+            case SDLK_UP:
+                // Apagamos el chorro:
+                chorro_clear(nave);
+                break;
+            case SDLK_DOWN:
+                *held_down=false;
+                break;
+        }
+    }
+}
+void render_nave(nave_t *nave, SDL_Renderer *renderer, figura_t ***figuras, size_t f){
+    float posicion[2];
+    nave_posicion_get(nave, posicion);
+    if(dibujar_figura(renderer, figuras[2], "NAVE",posicion,f)==false) printf("fail");
+        if(chorro_get(nave)) {
+            if(dibujar_figura(renderer, figuras[2], "NAVE+CHORRO",posicion,f)==false) printf("fail");
+        }
+        if(escudo_get(nave))
+            if(dibujar_figura(renderer, figuras[2], "ESCUDO2",posicion,f)==false) printf("fail");
+}

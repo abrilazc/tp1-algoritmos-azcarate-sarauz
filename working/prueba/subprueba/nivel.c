@@ -317,7 +317,6 @@ void destruir_reactor(reactor_t *reactor){
 }
 //nivel
 void destruir_nivel(nivel_t *nivel){
-    //destruir (figura); este no va, porque lo unico que obtiene es la direccion de otro generador de figura
     lista_destruir(nivel->combustible,destruir_bien);
     lista_destruir(nivel->torreta,destruir_bien);
     destruir_reactor(nivel->reactor);

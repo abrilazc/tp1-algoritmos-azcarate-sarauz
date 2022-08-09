@@ -5,7 +5,6 @@
 #include "config.h"
 #include <stdint.h>
 
-
 struct nave;
 
 typedef struct nave nave_t;

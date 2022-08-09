@@ -10,8 +10,9 @@
 #include "config.h"
 #include "polilinea.h"
 #include "nave.h"
+#include "pantalla.h"
 
-#define RADIONAVE 50//o cualquier valor
+#define RADIONAVE 25//o cualquier valor
 #define DT 1/(JUEGO_FPS*1.00)
 
 
@@ -19,7 +20,7 @@ float dist_puntos(float a[2], float b[2]);
 
 void colision_rebote(nave_t *nave); //llamada en caso de colisiones que causan un rebote
 
-void colision_rebote_ni(nave_t *nave, bool *inicio); //llamada en caso de colisiones que causan un rebote
+bool colision_rebote_ni(nave_t *nave, bool *inicio); //llamada en caso de colisiones que causan un rebote
 
 void computar_posicion(nave_t *nave, float pos_g[2]);
 

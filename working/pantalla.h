@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include "fisica.h"
 //pantallas
-void cargar_pantalla_inicio(nave_t *nave);
+void cargar_pantalla_inicio(nave_t *nave, planeta_nombre planeta_actual,bool spawn);
 bool pantalla_inicio_mostrar(nave_t *nave,figura_t ***figuras, nivel_t **niveles, SDL_Renderer *renderer, float *f, planeta_nombre *planeta_actual);
 void cargar_nivel(nave_t *nave,nivel_t **niveles, planeta_nombre planeta_actual);
 void pantalla_nivel(nave_t *nave, figura_t ***figuras, SDL_Renderer *renderer, bool *goto_inicio, planeta_nombre *planeta_actual, float *f,float *centro);

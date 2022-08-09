@@ -25,10 +25,10 @@ bool camara_inf(nave_t *nave, bool *inicio);
 
 void muerte(nave_t *nave);
 
-void calcular_escala_inf(float posicion_nave_y, float *escala);
+void calcular_escala_inf(float posicion_nave_y, float *escalada);
 
 void calcular_centro_inf(const float escala,const float posicion_nave_x, float *centro);
 
-void calcular_escala(figura_t **figuras, planeta_nombre *planeta_actual,float *escala, float *centro);
+void calcular_escala(figura_t **figuras, planeta_nombre *planeta_actual,float *escala, float *centro,float min_max[2]);
 
 #endif

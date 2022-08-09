@@ -1,9 +1,6 @@
 
 #include "game.h"
 
-
-
-
 figura_t ***inicio(size_t cant_figuras[MAX_TIPOS]){
 
     FILE *f = fopen("figuras.bin", "rb");
@@ -88,6 +85,33 @@ void calcular_escala_inf(float posicion_nave_y, float *escala){
         *escala = ESCALA_MINIMA;
 
 }
+/*
+bool camara_inf(nave_t *nave, bool *inicio){
+    float pos[2];
+    float v[2];
+    float camara=posicion_camara_get(nave);
+    nave_posicion_get(nave, pos);
+    nave_velocidad_get(nave, v);
+    
+    if(pos[0]>=(camara+((VENTANA_ANCHO / 2) * MARGEN_ANCHO)))
+        camara+=(v[0]*DT);
+    }
+    
+    nave_velocidad_set(nave, v);
+    return false;
+}
+*/
+void render_nave_inf(nave_t *nave, SDL_Renderer *renderer, figura_t ***figuras, size_t f){
+    float posicion[2];
+    nave_posicion_get(nave, posicion);
+    if(dibujar_figura(renderer, figuras[2], "NAVE",posicion,f)==false) printf("fail");
+        if(chorro_get(nave)) {
+            if(dibujar_figura(renderer, figuras[2], "NAVE+CHORRO",posicion,f)==false) printf("fail");
+        }
+        if(escudo_get(nave))
+            if(dibujar_figura(renderer, figuras[2], "ESCUDO2",posicion,f)==false) printf("fail");
+}
+
 
 void calcular_centro_inf(float escala,float posicion_nave_x, float *centro){
     if((posicion_nave_x - *centro) * escala > VENTANA_ANCHO / 2 * MARGEN_ANCHO)
@@ -131,5 +155,4 @@ void calcular_escala(figura_t **figuras, planeta_nombre *planeta_actual,float *e
     *centro = (planeta_ancho + planeta_x_min) / 2;
     printf("centro:%.2f ancho:%.2f alto:%.2f \n" ,*centro, planeta_ancho,planeta_alto);
 }
-
 

@@ -53,7 +53,7 @@ bool infinito_fig(const figura_t *figura);
 figura_tipo_t tipo_fig(const figura_t *figura);
 size_t cantidad_poli_fig(const figura_t *figura);
 polilinea_t **polilinea_fig(const figura_t *figura);
-float minimo_x_figura(figura_t *figura);
+void extremos_figura(figura_t *figura, float minimos[2], float maximos[2]);
 
 //manipulacion de datos
 figura_t *cargar_nombre(figura_t **bloque,char *nombre_figura);

@@ -21,7 +21,7 @@ typedef struct nivel nivel_t;
 
 typedef enum{NIVEL1NE,NIVEL1SE,NIVEL1R,NIVEL1NW,NIVEL1SW}planeta_nombre;
 
-//CREAR
+//CREARS
 //niveles
 nivel_t *crear_nivel(figura_t **figura,planeta_nombre planeta);
 nivel_t **crear_niveles(figura_t **figura, size_t cantidad);
@@ -29,7 +29,7 @@ nivel_t **crear_niveles(figura_t **figura, size_t cantidad);
 lista_t *lista_combustible(planeta_nombre planeta);
 lista_t *lista_torreta(planeta_nombre planeta);
 reactor_t *crear_reactor(planeta_nombre planeta);
-bala_t *crear_bala(float posicion[2],float direccion)
+//bala_t *crear_bala(float posicion[2],float direccion);
 //objetos
 objeto_t *crear_objeto(vector_t *referencia, size_t fila);
 void armar_lista_combustible(lista_t *lista, planeta_nombre planeta);

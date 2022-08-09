@@ -89,7 +89,7 @@ void calcular_escala_inf(float posicion_nave_y, float *escala){
 
 }
 
-void calcular_centro_inf(const float escala,const float posicion_nave_x, float *centro){
+void calcular_centro_inf(float escala,float posicion_nave_x, float *centro){
     if((posicion_nave_x - *centro) * escala > VENTANA_ANCHO / 2 * MARGEN_ANCHO)
         *centro = posicion_nave_x - VENTANA_ANCHO / 2 * MARGEN_ANCHO / escala;
     else if((*centro - posicion_nave_x) * escala > VENTANA_ANCHO / 2 * MARGEN_ANCHO)
@@ -128,7 +128,7 @@ void calcular_escala(figura_t **figuras, planeta_nombre *planeta_actual,float *e
     *escala = VENTANA_ALTO * 1.0 / planeta_alto;
     if((VENTANA_ANCHO * 1.0 / (planeta_ancho + planeta_x_min)) < *escala)
         *escala = VENTANA_ANCHO * 1.0 / (planeta_ancho + planeta_x_min);
-    *centro = (planeta_x_max+planeta_x_min)/2.0;
+    *centro = (planeta_ancho + planeta_x_min) / 2;
     printf("centro:%.2f ancho:%.2f alto:%.2f \n" ,*centro, planeta_ancho,planeta_alto);
 }
 

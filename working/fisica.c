@@ -67,16 +67,14 @@ void colision_rebote(nave_t *nave){
     nave_posicion_get(nave, pos);
     nave_velocidad_get(nave, v);
     if(pos[0]<=0||pos[0]>=VENTANA_ANCHO){
-        printf("rebote x %.2f\n",v[0]);
         v[0]=(-v[0]);
     }
     else if(pos[1]<=0||pos[1]>=VENTANA_ALTO){
         v[1]=(-v[1]);
-        printf("rebote y %.2f\n",v[1]);
     }
     nave_velocidad_set(nave, v);
 }
-void colision_rebote_ni(nave_t *nave, bool *inicio){
+bool colision_rebote_ni(nave_t *nave, bool *inicio){
     float pos[2];
     float v[2];
     nave_posicion_get(nave, pos);
@@ -86,11 +84,13 @@ void colision_rebote_ni(nave_t *nave, bool *inicio){
     }
     else if(pos[1]>=VENTANA_ALTO){
         *inicio=true;
+        return true;
     }
     else if(pos[1]<=0){
         v[1]=(-v[1]);
     }
     nave_velocidad_set(nave, v);
+    return false;
 }
 
 float dist_puntos(float a[2], float b[2]){

@@ -5,6 +5,9 @@
 #define CARACTER_ALTO 6
 
 float **polilinea_caracter(char caracter);
+bool numero_a_polilinea(int numero,SDL_Renderer *renderer, float posicion[2], float escala);
+bool palabra_a_polilinea(SDL_Renderer *renderer,char *palabra, float posicion[2], float escala);
+polilinea_t *letra_a_polilinea(char caracter);
 
 extern const float caracter_a[7][2];
 extern const float caracter_b[12][2];

@@ -30,8 +30,8 @@ void cargar_pantalla_inicio(nave_t *nave, planeta_nombre planeta_actual,bool spa
     float pos[2];
     if(spawn){
         pos_planetas(0,pos);
-        vidas_set(nave);
-        
+        vidas_reiniciar(nave);
+
     }
         
     else {
@@ -50,7 +50,7 @@ void cargar_pantalla_inicio(nave_t *nave, planeta_nombre planeta_actual,bool spa
 }
 
 void cargar_nivel(nave_t *nave, nivel_t **niveles, planeta_nombre planeta_actual){
-    float posicion[2]={VENTANA_ANCHO/2,VENTANA_ALTO};
+    float posicion[2]={VENTANA_ANCHO/2,VENTANA_ALTO*0.9};
     float velocidad[2]={0,0};
     nave_posicion_set(nave, posicion);
     nave_velocidad_set(nave, velocidad);
@@ -87,7 +87,7 @@ void planeta_infinito(nave_t* nave, SDL_Renderer *renderer, figura_t ***figuras,
     calcular_escala_inf(posicion[1], f);
     calcular_centro_inf(*f,posicion[0], centro);
     float camara[2]={0,0};
-    camara[0]=(*centro + VENTANA_ANCHO / 2 / *f);
+    camara[0]=(-(*centro + VENTANA_ANCHO / 2 / *f)*(*f));
     if(*planeta_actual==NIVEL1NE){
         printf("NIVEL1NE");
         dibujar_figura(renderer,figuras[1], "NIVEL1NE",camara,*f);

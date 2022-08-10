@@ -8,6 +8,10 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include "fisica.h"
+#include "bala.h"
+#include "lista.h"
+
+
 //pantallas
 void cargar_pantalla_inicio(nave_t *nave, planeta_nombre planeta_actual,bool spawn);
 bool pantalla_inicio_mostrar(nave_t *nave,figura_t ***figuras, nivel_t **niveles, SDL_Renderer *renderer, float *f, planeta_nombre *planeta_actual);

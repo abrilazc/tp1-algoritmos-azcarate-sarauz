@@ -1,101 +1,17 @@
 #include "caracteres.h"
 
-struct caracter{
-    const float (*puntos)[2];
+
+#define CARACTER_ANCHO 6
+#define CARACTER_ALTO 6
+
+#define MAX_CARACTER 50
+#define MAX_CARACTERES 42
+
+struct carac{
 	char letra;
-    size_t longitud;
+	const float (*polilinea)[2];
+	size_t tam;
 };
-
-
-
-cater_t *estructura_letra(char dato){
-	static const cater_t caracteres[]={
-		{caracter_a,'a', sizeof(caracter_a)/(2*sizeof(float))},
-		{caracter_b,'b', sizeof(caracter_b)/(2*sizeof(float))},
-		{caracter_c,'c', sizeof(caracter_c)/(2*sizeof(float))},
-		{caracter_d,'d', sizeof(caracter_d)/(2*sizeof(float))},
-		{caracter_e,'e', sizeof(caracter_e)/(2*sizeof(float))},
-		{caracter_f,'f', sizeof(caracter_f)/(2*sizeof(float))},
-		{caracter_g,'g', sizeof(caracter_g)/(2*sizeof(float))},
-		{caracter_h,'h', sizeof(caracter_h)/(2*sizeof(float))},
-		{caracter_i,'i', sizeof(caracter_i)/(2*sizeof(float))},
-		{caracter_j,'j', sizeof(caracter_j)/(2*sizeof(float))},
-		{caracter_k,'k', sizeof(caracter_k)/(2*sizeof(float))},
-		{caracter_l,'l', sizeof(caracter_l)/(2*sizeof(float))},
-		{caracter_m,'m', sizeof(caracter_m)/(2*sizeof(float))},
-		{caracter_n,'n', sizeof(caracter_n)/(2*sizeof(float))},
-		{caracter_o,'o', sizeof(caracter_o)/(2*sizeof(float))},
-		{caracter_p,'p', sizeof(caracter_p)/(2*sizeof(float))},
-		{caracter_q,'q', sizeof(caracter_q)/(2*sizeof(float))},
-		{caracter_r,'r', sizeof(caracter_r)/(2*sizeof(float))},
-		{caracter_s,'s', sizeof(caracter_s)/(2*sizeof(float))},
-		{caracter_t,'t', sizeof(caracter_t)/(2*sizeof(float))},
-		{caracter_u,'u', sizeof(caracter_u)/(2*sizeof(float))},
-		{caracter_v,'v', sizeof(caracter_v)/(2*sizeof(float))},
-		{caracter_w,'w', sizeof(caracter_w)/(2*sizeof(float))},
-		{caracter_x,'x', sizeof(caracter_x)/(2*sizeof(float))},
-		{caracter_y,'y', sizeof(caracter_y)/(2*sizeof(float))},
-		{caracter_z,'z', sizeof(caracter_z)/(2*sizeof(float))},
-		{caracter_1,'1', sizeof(caracter_1)/(2*sizeof(float))},
-		{caracter_2,'2', sizeof(caracter_2)/(2*sizeof(float))},
-		{caracter_3,'3', sizeof(caracter_3)/(2*sizeof(float))},
-		{caracter_4,'4', sizeof(caracter_4)/(2*sizeof(float))},
-		{caracter_5,'5', sizeof(caracter_5)/(2*sizeof(float))},
-		{caracter_6,'6', sizeof(caracter_6)/(2*sizeof(float))},
-		{caracter_7,'7', sizeof(caracter_7)/(2*sizeof(float))},
-		{caracter_8,'8', sizeof(caracter_8)/(2*sizeof(float))},
-		{caracter_9,'9', sizeof(caracter_9)/(2*sizeof(float))},
-		{caracter_0,'0', sizeof(caracter_0)/(2*sizeof(float))},
-		{caracter_espacio,' ', sizeof(caracter_espacio)/(2*sizeof(float))}
-	};
-
-    size_t cantidad=sizeof(caracteres)/sizeof(caracteres[0]);
-    for(size_t i=0;i<cantidad;i++){
-        if(caracteres[i].letra == dato){
-        	cater_t *caracter = &caracteres[i];
-            return caracter;
-        }
-    }
-    return NULL;
-}
-
-void dibujar_letra(SDL_Renderer *renderer,char caracter, float posicion[2], color_t color){
-    cater_t *literal=estructura_letra(caracter);
-	size_t cant_punt=literal->longitud;
-    const float matriz[cant_punt][2];
-	
-	for(size_t i=0;i<cant_punt-1;i++){
-		matriz[i][0]=literal->puntos[0];
-		matriz[i][1]=literal->puntos[1];
-	}
-	uint16_t r,g,b;
-   	color_a_rgb(color,r,g,b);
-	float escala=1;
-	
-    SDL_SetRenderDrawColor(renderer, r, g, b, 0x00);   
-    for(size_t j=0;j<cant_punt-1;j++){
-        SDL_RenderDrawLine(
-            renderer,   
-            (matriz[j][0]*escala+posicion[0]),
-            -(matriz[j][1]*escala+posicion[1]) + VENTANA_ALTO,
-            (matriz[j+1][0]*escala+posicion[0]) ,
-            -(matriz[j+1][1]*escala+posicion[1]) + VENTANA_ALTO
-            );
-    }
-}
-void palabra_a_polilinea(SDL_Renderer *renderer,char *palabra, float posicion[2], color_t color){
-	char *letra;
-	float espacio[]={6,0}
-	while((letra=getchar(palabra))!='\0'){
-		polilinea=letra_a_polilinea(letra);
-		dibujar_letra(renderer, letra,posicion+espacio,escala,color);
-	}
-}
-void numero_a_polilinea(int numero,SDL_Renderer *renderer, float posicion[2], color_t color){
-	char palabra[10];
-	SDL_itoa(numero,palabra,10);//pasa el numero a palabra
-	palabra_a_polilinea(renderer,palabra,posicion,color);
-}
 
 const float caracter_a[7][2] = {
 	{0, 0},
@@ -438,3 +354,105 @@ const float caracter_espacio[1][2] = {
 	{0, 0},
 };
 
+carac_t caracteres[] = {
+		[A]= { 'A', caracter_a, (sizeof(caracter_a)/sizeof(caracter_a[0][0])/2)},
+		[B]= { 'B', caracter_b, (sizeof(caracter_b)/sizeof(caracter_b[0][0])/2)},
+		[C]= { 'C', caracter_c, (sizeof(caracter_c)/sizeof(caracter_c[0][0])/2)},
+		[D]= { 'D', caracter_d, (sizeof(caracter_d)/sizeof(caracter_d[0][0])/2)},
+		[E]= { 'E', caracter_e, (sizeof(caracter_e)/sizeof(caracter_e[0][0])/2)},
+		[F]= { 'F', caracter_f, (sizeof(caracter_f)/sizeof(caracter_f[0][0])/2)},
+		[g]= { 'G', caracter_g, (sizeof(caracter_g)/sizeof(caracter_g[0][0])/2)},
+		[H]= { 'H', caracter_h, (sizeof(caracter_h)/sizeof(caracter_h[0][0])/2)},
+		[I]= { 'I', caracter_i, (sizeof(caracter_i)/sizeof(caracter_i[0][0])/2)},
+		[J]= { 'J', caracter_j, (sizeof(caracter_j)/sizeof(caracter_j[0][0])/2)},
+		[K]= { 'K', caracter_k, (sizeof(caracter_k)/sizeof(caracter_k[0][0])/2)},
+		[L]= { 'L', caracter_l, (sizeof(caracter_l)/sizeof(caracter_l[0][0])/2)},
+		[M]= { 'M', caracter_m, (sizeof(caracter_m)/sizeof(caracter_m[0][0])/2)},
+		[N]= { 'N', caracter_n, (sizeof(caracter_n)/sizeof(caracter_n[0][0])/2)},
+		[O]= { 'O', caracter_o, (sizeof(caracter_o)/sizeof(caracter_o[0][0])/2)},
+		[P]= { 'P', caracter_p, (sizeof(caracter_p)/sizeof(caracter_p[0][0])/2)},
+		[Q]= { 'Q', caracter_q, (sizeof(caracter_q)/sizeof(caracter_q[0][0])/2)},
+		[R]= { 'R', caracter_r, (sizeof(caracter_r)/sizeof(caracter_r[0][0])/2)},
+		[S]= { 'S', caracter_s, (sizeof(caracter_s)/sizeof(caracter_s[0][0])/2)},
+		[T]= { 'T', caracter_t, (sizeof(caracter_t)/sizeof(caracter_t[0][0])/2)},
+		[U]= { 'U', caracter_u, (sizeof(caracter_u)/sizeof(caracter_u[0][0])/2)},
+		[V]= { 'V', caracter_v, (sizeof(caracter_v)/sizeof(caracter_v[0][0])/2)},
+		[W]= { 'W', caracter_w, (sizeof(caracter_w)/sizeof(caracter_w[0][0])/2)},
+		[X]= { 'X', caracter_x, (sizeof(caracter_x)/sizeof(caracter_x[0][0])/2)},
+		[Y]= { 'Y', caracter_y, (sizeof(caracter_y)/sizeof(caracter_y[0][0])/2)},
+		[Z]= { 'Z', caracter_z, (sizeof(caracter_z)/sizeof(caracter_z[0][0])/2)},
+
+		[CERO]= { '0', caracter_0, (sizeof(caracter_0)/sizeof(caracter_0[0][0])/2)},
+		[UNO]= { '1', caracter_1, (sizeof(caracter_1)/sizeof(caracter_1[0][0])/2)},
+		[DOS]= { '2', caracter_2, (sizeof(caracter_2)/sizeof(caracter_2[0][0])/2)},
+		[TRES]= { '3', caracter_3, (sizeof(caracter_3)/sizeof(caracter_3[0][0])/2)},
+		[CUATRO]= { '4', caracter_4, (sizeof(caracter_4)/sizeof(caracter_4[0][0])/2)},
+		[CINCO]= { '5', caracter_5, (sizeof(caracter_5)/sizeof(caracter_5[0][0])/2)},
+		[SEIS]= { '6', caracter_6, (sizeof(caracter_6)/sizeof(caracter_6[0][0])/2)},
+		[SIETE]= { '7', caracter_7, (sizeof(caracter_7)/sizeof(caracter_7[0][0])/2)},
+		[OCHO]= { '8', caracter_8, (sizeof(caracter_8)/sizeof(caracter_8[0][0])/2)},
+		[NUEVE]= { '9', caracter_9, (sizeof(caracter_9)/sizeof(caracter_9[0][0])/2)},
+
+		[DERECHA]= { '>', caracter_derecha, (sizeof(caracter_derecha)/sizeof(caracter_derecha[0][0])/2)},
+		[IZQUIERDA]= { '<', caracter_izquierda, (sizeof(caracter_izquierda)/sizeof(caracter_izquierda[0][0])/2)},
+		[ARRIBA]= { '^', caracter_arriba, (sizeof(caracter_arriba)/sizeof(caracter_arriba[0][0])/2)},
+		[ABAJO]= { 'v', caracter_abajo, (sizeof(caracter_abajo)/sizeof(caracter_abajo[0][0])/2)},
+		[ESPACIO]= { ' ', caracter_espacio, (sizeof(caracter_espacio)/sizeof(caracter_espacio[0][0])/2)},
+};
+
+void dibujar_letra(SDL_Renderer *renderer,char caracter, float posicion[2], color_t color){
+    cater_t *literal=estructura_letra(caracter);
+	size_t cant_punt=literal->longitud;
+    const float matriz[cant_punt][2];
+	
+	for(size_t i=0;i<cant_punt-1;i++){
+		matriz[i][0]=literal->puntos[0];
+		matriz[i][1]=literal->puntos[1];
+	}
+	uint8_t r,g,b;
+   	color_a_rgb(color,&r,&g,&b);
+	float escala=1;
+	
+    SDL_SetRenderDrawColor(renderer, r, g, b, 0x00);   
+    for(size_t j=0;j<cant_punt-1;j++){
+        SDL_RenderDrawLine(
+            renderer,   
+            (matriz[j][0]*escala+posicion[0]),
+            -(matriz[j][1]*escala+posicion[1]) + VENTANA_ALTO,
+            (matriz[j+1][0]*escala+posicion[0]) ,
+            -(matriz[j+1][1]*escala+posicion[1]) + VENTANA_ALTO
+            );
+    }
+}
+void palabra_a_polilinea(SDL_Renderer *renderer,char *palabra, float posicion[2], color_t color){
+	char *letra;
+	float espacio[]={6,0};
+	while((letra=fgetc(palabra))!='\0'){
+		polilinea=letra_a_polilinea(letra);
+		dibujar_letra(renderer, letra,posicion+espacio,escala,color);
+	}
+}
+
+void numero_a_polilinea(int numero,SDL_Renderer *renderer, float posicion[2], color_t color){
+	char palabra[10];
+	SDL_itoa(numero,palabra,10);//pasa el numero a palabra
+	palabra_a_polilinea(renderer,palabra,posicion,color);
+}
+
+
+
+/*
+void dibujar_cadena(char * cadena, SDL_Renderer * renderer, float posicion_x, float posicion_y, float escala,bool r, bool g, bool b){
+	
+	for (size_t j = 0; cadena[j] !='\0'; j++){
+		char carac = cadena[j];
+		for (size_t i = 0; i < MAX_CARACTERES; i++) {
+			if (carac == caracteres[i].letra) {
+				polilinea_t* polilinea = polilinea_crear(caracteres[i].polilinea, caracteres[i].tam, color_crear(r, g, b));
+				polilinea_dibujar(polilinea, renderer, posicion_x + j * escala * CARACTER_ANCHO, posicion_y, escala);
+				polilinea_destruir(polilinea);
+			}
+		}
+	}
+}
+*/

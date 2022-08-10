@@ -57,11 +57,7 @@ void cargar_nivel(nave_t *nave, nivel_t **niveles, planeta_nombre planeta_actual
     cargar_datos_nivel(niveles, planeta_actual);
 }
 void planeta_finito(nave_t* nave, SDL_Renderer *renderer, figura_t ***figuras, planeta_nombre *planeta_actual, float *f, float *centro, bool *inicio){
-<<<<<<< HEAD
     calcular_escala(figuras[1],*planeta_actual,f, centro);
-=======
-    calcular_escala(figuras[1],planeta_actual,f, centro,NULL);
->>>>>>> ced9728a7d8953de9bc8aabd90cf54f23b18275c
     if(colision_rebote_ni(nave, inicio))
         {
             cargar_pantalla_inicio(nave,*planeta_actual,false);
@@ -102,6 +98,16 @@ void planeta_infinito(nave_t* nave, SDL_Renderer *renderer, figura_t ***figuras,
     
     polilinea_t *planeta_pol=polilinea_fig(figuras[1][*planeta_actual])[0];
     nave_posicion_get(nave, posicion_nave);
+    *f = 1;
+    if(posicion_nave[1] > VENTANA_ALTO * MARGEN_ALTURA)
+        *f = VENTANA_ALTO * MARGEN_ALTURA / posicion_nave[1];
+    if(*f < ESCALA_MINIMA)
+        *f= ESCALA_MINIMA;
+
+    if((posicion_nave[0] - *centro) * (*f)> VENTANA_ANCHO / 2 * MARGEN_ANCHO)
+        *centro = posicion_nave[0] - VENTANA_ANCHO / 2 * MARGEN_ANCHO /(*f);
+    else if((*centro - posicion_nave[0]) * (*f)> VENTANA_ANCHO / 2 * MARGEN_ANCHO)
+        *centro = posicion_nave[0] + VENTANA_ANCHO / 2 * MARGEN_ANCHO /(*f);
     float camara[2]={0,0};
     if(posicion_nave[1]>=VENTANA_ALTO){
             *inicio=true;
@@ -111,14 +117,16 @@ void planeta_infinito(nave_t* nave, SDL_Renderer *renderer, figura_t ***figuras,
     if(*f< ESCALA_MINIMA){
         *f=ESCALA_MINIMA;
     }
+    
     calcular_centro_inf(*f,posicion_nave[0], centro);
     float min[2];
     float max[2];
     min_max(figuras[1], *planeta_actual, min,max);
-    if(((posicion_nave[0]-*centro)*(*f))>(VENTANA_ANCHO/2 * MARGEN_ANCHO)){
+    
+    if(((posicion_nave[0]-*centro))>(VENTANA_ANCHO/2* MARGEN_ANCHO)){
         *centro=(posicion_nave[0]-VENTANA_ANCHO/2*MARGEN_ANCHO/(*f));
     }
-    else if((-posicion_nave[0]+*centro)*(*f)>VENTANA_ANCHO/2 * MARGEN_ANCHO){
+    else if((-posicion_nave[0]+*centro)>VENTANA_ANCHO/2* MARGEN_ANCHO){
         *centro=(posicion_nave[0]+VENTANA_ANCHO/2*MARGEN_ANCHO/(*f));
     }
     
@@ -132,12 +140,12 @@ void planeta_infinito(nave_t* nave, SDL_Renderer *renderer, figura_t ***figuras,
         nave_posicion_set(nave,posicion_nave);
         *centro+=max[0];
     }
-    camara[0]=(-*centro+max[0]+VENTANA_ANCHO/2/(*f))*(*f);
+    camara[0]=(*centro+max[0]+VENTANA_ANCHO/2/(*f))*(*f);
     if(*planeta_actual==NIVEL1NE){
         printf("NIVEL1NE: MIN=(%.2f,%.2f) MAX=(%.2f,%.2f)",min[0],min[1],max[0],max[1]);
         //dibujar_figura(renderer,figuras[1], "NIVEL1NE",camara,*f);
         dibujar_polilinea(renderer,planeta_pol,camara,*f);
-        camara[0]=(-*centro-max[0]+VENTANA_ANCHO/2/(*f))*(*f);
+        camara[0]=(*centro-max[0]+VENTANA_ANCHO/2/(*f))*(*f);
         dibujar_polilinea(renderer,planeta_pol,camara,*f);
     }
     if(*planeta_actual==NIVEL1SE){

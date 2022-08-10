@@ -29,12 +29,8 @@ void calcular_escala_inf(float posicion_nave_y, float *escalada);
 
 void calcular_centro_inf(const float escala,const float posicion_nave_x, float *centro);
 
-<<<<<<< HEAD
 void min_max(figura_t **figuras, planeta_nombre planeta_actual,float min[2],float max[2]);
 
 void calcular_escala(figura_t **figuras, planeta_nombre planeta_actual,float *escala, float *centro);
-=======
-void calcular_escala(figura_t **figuras, planeta_nombre *planeta_actual,float *escala, float *centro,float min_max[2]);
->>>>>>> ced9728a7d8953de9bc8aabd90cf54f23b18275c
 
 #endif

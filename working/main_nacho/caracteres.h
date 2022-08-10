@@ -1,26 +1,23 @@
-#ifndef CARACTERES_H
-#define CARACTERES_H
+#ifndef _LETRAS_H_
+#define _LETRAS_H_
 
 #include <SDL2/SDL.h>
-
-#include <stdio.h>
-#include <math.h>
+#include "color.h"
+#include "config.h"
 #include <stdlib.h>
 #include <stdbool.h>
-#include <ctype.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <string.h>
-#include "polilinea.h"
+
+#define CARACTER_ANCHO 6
+#define CARACTER_ALTO 6
+
+struct caracter;
+typedef struct caracter cater_t;
 
 
-typedef enum letras{
-   	A, B, C, D, E, F, g, H, I, J, K, L, M, N, O, P, Q, R,
-   	S, T, U, V, W, X, Y, Z, CERO, UNO, DOS, TRES, CUATRO, CINCO, SEIS, SIETE, OCHO, NUEVE, DERECHA,
-   	IZQUIERDA, ARRIBA, ABAJO, ESPACIO,
-}letras_t;
-
-typedef struct carac carac_t;
+//Estas funciones habilitan expressar en el SDL una letra,un numero o palabra de hasta 10 caracteres
+void dibujar_letra(SDL_Renderer *renderer,char caracter, float posicion[2], color_t color);
+void palabra_a_polilinea(SDL_Renderer *renderer,char *palabra, float posicion[2], color_t color);
+void numero_a_polilinea(int numero,SDL_Renderer *renderer, float posicion[2], color_t color);
 
 extern const float caracter_a[7][2];
 extern const float caracter_b[12][2];
@@ -67,6 +64,4 @@ extern const float caracter_abajo[5][2];
 
 extern const float caracter_espacio[1][2];
 
-//void dibujar_cadena(char * cadena, SDL_Renderer * renderer, float posicion_x, float posicion_y, float escala,bool r, bool g, bool b);
-
-#endif
+#endif // _LETRAS_H_

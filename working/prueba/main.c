@@ -4,6 +4,7 @@
 #include "nave.h"
 #include "pantalla.h"
 #include "bala.h"
+#include "caracteres.h"
 #include <SDL2/SDL.h>
 //#include "lista.h"
 // -Werror

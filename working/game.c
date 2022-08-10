@@ -120,9 +120,38 @@ void calcular_centro_inf(float escala,float posicion_nave_x, float *centro){
         *centro = posicion_nave_x + VENTANA_ANCHO / 2 * MARGEN_ANCHO / escala;
 }
 
-void calcular_escala(figura_t **figuras, planeta_nombre *planeta_actual,float *escala, float *centro,float min_max[2]){
-    polilinea_t *pol_planeta=(polilinea_fig(figuras[*planeta_actual]))[0];
+void min_max(figura_t **figuras, planeta_nombre planeta_actual,float min[2],float max[2]){
+    polilinea_t *pol_planeta=(polilinea_fig(figuras[planeta_actual]))[0];
     size_t n=polilinea_cantidad_puntos(pol_planeta);
+    float x,y;
+
+    polilinea_obtener_punto(pol_planeta,0,&min[0],&min[1]);
+    max[0]=min[0];
+    max[1]=min[1];
+
+    for(size_t i=1;i<n;i++){
+        polilinea_obtener_punto(pol_planeta,i,&x,&y);
+
+        if(x<min[0]){
+            min[0]=x;
+        }
+        else if(x>max[0]){
+            max[0]=x;
+        }
+        if(y<min[1]){
+            min[1]=y;
+        }
+        else if(y>max[1]){
+            max[1]=y;
+        }
+        else
+            continue;
+    }
+}
+void calcular_escala(figura_t **figuras, planeta_nom,float *escala, float *centro){
+polilinea_t *pol_planeta=(polilinea_fig(figuras[planeta_actual]))[0];
+    size_t n=polilinea_cantidad_puntos(pol_planeta);
+
     float x,y;
     float planeta_x_min, planeta_x_max;
     float planeta_y_min, planeta_y_max;
@@ -147,11 +176,6 @@ void calcular_escala(figura_t **figuras, planeta_nombre *planeta_actual,float *e
         else
             continue;
     }
-    if(min_max!=NULL){
-    min_max[0]=planeta_x_min;
-    min_max[1]=planeta_x_max;
-    }
-
     float planeta_alto=planeta_y_max-planeta_y_min;
     float planeta_ancho=planeta_x_max-planeta_x_min;
     *escala = VENTANA_ALTO * 1.0 / planeta_alto;

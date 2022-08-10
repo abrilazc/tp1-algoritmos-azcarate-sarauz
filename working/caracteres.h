@@ -13,6 +13,8 @@
 struct caracter;
 typedef struct caracter cater_t;
 
+
+//Estas funciones habilitan expressar en el SDL una letra,un numero o palabra de hasta 10 caracteres
 void dibujar_letra(SDL_Renderer *renderer,char caracter, float posicion[2], color_t color);
 void palabra_a_polilinea(SDL_Renderer *renderer,char *palabra, float posicion[2], color_t color);
 void numero_a_polilinea(int numero,SDL_Renderer *renderer, float posicion[2], color_t color);

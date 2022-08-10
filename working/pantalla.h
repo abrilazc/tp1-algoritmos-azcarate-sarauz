@@ -1,3 +1,6 @@
+#ifndef _PANTALLA_H_
+#define _PANTALLA_H_
+
 #include <SDL2/SDL.h>
 #include "nave.h"
 #include "nivel.h"
@@ -27,3 +30,5 @@ bool interseccion_nave_polilinea(nave_t *nave,figura_t **figura,planeta_nombre n
 void texto_bis(nave_t *nave, figura_t ***figuras, SDL_Renderer *renderer);
 
 void dibujar_letras(char *texto, float posicion[2]);
+
+#endif

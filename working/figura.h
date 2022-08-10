@@ -36,8 +36,10 @@ typedef enum{
     REACTOR,
 }figura_tipo_t;
 
+
 const char* figura_tipo_a_cadena(figura_tipo_t figura);
 polilinea_t *simbolo_vida_crear();
+
 //seteo
 bool leer_encabezado_figura(FILE *f, char nombre[], figura_tipo_t *tipo, bool *infinito, size_t *cantidad_polilineas);
 polilinea_t *leer_polilinea(FILE *f);
@@ -47,8 +49,12 @@ void figura_rotar(figura_t *figura, float angulo);
 //creacion
 figura_t **crear_figuras(FILE *f,size_t *i);
 
-//getter
-char *nombre_fig(const figura_t *figura); //hacerlo con tabla de busqueda
+//Getter
+//obtener los datos interno de cada figura obtenida del archivo:
+//el nombre, si es infinita, que tipo de figura es, cantidad de polilineas
+//y las polilineas asociadas en forma de doble puntero.
+
+char *nombre_fig(const figura_t *figura);
 bool infinito_fig(const figura_t *figura);
 figura_tipo_t tipo_fig(const figura_t *figura);
 size_t cantidad_poli_fig(const figura_t *figura);
@@ -56,11 +62,12 @@ polilinea_t **polilinea_fig(const figura_t *figura);
 void extremos_figura(figura_t *figura, float minimos[2], float maximos[2]);
 
 //manipulacion de datos
+
 figura_t *cargar_nombre(figura_t **bloque,char *nombre_figura);
 figura_t **cargar_tipo(figura_t **bloque,figura_tipo_t tipo,size_t *cantidad);
 bool dibujar_figura(SDL_Renderer *renderer,figura_t **bloque,char *nombre, float posicion[2], float escala);
 
-//destrucción- liberacion de la memoria
+//destruccion- liberacion de la memoria
 void figura_destruir(figura_t *figura);
 void destruir_bloque(figura_t **bloque,size_t i);
 void destruir_figuras(figura_t ***figuras, size_t *cantidad);

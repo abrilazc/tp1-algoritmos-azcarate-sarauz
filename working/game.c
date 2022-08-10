@@ -148,7 +148,7 @@ void min_max(figura_t **figuras, planeta_nombre planeta_actual,float min[2],floa
             continue;
     }
 }
-void calcular_escala(figura_t **figuras, planeta_nombre planeta_actual,float *escala, float *centro){
+void calcular_escala(figura_t **figuras, planeta_nom,float *escala, float *centro){
 polilinea_t *pol_planeta=(polilinea_fig(figuras[planeta_actual]))[0];
     size_t n=polilinea_cantidad_puntos(pol_planeta);
 

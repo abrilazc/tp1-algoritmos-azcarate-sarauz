@@ -7,10 +7,10 @@
 #define MAX_CARACTER 50
 #define MAX_CARACTERES 42
 
-struct carac{
+struct caracter{
 	char letra;
 	const float (*polilinea)[2];
-	size_t tam;
+	size_t cantidad;
 };
 
 const float caracter_a[7][2] = {
@@ -354,7 +354,7 @@ const float caracter_espacio[1][2] = {
 	{0, 0},
 };
 
-carac_t caracteres[] = {
+cater_t caracteres[] = {
 		[A]= { 'A', caracter_a, (sizeof(caracter_a)/sizeof(caracter_a[0][0])/2)},
 		[B]= { 'B', caracter_b, (sizeof(caracter_b)/sizeof(caracter_b[0][0])/2)},
 		[C]= { 'C', caracter_c, (sizeof(caracter_c)/sizeof(caracter_c[0][0])/2)},
@@ -400,59 +400,30 @@ carac_t caracteres[] = {
 		[ESPACIO]= { ' ', caracter_espacio, (sizeof(caracter_espacio)/sizeof(caracter_espacio[0][0])/2)},
 };
 
-void dibujar_letra(SDL_Renderer *renderer,char caracter, float posicion[2], color_t color){
-    cater_t *literal=estructura_letra(caracter);
-	size_t cant_punt=literal->longitud;
-    const float matriz[cant_punt][2];
-	
-	for(size_t i=0;i<cant_punt-1;i++){
-		matriz[i][0]=literal->puntos[0];
-		matriz[i][1]=literal->puntos[1];
-	}
-	uint8_t r,g,b;
-   	color_a_rgb(color,&r,&g,&b);
-	float escala=1;
-	
-    SDL_SetRenderDrawColor(renderer, r, g, b, 0x00);   
-    for(size_t j=0;j<cant_punt-1;j++){
-        SDL_RenderDrawLine(
-            renderer,   
-            (matriz[j][0]*escala+posicion[0]),
-            -(matriz[j][1]*escala+posicion[1]) + VENTANA_ALTO,
-            (matriz[j+1][0]*escala+posicion[0]) ,
-            -(matriz[j+1][1]*escala+posicion[1]) + VENTANA_ALTO
-            );
+
+void dibujar_letra(SDL_Renderer *renderer,char caracter, float posicion[2], bool r, bool ge, bool b){
+    
+	size_t cant_punt=sizeof(caracteres)/sizeof(caracteres[0]);
+    float escala=1;
+	for(size_t i=0;i<cant_punt;i++){
+		if(caracter==caracteres[i].letra){
+		polilinea_t* polilinea = polilinea_crear(caracteres[i].polilinea, caracteres[i].cantidad, color_crear(r, ge, b));
+		dibujar_polilinea(renderer,polilinea,posicion,escala);
+		polilinea_destruir(polilinea);
+		}
     }
 }
-void palabra_a_polilinea(SDL_Renderer *renderer,char *palabra, float posicion[2], color_t color){
-	char *letra;
-	float espacio[]={6,0};
-	while((letra=fgetc(palabra))!='\0'){
-		polilinea=letra_a_polilinea(letra);
-		dibujar_letra(renderer, letra,posicion+espacio,escala,color);
+
+void palabra_a_polilinea(SDL_Renderer *renderer,char *palabra, float posicion[2],  bool r, bool ge, bool b){
+	size_t i=0;
+	posicion[0]+=ESP_LET;
+	while(palabra[i]!='\0'){
+		dibujar_letra(renderer, palabra[i],posicion,r,ge,b);
 	}
 }
 
-void numero_a_polilinea(int numero,SDL_Renderer *renderer, float posicion[2], color_t color){
+void numero_a_polilinea(int numero,SDL_Renderer *renderer, float posicion[2],  bool r, bool ge, bool b){
 	char palabra[10];
 	SDL_itoa(numero,palabra,10);//pasa el numero a palabra
-	palabra_a_polilinea(renderer,palabra,posicion,color);
+	palabra_a_polilinea(renderer,palabra,posicion, r,ge,b);
 }
-
-
-
-/*
-void dibujar_cadena(char * cadena, SDL_Renderer * renderer, float posicion_x, float posicion_y, float escala,bool r, bool g, bool b){
-	
-	for (size_t j = 0; cadena[j] !='\0'; j++){
-		char carac = cadena[j];
-		for (size_t i = 0; i < MAX_CARACTERES; i++) {
-			if (carac == caracteres[i].letra) {
-				polilinea_t* polilinea = polilinea_crear(caracteres[i].polilinea, caracteres[i].tam, color_crear(r, g, b));
-				polilinea_dibujar(polilinea, renderer, posicion_x + j * escala * CARACTER_ANCHO, posicion_y, escala);
-				polilinea_destruir(polilinea);
-			}
-		}
-	}
-}
-*/

@@ -3,15 +3,13 @@
 
 #include <SDL2/SDL.h>
 
-#include <stdio.h>
-#include <math.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include <ctype.h>
 #include <stdlib.h>
-#include <stdint.h>
-#include <string.h>
+
 #include "polilinea.h"
+
+#define ESP_LET 6
 
 
 typedef enum letras{
@@ -20,7 +18,12 @@ typedef enum letras{
    	IZQUIERDA, ARRIBA, ABAJO, ESPACIO,
 }letras_t;
 
-typedef struct carac carac_t;
+typedef struct caracter cater_t;
+
+//pasa una palabra a dibujo de polilinea, apto solo para caracteres de la A a la Z, espacio y numero decimales
+void palabra_a_polilinea(SDL_Renderer *renderer,char *palabra, float posicion[2],  bool r, bool ge, bool b);
+//pasa un numero int a dibujo de polilinea, apto solo para numeros que necesiten menos de 10 caracteres
+void numero_a_polilinea(int numero,SDL_Renderer *renderer, float posicion[2],  bool r, bool ge, bool b);
 
 extern const float caracter_a[7][2];
 extern const float caracter_b[12][2];

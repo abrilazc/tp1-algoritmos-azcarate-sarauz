@@ -53,9 +53,6 @@ int main() {
             if (event.type == SDL_QUIT)
                 break;
             // BEGIN código del alumno
-
-           
-
             registrar_teclas(nave, event, &held_down);
             // END código del alumno
             continue;

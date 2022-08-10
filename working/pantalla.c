@@ -254,24 +254,8 @@ static bool colisiones_inicio(nave_t *nave,nivel_t **niveles, float planeta_pos[
     }
     return false;
 }
-/*
-//iteraciones niveles
-void iteracion_nave_nivel_inf(nave_t nave,nivel_t nivel){
 
-    //revisa choque limites
-    //revisa choque polilinea
-
-    dibujar_figura(renderer,figura_nave,"NAVE",posicion,1);
-}
-void iteracion_nave_nivel_no_inf(nave_t nave,nivel_t nivel){
-
-    //revisa choque limites
-    //revisa choque polilinea
-
-    dibujar_figura(renderer,figura_nave,"NAVE",posicion,1);
-}*/
-
-//sirve para iterar contra COMNUSTIBLE si este no es 0
+//sirve para iterar contra COMBUSTIBLE si este no es 0
 //cambiar a bool
 bool interseccion_lista_nave(nave_t *nave,size_t *cantidad, lista_t *lista,figura_t **figuras,char *nombre){
     lista_iter_t *lista_iter;
@@ -320,6 +304,7 @@ bool interseccion_lista_nave(nave_t *nave,size_t *cantidad, lista_t *lista,figur
     lista_iter_destruir(lista_iter);
     return false;
 }
+//dibuja los elementos asociados a la lista
 void dibujar_lista(figura_t **figuras, lista_t *lista,char *nombre,SDL_Renderer *renderer, float escala){
     size_t cantidad=lista_largo(lista);
     lista_iter_t *liter;
@@ -337,7 +322,7 @@ void dibujar_lista(figura_t **figuras, lista_t *lista,char *nombre,SDL_Renderer 
     }
     lista_iter_destruir(liter);
 }
-//si cualquier punto de la lsita  1 alcanza las poliines del 2, destruye a este ultimo.
+//cuenta intersecciones entre listas, si cualquier punto de la lista  1 alcanza las poliines del 2, destruye a este ultimo.
 size_t interseccion_lista_lista(lista_t *lista, lista_t *lista_2,size_t *cantidad_2){
     size_t intersecciones=0;
     
@@ -376,6 +361,7 @@ size_t interseccion_lista_lista(lista_t *lista, lista_t *lista_2,size_t *cantida
     }
     return intersecciones;
 }
+//verifica si la nave se cruzó con las lineas del planeta
 bool interseccion_nave_polilinea(nave_t *nave,figura_t **figuras,planeta_nombre nombre){
     float posicion_nave[2]; 
     nave_posicion_get(nave,posicion_nave);

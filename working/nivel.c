@@ -17,6 +17,7 @@ struct reactor{
 struct nivel{
     figura_t *figura;
     bool infinito;
+    bool exito;
     lista_t *combustible;
     lista_t *torreta;
     reactor_t *reactor;
@@ -148,6 +149,7 @@ nivel_t *crear_nivel(figura_t **figuras,planeta_nombre nombre){
     
     nivel->figura=figura;
     nivel->infinito=infinito_fig(figura);
+    nivel->exito=false;
     nivel->combustible=lista_combustible(nombre);
     nivel->torreta=lista_torreta(nombre);
     nivel->reactor=crear_reactor(nombre);
@@ -251,6 +253,9 @@ void armar_lista_torreta(lista_t *lista, planeta_nombre planeta){
 void decremento_reactor(reactor_t *reactor){
     (reactor->tiempo)-=1/(JUEGO_FPS*25);
 }
+void set_nivel_pasado(nivel_t *nivel){
+    nivel->exito=true;
+}
 
 
 
@@ -288,6 +293,9 @@ void objeto_a_posicion(objeto_t *objeto,float *posicion){
 }
 void objeto_a_direccion(objeto_t *objeto,float *direccion){
     *direccion=objeto->direccion;
+}
+bool get_nivel_pasado(nivel_t *nivel){
+    return nivel->exito;
 }
 //reactor
 bool check_reactor_nivel(nivel_t *nivel){

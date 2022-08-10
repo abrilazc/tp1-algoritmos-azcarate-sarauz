@@ -20,7 +20,6 @@ void pantalla_nivel(nave_t *nave, figura_t ***figuras, SDL_Renderer *renderer, b
 //estado nave
 void estado_nave(nave_t *nave, float pos_g[2]);
 
-
 //iteraciones inicio
 void dibujar_planetas(float planeta[7][2], SDL_Renderer *renderer, figura_t ***figuras);
 void iteracion_nave_inicio(nave_t *nave,float planeta[7][2]);

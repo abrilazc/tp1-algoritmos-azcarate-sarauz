@@ -83,7 +83,7 @@ void figura_rotar(figura_t *figura, float angulo){
 
 
 //creacion 
-figura_t *figura_crear(FILE *f){
+static figura_t *figura_crear(FILE *f){
     figura_t *figura=malloc(sizeof(figura_t));
     if(figura==NULL)return NULL;
     

@@ -12,27 +12,17 @@
 #define MAX_BAL_TIEM 10
 #define MAX_BAL_VELO 20
 
-//Las balas son elementos de tiempo limitado y velocidad constante
-//Se guardan en listas (jugador y enemigo) de manera secuencial
-//Sus interacciones son por proximidad con otros objetos en el plano
 struct bala;
 typedef struct bala bala_t;
 
-//mediante disparo se genera en la lista una bala con posicion y direccion
-//propias del lguar de disparo
-//la cantidad de balas es limitada por MAX_BAL ENEM y PROP
 bala_t *crear_bala(float posicion[2],float direccion);
 bool disparo(lista_t *lista,float posicion[2],float direccion);
 
-//estas funciones manejan la durabilidad de la bala
 bool destruir_disparos(lista_t *lista);
 float obtener_tiempo(bala_t *bala);
 void restar_tiempo(bala_t *bala,float tiempo);
-
-//En cada DT esta funcion cambia la posicion de todas las balas de la lista
 void trayectoria_disparo(lista_t *lista);
 
-//Una vez que ya no son necesarias las balas se eliminan como listas de balas
 void destruir_bala(bala_t *bala);
 void liquidar_municion(void *bala);
 

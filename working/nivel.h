@@ -26,6 +26,7 @@ typedef enum{NIVEL1NE,NIVEL1SE,NIVEL1R,NIVEL1NW,NIVEL1SW}planeta_nombre;
 //niveles
 nivel_t *crear_nivel(figura_t **figura,planeta_nombre planeta);
 nivel_t **crear_niveles(figura_t **figura, size_t cantidad);
+
 ////combustible, torreta y reactor
 lista_t *lista_combustible(planeta_nombre planeta);
 lista_t *lista_torreta(planeta_nombre planeta);
@@ -49,18 +50,23 @@ const bool cantidad_reactores(planeta_nombre nombre);
 const char* nombre_asignado(planeta_nombre nombre);
 //getter externo
 bool get_infinito(nivel_t *nivel);
-//reactor_t *get_reactor_nivel(nivel_t *nivel)
+
 size_t get_cantidad_torretas(nivel_t *nivel);
 size_t get_cantidad_combustible(nivel_t *nivel);
 lista_t *get_lista_torreta(nivel_t *nivel);
 lista_t *get_lista_combustible(nivel_t *nivel);
 figura_t *get_figura_nivel(nivel_t *nivel);
+
 void objeto_a_posicion(objeto_t *objeto,float *posicion);
 void objeto_a_direccion(objeto_t *objeto,float *direccion);
-//reactor
+
+//reactor:revisa si el reactor esta
 bool check_reactor_nivel(nivel_t *nivel);
+//asocia a una posicion la posicion del reactor
 void get_posicion_reactor(nivel_t *nivel, float *posicion);
+//devuelve la direccion del reactor
 float get_direccion_reactor(nivel_t *nivel);
+//devuelve el tiempo restante del reactor
 float get_tiempo(nivel_t *nivel);
 
 //DESTRUIR

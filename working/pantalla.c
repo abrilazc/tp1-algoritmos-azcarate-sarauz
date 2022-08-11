@@ -37,8 +37,8 @@ void cargar_pantalla_inicio(nave_t *nave,nivel_t **niveles,figura_t ***figuras, 
         pos_planetas(0,pos);
         vidas_reiniciar(nave);
 
-        //destruir_niveles(niveles,CANTIDAD_NIVELES);
-        //niveles=crear_niveles(figuras[1],CANTIDAD_NIVELES);
+        destruir_niveles(niveles,CANTIDAD_NIVELES);
+        niveles=crear_niveles(figuras[1],CANTIDAD_NIVELES);
     }
     else {
         printf("SPAWN EN PLANETA\n");
@@ -57,13 +57,13 @@ void cargar_pantalla_inicio(nave_t *nave,nivel_t **niveles,figura_t ***figuras, 
 }
 
 void salir_nivel(nave_t *nave,nivel_t **niveles,figura_t ***figuras,planeta_nombre planeta_actual,bool spawn,lista_t *lista, lista_t *lista2){
-    nivel_t *nivel=cargar_datos_nivel(niveles, planeta_actual);
-    lista_t *torreta=get_lista_torreta(nivel);
-    if(get_nivel_pasado(nivel) && lista_largo(torreta)){
-        puntos_planeta(nave,planeta_actual);
-    }
-    lista_destruir(lista,liquidar_municion);
-    lista_destruir(lista2,liquidar_municion);
+    //nivel_t *nivel=cargar_datos_nivel(niveles, planeta_actual);
+    //lista_t *torreta=get_lista_torreta(nivel);
+    //if(get_nivel_pasado(nivel) && lista_largo(torreta)){
+    //   puntos_planeta(nave,planeta_actual);
+    //}
+    //lista_destruir(lista,liquidar_municion);
+    //lista_destruir(lista2,liquidar_municion);
     cargar_pantalla_inicio(nave,niveles,figuras, planeta_actual, spawn);
 }
 
@@ -222,7 +222,8 @@ void pantalla_nivel(nave_t *nave, figura_t ***figuras,nivel_t **niveles, SDL_Ren
     //calcular_centro(*f,posicion[0],centro);
     computar_posicion(nave, NULL);
     //nivel_t *nivel=cargar_datos_nivel(niveles,*planeta_actual);
-    listas(nave,niveles,figuras,renderer,*planeta_actual,*f);
+    
+    //listas(nave,niveles,figuras,renderer,*planeta_actual,*f);
     
     if(*planeta_actual==NIVEL1R||*planeta_actual==NIVEL1NW)
         planeta_finito(nave,niveles, renderer, figuras, planeta_actual,f, centro, goto_inicio);
@@ -443,27 +444,38 @@ void texto(nave_t *nave, figura_t ***figuras, SDL_Renderer *renderer){
 } 
 
 void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *renderer, planeta_nombre planeta_actual, float escala){
+    printf("LO QUE SEA\n");
     nivel_t *nivel=cargar_datos_nivel(niveles, planeta_actual);
+    bool infinito=get_infinito(nivel);
     //inicializo variables
-    lista_t *combustible=get_lista_combustible(nivel);
+    printf("LO QUE SEA2\n");
+    //lista_t *combustible=get_lista_combustible(nivel);
+    printf("UWUUWUWUWUWUWUWUWUWUWUWU\n");
+    //size_t cantidad_combustible= get_cantidad_combustible(nivel);
+    
     lista_t *torreta=get_lista_torreta(nivel);
+    printf("AAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n");
     lista_t *balas_propias=lista_crear();
+    printf("ASdasdjaksdasdjkasASdasdads\n");
     lista_t *balas_enemigas=lista_crear();
     //ITERADOR
-
-    size_t cantidad_combustible= get_cantidad_combustible(nivel);
+    printf("LO QUE SEA3\n");
+    
     size_t cantidad_torretas= get_cantidad_torretas(nivel);
     size_t cantidad_balas=lista_largo(balas_propias);
     size_t cantidad_ataques=lista_largo(balas_enemigas);
-    
+    printf("LO QUE SEA4\n");
     float origen[]={VENTANA_ANCHO/2,VENTANA_ALTO*MARGEN_ALTURA};
 
     //float posi[]={1667,113};
+    printf("cantidad original: %zd\n", cantidad_combustible);
     printf("cantidad original: %zd\n", cantidad_torretas);
-
+    printf("cantidad original: %zd\n", cantidad_balas);
+    printf("cantidad original: %zd\n", cantidad_ataques);
+    
     //revisar choque borde:
    
-
+    /*
     if(interseccion_nave_polilinea(nave,figuras[5],planeta_actual)){
         if(!vidas_decrementar(nave)){
             salir_nivel(nave,niveles,figuras,planeta_actual,true,balas_propias,balas_enemigas);
@@ -471,13 +483,16 @@ void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *re
 
         nave_posicion_set(nave,origen);
     }
-
+    */
+    /*
     if(cantidad_combustible!=0){//y el escudo activado
         dibujar_lista(figuras[5],combustible,"COMBUSTIBLE",renderer,escala); 
         if(interseccion_lista_nave(nave,&cantidad_combustible, combustible,figuras[5], "COMBUSTIBLE")&& escudo_get(nave)){
             combustible_cargar(nave);
         }
     }
+    */
+    /*
     if(cantidad_torretas!=0){
         dibujar_lista(figuras[6],torreta,"TORRETA",renderer,escala);
         if(interseccion_lista_nave(nave,&cantidad_torretas, torreta,figuras[6], "TORRETA")){
@@ -516,7 +531,8 @@ void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *re
             puntos_torreta(nave);
         }
     }
-    
+    */
+    /*
     if(cantidad_ataques!=0){
         trayectoria_disparo(balas_enemigas);
         dibujar_lista(figuras[2],balas_enemigas,"DISPARO",renderer,escala);
@@ -527,6 +543,8 @@ void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *re
         nave_posicion_set(nave,origen);    
         }
     }
+    */
+    /*
     if(cantidad_reactores(planeta_actual)){
         if(check_reactor_nivel(nivel)){
             if(get_tiempo(nivel)>0){
@@ -545,9 +563,10 @@ void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *re
             nave_posicion_set(nave,origen);
         }
     }
-
-    destruir_disparos(balas_propias);
-    destruir_disparos(balas_enemigas);
+    */
+    //destruir_disparos(balas_propias);
+    //destruir_disparos(balas_enemigas);
+    
 
 
 /*    

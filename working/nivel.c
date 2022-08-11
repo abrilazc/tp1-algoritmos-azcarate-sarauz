@@ -267,7 +267,10 @@ nivel_t *cargar_datos_nivel(nivel_t **niveles,planeta_nombre nombre){
 }
 //getter externo
 bool get_infinito(nivel_t *nivel){
-    return nivel->infinito;
+    if(nivel->infinito)
+        return true;
+    else
+        return false;
 }
 size_t get_cantidad_torretas(nivel_t *nivel){
     return lista_largo(nivel->torreta);

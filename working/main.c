@@ -75,6 +75,8 @@ int main() {
             }
         else{
             pantalla_nivel(nave,figuras,niveles,renderer,&nivel_inicio,&planeta_actual,&f, &centro);
+            listas(nave,niveles,figuras,renderer,planeta_actual,f);
+
         }
         
         nave_velocidad_get(nave, velocidad);

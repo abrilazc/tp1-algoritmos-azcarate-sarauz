@@ -39,6 +39,6 @@ void texto(nave_t *nave, figura_t ***figuras, SDL_Renderer *renderer);
 
 void dibujar_letras(char *texto, float posicion[2]);
 
-
+void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *renderer, planeta_nombre planeta_actual, float escala);
 
 #endif

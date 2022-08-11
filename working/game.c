@@ -50,7 +50,7 @@ void registrar_teclas(nave_t *nave, SDL_Event event, bool *held_down){
                 nave_rotar_antihorario(nave);
                 break;
             case SDLK_SPACE:
-                //disparar
+                set_disparar(nave);
                 break;
         }
     }
@@ -184,4 +184,6 @@ polilinea_t *pol_planeta=(polilinea_fig(figuras[planeta_actual]))[0];
     *centro = (planeta_ancho + planeta_x_min) / 2;
     printf("centro:%.2f ancho:%.2f alto:%.2f \n" ,*centro, planeta_ancho,planeta_alto);
 }
+
+void game_over(nave_t *nave,nivel_t **niveles, figura_t ***figuras,)
 

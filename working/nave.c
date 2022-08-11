@@ -10,7 +10,7 @@ struct nave{
     uint8_t vidas;
     size_t puntos_relativos;
     size_t puntos;
-    float posicion_camara;
+    bool disparar;
 };
 
 static void nave_rotar(nave_t *nave, float angulo){
@@ -36,9 +36,7 @@ nave_t *nave_crear(figura_t **figura){
     nave->vidas=3;
     nave->puntos=0;
     nave->puntos_relativos=0;
-    nave->posicion_camara=0;
-    
-
+    nave->disparar=false;
     return nave;
 }
 
@@ -72,9 +70,7 @@ void escudo_clear(nave_t *nave){
 void vidas_reiniciar(nave_t *nave){
     nave->vidas=3;
 }
-void posicion_camara_set(nave_t *nave, float posicion){
-    nave->posicion_camara=posicion;
-}
+
 
 void nave_respawnear(nave_t *nave, float posicion[2]){
     nave_rotar(nave,(PI/2.0)-(nave->direccion));
@@ -135,6 +131,13 @@ void puntos_nivel(nave_t *nave, size_t puntos){
         nave->puntos_relativos-=10000;
     }
 }
+void set_disparar(nave_t *nave){
+    nave->disparar=true;
+}
+void clear_disparar(nave_t *nave){
+    nave->disparar=false;
+}
+
 //getters
 bool chorro_get(nave_t *nave){
     return nave->chorro;
@@ -166,9 +169,11 @@ uint8_t vidas_get(nave_t *nave){
 float combustible_get(nave_t *nave){
     return  nave->combustible;
 }
-float posicion_camara_get(nave_t *nave){
-    return nave->posicion_camara;
+
+bool get_disparar(nave_t *nave){
+    return nave->disparar;
 }
+
 //destruccion
 
 void nave_destruir(nave_t *nave){    

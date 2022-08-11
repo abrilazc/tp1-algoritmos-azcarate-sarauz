@@ -1,17 +1,4 @@
-make --dry-run --always-make --keep-going --print-directory
-make: Entering directory '/home/abril/Documents/AYP/TP1/alumnos/working'
-gcc -Wall -g -std=c99 -pedantic -Werror  -c bala.c -o bala.o -lm -lSDL2
-gcc -Wall -g -std=c99 -pedantic -Werror  -c caracteres.c -o caracteres.o -lm -lSDL2
-gcc -Wall -g -std=c99 -pedantic -Werror  -c color.c -o color.o -lm -lSDL2
-gcc -Wall -g -std=c99 -pedantic -Werror  -c figura.c -o figura.o -lm -lSDL2
-gcc -Wall -g -std=c99 -pedantic -Werror  -c fisica.c -o fisica.o -lm -lSDL2
-gcc -Wall -g -std=c99 -pedantic -Werror  -c game.c -o game.o -lm -lSDL2
-gcc -Wall -g -std=c99 -pedantic -Werror  -c lista.c -o lista.o -lm -lSDL2
-gcc -Wall -g -std=c99 -pedantic -Werror  -c main.c -o main.o -lm -lSDL2
-gcc -Wall -g -std=c99 -pedantic -Werror  -c nave.c -o nave.o -lm -lSDL2
-gcc -Wall -g -std=c99 -pedantic -Werror  -c nivel.c -o nivel.o -lm -lSDL2
-gcc -Wall -g -std=c99 -pedantic -Werror  -c pantalla.c -o pantalla.o -lm -lSDL2
-gcc -Wall -g -std=c99 -pedantic -Werror  -c polilinea.c -o polilinea.o -lm -lSDL2
-gcc bala.o caracteres.o color.o figura.o fisica.o game.o lista.o main.o nave.o nivel.o pantalla.o polilinea.o -o uwu -lm -lSDL2
-make: Leaving directory '/home/abril/Documents/AYP/TP1/alumnos/working'
- 
+make.exe --dry-run --always-make --keep-going --print-directory
+"make.exe" no se reconoce como un comando interno o externo,
+programa o archivo por lotes ejecutable.
+

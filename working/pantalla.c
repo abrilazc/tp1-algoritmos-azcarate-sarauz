@@ -463,7 +463,8 @@ void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *re
 
     //revisar choque borde:
    
-
+    //void nave_polilinea(nave_t *nave,nivel_t *niveles,figura_t *figuras,planeta_nombre planeta_actual,bala_t *balas_propias, bala_t *balas_enemigas,float origen[2]);
+    /*
     if(interseccion_nave_polilinea(nave,figuras[5],planeta_actual)){
         if(!vidas_decrementar(nave)){
             salir_nivel(nave,niveles,figuras,planeta_actual,true,balas_propias,balas_enemigas);
@@ -471,13 +472,17 @@ void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *re
 
         nave_posicion_set(nave,origen);
     }
+*/
+    //void combustible_while(size_t cantidad_combustible,figuras_t **figuras,lista_t *combustible,SDL_Render *renderer, float escala, nave_t nave)
 
     if(cantidad_combustible!=0){//y el escudo activado
         dibujar_lista(figuras[5],combustible,"COMBUSTIBLE",renderer,escala); 
         if(interseccion_lista_nave(nave,&cantidad_combustible, combustible,figuras[5], "COMBUSTIBLE")&& escudo_get(nave)){
             combustible_cargar(nave);
+            //eliminar de la lista xd xd xd
         }
     }
+    
     if(cantidad_torretas!=0){
         dibujar_lista(figuras[6],torreta,"TORRETA",renderer,escala);
         if(interseccion_lista_nave(nave,&cantidad_torretas, torreta,figuras[6], "TORRETA")){

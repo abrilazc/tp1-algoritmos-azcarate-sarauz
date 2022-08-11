@@ -10,6 +10,7 @@
 #include "fisica.h"
 #include "bala.h"
 #include "lista.h"
+#include "caracteres.h"
 
 
 //pantallas

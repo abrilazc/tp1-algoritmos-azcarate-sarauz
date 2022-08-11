@@ -6,7 +6,7 @@ make all --print-data-base --no-builtin-variables --no-builtin-rules --question
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
 
-# Make data base, printed on Wed Aug 10 01:37:51 2022
+# Make data base, printed on Wed Aug 10 19:39:12 2022
 
 # Variables
 
@@ -59,7 +59,7 @@ VSCODE_CODE_CACHE_PATH = /home/abril/.config/Code/CachedData/3b889b090b5ad5793f5
 # environment
 LANG = C
 # environment
-XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.ARA2Q1
+XAUTHORITY = /run/user/1000/.mutter-Xwaylandauth.CY2TQ1
 # default
 .LOADED := 
 # default
@@ -95,7 +95,7 @@ SNAP_REEXEC =
 # automatic
 @F = $(notdir $@)
 # environment
-VSCODE_PID = 2730
+VSCODE_PID = 2311
 # environment
 XDG_SESSION_TYPE = wayland
 # automatic
@@ -103,7 +103,7 @@ XDG_SESSION_TYPE = wayland
 # environment
 BAMF_DESKTOP_FILE_HINT = /var/lib/snapd/desktop/applications/code_code.desktop
 # environment
-SESSION_MANAGER = local/abril-VirtualBox:@/tmp/.ICE-unix/1149,unix/abril-VirtualBox:/tmp/.ICE-unix/1149
+SESSION_MANAGER = local/abril-VirtualBox:@/tmp/.ICE-unix/1161,unix/abril-VirtualBox:/tmp/.ICE-unix/1161
 # automatic
 *F = $(notdir $*)
 # environment
@@ -151,7 +151,7 @@ LC_TIME = es_AR.UTF-8
 # environment
 SNAP = /snap/code/102
 # environment
-INVOCATION_ID = 71c1cbccb8c543dcb384b0a05436aade
+INVOCATION_ID = 34deaa5e69f84f639dc398cc2105b982
 # environment
 SNAP_REVISION = 102
 # environment
@@ -187,7 +187,7 @@ SNAP_ARCH = amd64
 # makefile
 .DEFAULT_GOAL := 
 # environment
-SYSTEMD_EXEC_PID = 1196
+SYSTEMD_EXEC_PID = 1184
 # environment
 DISPLAY = :0
 # environment
@@ -203,11 +203,11 @@ SNAP_DATA = /var/snap/code/102
 # environment
 SNAP_CONTEXT = Cl8BI7CyRD4Zrous5ZAiMhsRhrbVcyFLt_kfDuZ98ITSotkpcvUg
 # environment
-MANAGERPID = 980
+MANAGERPID = 966
 # environment
 LC_MEASUREMENT = es_AR.UTF-8
 # environment
-GIO_LAUNCHED_DESKTOP_FILE_PID = 2665
+GIO_LAUNCHED_DESKTOP_FILE_PID = 2265
 # environment
 _ = /snap/code/102/usr/share/code/code
 # environment
@@ -217,7 +217,7 @@ XDG_RUNTIME_DIR = /run/user/1000
 # environment
 GDK_PIXBUF_MODULE_FILE = /home/abril/snap/code/common/.cache/gdk-pixbuf-loaders.cache
 # environment
-JOURNAL_STREAM = 8:20896
+JOURNAL_STREAM = 8:21242
 # environment
 XDG_SESSION_CLASS = user
 # environment
@@ -332,6 +332,6 @@ GNUmakefile:
 # strcache performance: lookups = 19 / hit rate = 15%
 # hash-table stats:
 # Load=16/8192=0%, Rehash=0, Collisions=0/19=0%
-# Finished Make data base on Wed Aug 10 01:37:51 2022
+# Finished Make data base on Wed Aug 10 19:39:12 2022
 
  

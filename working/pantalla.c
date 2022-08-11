@@ -9,6 +9,8 @@
 #define POS_P5 {111,307}
 #define POS_ESTRELLA {457, 364}
 
+void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *renderer, planeta_nombre planeta_actual, float escala);
+
 //pantallas
 
 void pos_planetas(size_t n, float posicion[2]){
@@ -26,21 +28,26 @@ void pos_planetas(size_t n, float posicion[2]){
 }
 
 static bool colisiones_inicio(nave_t *nave,nivel_t **niveles, float planeta_pos[7][2], planeta_nombre *planeta_actual);
-void cargar_pantalla_inicio(nave_t *nave, planeta_nombre planeta_actual,bool spawn){
+void cargar_pantalla_inicio(nave_t *nave,nivel_t **niveles,figura_t ***figuras, planeta_nombre planeta_actual,bool spawn){
     float pos[2];
     if(spawn){
+        printf("SPAWN EN BASE\n");
+        pos[0]=388;
+        pos[1]=218;
         pos_planetas(0,pos);
         vidas_reiniciar(nave);
 
+        //destruir_niveles(niveles,CANTIDAD_NIVELES);
+        //niveles=crear_niveles(figuras[1],CANTIDAD_NIVELES);
     }
-        
     else {
+        printf("SPAWN EN PLANETA\n");
         if(planeta_actual==4)
-        pos_planetas(3,pos);
-    else if(planeta_actual==2)
-        pos_planetas(5,pos);
-    else
-        pos_planetas(planeta_actual+1,pos);
+            pos_planetas(3,pos);
+        else if(planeta_actual==2)
+            pos_planetas(5,pos);
+        else
+            pos_planetas(planeta_actual+1,pos);
     pos[0]+=2*RADIONAVE;
     }
     
@@ -49,14 +56,15 @@ void cargar_pantalla_inicio(nave_t *nave, planeta_nombre planeta_actual,bool spa
     nave_velocidad_set(nave,v);
 }
 
-void salir_nivel(nave_t *nave,nivel_t *nivel,planeta_nombre planeta_actual,bool spawn,lista_t *lista, lista_t *lista2){
+void salir_nivel(nave_t *nave,nivel_t **niveles,figura_t ***figuras,planeta_nombre planeta_actual,bool spawn,lista_t *lista, lista_t *lista2){
+    nivel_t *nivel=cargar_datos_nivel(niveles, planeta_actual);
     lista_t *torreta=get_lista_torreta(nivel);
-    if(get_nivel_pasado(nivel) && largo_lista(torreta)){
+    if(get_nivel_pasado(nivel) && lista_largo(torreta)){
         puntos_planeta(nave,planeta_actual);
     }
     lista_destruir(lista,liquidar_municion);
     lista_destruir(lista2,liquidar_municion);
-    cargar_pantalla_inicio(nave, planeta_actual, spawn);
+    cargar_pantalla_inicio(nave,niveles,figuras, planeta_actual, spawn);
 }
 
 void cargar_nivel(nave_t *nave, nivel_t **niveles, planeta_nombre planeta_actual){
@@ -64,14 +72,14 @@ void cargar_nivel(nave_t *nave, nivel_t **niveles, planeta_nombre planeta_actual
     float velocidad[2]={0,0};
     nave_posicion_set(nave, posicion);
     nave_velocidad_set(nave, velocidad);
-    nivel_t *nivel=cargar_datos_nivel(niveles, planeta_actual);
+    //nivel_t *nivel=cargar_datos_nivel(niveles, planeta_actual);
     
 }
-void planeta_finito(nave_t* nave, SDL_Renderer *renderer, figura_t ***figuras, planeta_nombre *planeta_actual, float *f, float *centro, bool *inicio){
+void planeta_finito(nave_t* nave,nivel_t **niveles, SDL_Renderer *renderer, figura_t ***figuras, planeta_nombre *planeta_actual, float *f, float *centro, bool *inicio){
     calcular_escala(figuras[1],*planeta_actual,f, centro);
     if(colision_rebote_ni(nave, inicio))
         {
-            cargar_pantalla_inicio(nave,*planeta_actual,false);
+            cargar_pantalla_inicio(nave,niveles,figuras,*planeta_actual,false);
         }
     float position[2]={( - *centro + VENTANA_ANCHO / 2 / (*f))*(*f),0.0};
     render_nave(nave, renderer, figuras,1);
@@ -106,7 +114,7 @@ bool dibujar_planeta_infinito(SDL_Renderer *renderer,figura_t **figuras,char *no
     return true;
 }
 */
-void planeta_infinito(nave_t* nave, SDL_Renderer *renderer, figura_t ***figuras, planeta_nombre *planeta_actual, float *f, float *centro, bool *inicio){
+void planeta_infinito(nave_t* nave,nivel_t **niveles, SDL_Renderer *renderer, figura_t ***figuras, planeta_nombre *planeta_actual, float *f, float *centro, bool *inicio){
     float posicion_nave[2];
     
     polilinea_t *planeta_pol=polilinea_fig(figuras[1][*planeta_actual])[0];
@@ -178,7 +186,7 @@ void planeta_infinito(nave_t* nave, SDL_Renderer *renderer, figura_t ***figuras,
     }
     if(posicion_nave[1]>=VENTANA_ALTO){
             *inicio=true;
-            cargar_pantalla_inicio(nave,*planeta_actual,false);
+            cargar_pantalla_inicio(nave,niveles,figuras,*planeta_actual,false);
     }
     
 }
@@ -207,17 +215,19 @@ bool pantalla_inicio_mostrar(nave_t *nave,figura_t ***figuras, nivel_t **niveles
     texto(nave, figuras, renderer);
     return !colisiones_inicio(nave,niveles,planetas,planeta_actual);
 }
-void pantalla_nivel(nave_t *nave, figura_t ***figuras, SDL_Renderer *renderer, bool *goto_inicio, planeta_nombre *planeta_actual, float *f, float *centro){
+void pantalla_nivel(nave_t *nave, figura_t ***figuras,nivel_t **niveles, SDL_Renderer *renderer, bool *goto_inicio, planeta_nombre *planeta_actual, float *f, float *centro){
     float posicion[2];
     nave_posicion_get(nave, posicion);
     //calcular_escala(posicion[1],f);
     //calcular_centro(*f,posicion[0],centro);
     computar_posicion(nave, NULL);
+    //nivel_t *nivel=cargar_datos_nivel(niveles,*planeta_actual);
+    listas(nave,niveles,figuras,renderer,*planeta_actual,*f);
     
     if(*planeta_actual==NIVEL1R||*planeta_actual==NIVEL1NW)
-        planeta_finito(nave, renderer, figuras, planeta_actual,f, centro, goto_inicio);
+        planeta_finito(nave,niveles, renderer, figuras, planeta_actual,f, centro, goto_inicio);
     else    
-        planeta_infinito(nave, renderer, figuras, planeta_actual,f, centro, goto_inicio);
+        planeta_infinito(nave,niveles, renderer, figuras, planeta_actual,f, centro, goto_inicio);
     texto(nave, figuras, renderer);
 }
 
@@ -432,8 +442,8 @@ void texto(nave_t *nave, figura_t ***figuras, SDL_Renderer *renderer){
     renderizar_vidas(nave, renderer);  
 } 
 
-void listas(nave_t *nave,nivel_t *nivel,figura_t ***figuras, SDL_Renderer *renderer, planeta_nombre planeta_actual, bool *pantalla_inicio_spawn, float escala){
-
+void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *renderer, planeta_nombre planeta_actual, float escala){
+    nivel_t *nivel=cargar_datos_nivel(niveles, planeta_actual);
     //inicializo variables
     lista_t *combustible=get_lista_combustible(nivel);
     lista_t *torreta=get_lista_torreta(nivel);
@@ -456,7 +466,7 @@ void listas(nave_t *nave,nivel_t *nivel,figura_t ***figuras, SDL_Renderer *rende
 
     if(interseccion_nave_polilinea(nave,figuras[5],planeta_actual)){
         if(!vidas_decrementar(nave)){
-            salir_nivel(nave,nivel,planeta_actual,true,balas_propias,balas_enemigas);
+            salir_nivel(nave,niveles,figuras,planeta_actual,true,balas_propias,balas_enemigas);
         }
 
         nave_posicion_set(nave,origen);
@@ -512,7 +522,7 @@ void listas(nave_t *nave,nivel_t *nivel,figura_t ***figuras, SDL_Renderer *rende
         dibujar_lista(figuras[2],balas_enemigas,"DISPARO",renderer,escala);
         if(interseccion_lista_nave(nave,&cantidad_ataques,balas_enemigas,figuras[2],"DISPARO")){
             if(!vidas_decrementar(nave)){
-                salir_nivel(nave,nivel,planeta_actual,true,balas_propias,balas_enemigas);
+                salir_nivel(nave,niveles,figuras,planeta_actual,true,balas_propias,balas_enemigas);
             }
         nave_posicion_set(nave,origen);    
         }
@@ -530,7 +540,7 @@ void listas(nave_t *nave,nivel_t *nivel,figura_t ***figuras, SDL_Renderer *rende
                 numero_a_polilinea(get_tiempo(nivel),renderer, posicion_texto,false, false, true);
             }
             else if(!vidas_decrementar(nave)){
-                salir_nivel(nave,nivel,planeta_actual,true,balas_propias,balas_enemigas);
+                salir_nivel(nave,niveles,figuras,planeta_actual,true,balas_propias,balas_enemigas);
             }
             nave_posicion_set(nave,origen);
         }

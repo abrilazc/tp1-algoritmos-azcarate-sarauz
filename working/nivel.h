@@ -6,8 +6,9 @@
 #include "lista.h"
 #include "figura.h"
 #include "bala.h"
+#include "nave.h"
 //#include "config.h"
-
+#define CANTIDAD_NIVELES 5
 
 struct vector;
 struct objeto;
@@ -55,7 +56,7 @@ size_t get_cantidad_combustible(nivel_t *nivel);
 lista_t *get_lista_torreta(nivel_t *nivel);
 lista_t *get_lista_combustible(nivel_t *nivel);
 figura_t *get_figura_nivel(nivel_t *nivel);
-bool get_nivel_pasado(nivel_t *nivel)
+bool get_nivel_pasado(nivel_t *nivel);
 
 void objeto_a_posicion(objeto_t *objeto,float *posicion);
 void objeto_a_direccion(objeto_t *objeto,float *direccion);

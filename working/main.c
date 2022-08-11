@@ -39,8 +39,10 @@ int main() {
     nave_posicion_set(nave, posicion);
     bool held_down=false;
     size_t frame=0;
+    
     // Queremos que todo se dibuje escalado por f:
     float f = 1;
+    //listas(nave,niveles,figuras,renderer,planeta_actual,f);
     // END código del alumno
     
     unsigned int ticks = SDL_GetTicks();
@@ -73,6 +75,8 @@ int main() {
             }
         else{
             pantalla_nivel(nave,figuras,niveles,renderer,&nivel_inicio,&planeta_actual,&f, &centro);
+            listas(nave,niveles,figuras,renderer,planeta_actual,f);
+
         }
         
         nave_velocidad_get(nave, velocidad);

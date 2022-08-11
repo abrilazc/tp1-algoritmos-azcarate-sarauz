@@ -24,14 +24,14 @@ int main(void){
     //creo niveles
     nivel_t **niveles=crear_niveles(figuras[1],cantidad_niveles);
     nave_t *nave=nave_crear(figuras[2]);
-    planeta_nombre planeta_actual=NIVEL1NE;
+    planeta_nombre planeta_actual=NIVEL1NW;
     nivel_t *nivel=niveles[planeta_actual];
     bool pantalla_inicio_spawn=true;
     //float posicion_nave[]={0,0};
     //float escala=1;
 
 
-    printf("positivo %d",pantalla_inicio_spawn);
+    printf("positivo %d\n",pantalla_inicio_spawn);
     
     //inicializo variables
     lista_t *combustible=get_lista_combustible(nivel);
@@ -49,10 +49,11 @@ int main(void){
 
     //float posi[]={1667,113};
     printf("cantidad original: %zd\n", cantidad_torretas);
+    printf("cantidad original: %zd\n", cantidad_combustible);
 
     //revisar choque borde:
    
-
+    /* cantidad_poli_fig return figur->cantidad_polilineas
     if(interseccion_nave_polilinea(nave,figuras[5],planeta_actual)){
         if(!vidas_decrementar(nave)){
         lista_destruir(balas_propias,liquidar_municion);
@@ -61,6 +62,7 @@ int main(void){
         }
         nave_posicion_set(nave,origen);
     }
+    */
     if(cantidad_combustible!=0){//y el escudo activado
         //dibujar_lista(figuras[5],combustible,"COMBUSTIBLE",renderer,escala); 
         if(interseccion_lista_nave(nave,&cantidad_combustible, combustible,figuras[5], "COMBUSTIBLE")){

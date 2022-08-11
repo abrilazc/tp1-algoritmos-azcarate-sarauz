@@ -2,9 +2,7 @@
 #define _NAVE_H_
 
 #include "figura.h"
-#include "config.h"
 #include <stdint.h>
-#include "nivel.h"
 struct nave;
 
 typedef struct nave nave_t;

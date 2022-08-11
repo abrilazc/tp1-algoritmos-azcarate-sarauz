@@ -185,5 +185,5 @@ polilinea_t *pol_planeta=(polilinea_fig(figuras[planeta_actual]))[0];
     printf("centro:%.2f ancho:%.2f alto:%.2f \n" ,*centro, planeta_ancho,planeta_alto);
 }
 
-void game_over(nave_t *nave,nivel_t **niveles, figura_t ***figuras,)
+//void game_over(nave_t *nave,nivel_t **niveles, figura_t ***figuras);
 

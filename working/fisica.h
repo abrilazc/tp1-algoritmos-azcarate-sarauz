@@ -7,10 +7,8 @@
 #include <math.h>
 #include <stdbool.h>
 
-#include "config.h"
 #include "polilinea.h"
 #include "nave.h"
-#include "pantalla.h"
 
 #define RADIONAVE 25//o cualquier valor
 #define DT 1/(JUEGO_FPS*1.00)

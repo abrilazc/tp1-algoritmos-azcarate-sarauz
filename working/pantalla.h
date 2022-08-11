@@ -2,22 +2,22 @@
 #define _PANTALLA_H_
 
 #include <SDL2/SDL.h>
-#include "nave.h"
-#include "nivel.h"
+//#include "nave.h"
+//#include "nivel.h"
 #include "game.h"
 #include <stdbool.h>
 #include <stdio.h>
-#include "fisica.h"
-#include "bala.h"
+//#include "fisica.h"
+//#include "bala.h"
 #include "lista.h"
 #include "caracteres.h"
 
 
 //pantallas
-void cargar_pantalla_inicio(nave_t *nave, planeta_nombre planeta_actual,bool spawn);
+void cargar_pantalla_inicio(nave_t *nave,nivel_t **niveles,figura_t ***figuras, planeta_nombre planeta_actual,bool spawn);
 bool pantalla_inicio_mostrar(nave_t *nave,figura_t ***figuras, nivel_t **niveles, SDL_Renderer *renderer, float *f, planeta_nombre *planeta_actual);
 void cargar_nivel(nave_t *nave,nivel_t **niveles, planeta_nombre planeta_actual);
-void pantalla_nivel(nave_t *nave, figura_t ***figuras, SDL_Renderer *renderer, bool *goto_inicio, planeta_nombre *planeta_actual, float *f,float *centro);
+void pantalla_nivel(nave_t *nave, figura_t ***figuras,nivel_t **niveles, SDL_Renderer *renderer, bool *goto_inicio, planeta_nombre *planeta_actual, float *f, float *centro);
 //estado nave
 void estado_nave(nave_t *nave, float pos_g[2]);
 
@@ -35,8 +35,10 @@ size_t interseccion_lista_lista(lista_t *lista, lista_t *lista_2,size_t *cantida
 //revisa si la nave toca alguna polilinea,concretamente la superficie de un planeta
 bool interseccion_nave_polilinea(nave_t *nave,figura_t **figura,planeta_nombre nombre);
 
-void texto_bis(nave_t *nave, figura_t ***figuras, SDL_Renderer *renderer);
+void texto(nave_t *nave, figura_t ***figuras, SDL_Renderer *renderer);
 
 void dibujar_letras(char *texto, float posicion[2]);
+
+
 
 #endif

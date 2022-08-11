@@ -66,13 +66,13 @@ int main() {
         // Dibujamos la nave escalada por f en el centro de la pantalla:
         if(nivel_inicio){
             if(pantalla_inicio_spawn){
-                cargar_pantalla_inicio(nave,planeta_actual,pantalla_inicio_spawn);
+                cargar_pantalla_inicio(nave,niveles,figuras,planeta_actual,pantalla_inicio_spawn);
                 pantalla_inicio_spawn=false;
             }
             nivel_inicio=pantalla_inicio_mostrar(nave, figuras, niveles, renderer, &f, &planeta_actual);
             }
         else{
-            pantalla_nivel(nave,figuras,renderer,&nivel_inicio,&planeta_actual,&f, &centro);
+            pantalla_nivel(nave,figuras,niveles,renderer,&nivel_inicio,&planeta_actual,&f, &centro);
         }
         
         nave_velocidad_get(nave, velocidad);

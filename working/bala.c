@@ -3,7 +3,7 @@ struct bala{
     float posicion[2];
     float direccion;
     float velocidad;
-    size_t tiempo;
+    float tiempo;
 };
 
 bala_t *crear_bala(float posicion[2],float direccion){
@@ -39,6 +39,7 @@ bool destruir_disparos(lista_t *lista){
             }
             lista_iter_avanzar(lista_iter);
         }
+        i++;
     }
     lista_iter_destruir(lista_iter);
     return false;

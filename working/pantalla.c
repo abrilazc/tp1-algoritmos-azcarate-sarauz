@@ -84,7 +84,7 @@ void planeta_finito(nave_t* nave,nivel_t **niveles, SDL_Renderer *renderer, figu
             cargar_pantalla_inicio(nave,niveles,figuras,*planeta_actual,false);
         }
     printf("centro: %.2f\n",*centro);
-    float position[2]={(VENTANA_ANCHO/2.0)-(*centro)*(*f)-min[0]/2*(*f),0.0};//(-(*centro-max[0]+VENTANA_ANCHO/2/(*f)))*(*f)
+    float position[2]={(VENTANA_ANCHO/2.0)-(*centro)*(*f)-min[0]/2*(*f),0.0};
     render_nave(nave, renderer, figuras,1);
     if(*planeta_actual==NIVEL1R){
         printf("NIVEL1R");
@@ -214,7 +214,7 @@ void pantalla_nivel(nave_t *nave, figura_t ***figuras,nivel_t **niveles, SDL_Ren
     //nivel_t *nivel=cargar_datos_nivel(niveles,*planeta_actual);
     float origen[2]={VENTANA_ANCHO*(1-MARGEN_NIVEL_FIJO),VENTANA_ALTO* MARGEN_NIVEL_FIJO};
     
-    if(interseccion_nave_polilinea(nave,figuras[1],*planeta_actual)){
+    if(interseccion_nave_polilinea(nave,figuras[1],*planeta_actual,*f)){
         nave_posicion_set(nave,origen);
         printf("colision con terreno\n");
     }
@@ -271,7 +271,7 @@ static bool colisiones_inicio(nave_t *nave,nivel_t **niveles, float planeta_pos[
 
 //sirve para iterar contra COMBUSTIBLE si este no es 0
 //cambiar a bool
-bool interseccion_lista_nave(nave_t *nave,size_t *cantidad, lista_t *lista,figura_t **figuras,char *nombre){
+bool interseccion_lista_nave(nave_t *nave,size_t *cantidad, lista_t *lista,figura_t **figuras,char *nombre, float f){
     lista_iter_t *lista_iter;
     lista_iter=lista_iter_crear(lista);
     
@@ -301,7 +301,7 @@ bool interseccion_lista_nave(nave_t *nave,size_t *cantidad, lista_t *lista,figur
             polilinea_obtener_punto(polilinea, g, &puntos_polilinea[g][0], &puntos_polilinea[g][1]);
         }
 
-        if(colision(puntos_polilinea, puntos, posicion_nave, r)){//posi=posicion_nave
+        if(colision(puntos_polilinea, puntos, posicion_nave, r, f)){//posi=posicion_nave
             if(!strcmp(nombre,"TORRETA")){
                 //disparar
                 lista_iter_destruir(lista_iter);
@@ -337,7 +337,7 @@ void dibujar_lista(figura_t **figuras, lista_t *lista,char *nombre,SDL_Renderer 
     lista_iter_destruir(liter);
 }
 //cuenta intersecciones entre listas, si cualquier punto de la lista  1 alcanza las poliines del 2, destruye a este ultimo.
-size_t interseccion_lista_lista(lista_t *lista, lista_t *lista_2,size_t *cantidad_2){
+size_t interseccion_lista_lista(lista_t *lista, lista_t *lista_2,size_t *cantidad_2, float f){
     size_t intersecciones=0;
     
     lista_iter_t *lista_iter;
@@ -360,7 +360,7 @@ size_t interseccion_lista_lista(lista_t *lista, lista_t *lista_2,size_t *cantida
             objeto_a_posicion(objeto_2,posicion_lista_2);
             size_t puntos=sizeof(objeto_2)/sizeof(float);
 
-            if(colision(&posicion_lista_2, puntos, posicion_lista, r)){
+            if(colision(&posicion_lista_2, puntos, posicion_lista, r, f)){
                 objeto_t *dest=lista_iter_borrar(lista_iter);
                 (*cantidad_2)--;
                 lista_iter_destruir(lista_iter_2);
@@ -376,10 +376,10 @@ size_t interseccion_lista_lista(lista_t *lista, lista_t *lista_2,size_t *cantida
     return intersecciones;
 }
 //verifica si la nave se cruzó con las lineas del planeta
-bool interseccion_nave_polilinea(nave_t *nave,figura_t **figuras,planeta_nombre nombre){
+bool interseccion_nave_polilinea(nave_t *nave,figura_t **figuras,planeta_nombre nombre, float f){
     float posicion_nave[2]; 
     nave_posicion_get(nave,posicion_nave);
-    float r=5;
+    float r=2;
 
     figura_t *figura=figuras[nombre];
     size_t cantidad_poli=cantidad_poli_fig(figura);
@@ -395,7 +395,7 @@ bool interseccion_nave_polilinea(nave_t *nave,figura_t **figuras,planeta_nombre 
             polilinea_obtener_punto(polilinea, g, &puntos_polilinea[g][0], &puntos_polilinea[g][1]);
         }
 
-        if(colision(puntos_polilinea, puntos, posicion_nave, r)){//posi=posicion_nave
+        if(colision(puntos_polilinea, puntos, posicion_nave, r, f)){//posi=posicion_nave
             return true;
         } 
     }
@@ -462,12 +462,12 @@ void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *re
 
         nave_posicion_set(nave,origen);
     }
-*/
+    */
     //void combustible_while(size_t cantidad_combustible,figuras_t **figuras,lista_t *combustible,SDL_Render *renderer, float escala, nave_t nave)
 
     if(cantidad_combustible!=0){//y el escudo activado
         dibujar_lista(figuras[5],combustible,"COMBUSTIBLE",renderer,escala); 
-        if(interseccion_lista_nave(nave,&cantidad_combustible, combustible,figuras[5], "COMBUSTIBLE")&& escudo_get(nave)){
+        if(interseccion_lista_nave(nave,&cantidad_combustible, combustible,figuras[5], "COMBUSTIBLE", escala)&& escudo_get(nave)){
             combustible_cargar(nave);
             //eliminar de la lista xd xd xd
         }
@@ -475,7 +475,7 @@ void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *re
     
     if(cantidad_torretas!=0){
         dibujar_lista(figuras[6],torreta,"TORRETA",renderer,escala);
-        if(interseccion_lista_nave(nave,&cantidad_torretas, torreta,figuras[6], "TORRETA")){
+        if(interseccion_lista_nave(nave,&cantidad_torretas, torreta,figuras[6], "TORRETA", escala)){
             if(cantidad_ataques<MAX_BAL_ENEM){
                 size_t numero_torreta=cantidad_torretas;
                 lista_iter_t *lista_iter=lista_iter_crear(torreta);
@@ -502,7 +502,7 @@ void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *re
         if(cantidad_balas!=0){
             trayectoria_disparo(balas_propias);
             dibujar_lista(figuras[2],balas_propias,"DISPARO",renderer,escala);
-            bajas=interseccion_lista_lista(balas_propias, torreta,&cantidad_torretas);
+            bajas=interseccion_lista_lista(balas_propias, torreta,&cantidad_torretas, escala);
             printf("%zd bajas enemigas\n",bajas);
         }
         size_t i=0;
@@ -515,7 +515,7 @@ void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *re
     if(cantidad_ataques!=0){
         trayectoria_disparo(balas_enemigas);
         dibujar_lista(figuras[2],balas_enemigas,"DISPARO",renderer,escala);
-        if(interseccion_lista_nave(nave,&cantidad_ataques,balas_enemigas,figuras[2],"DISPARO")){
+        if(interseccion_lista_nave(nave,&cantidad_ataques,balas_enemigas,figuras[2],"DISPARO", escala)){
             if(!vidas_decrementar(nave)){
                 salir_nivel(nave,niveles,figuras,planeta_actual,true,balas_propias,balas_enemigas);
             }

@@ -102,7 +102,12 @@ static float calc_alfa(float px, float py, float a[2], float b[2]){
     return ((px-a[0])*(b[0]-a[0])+(py-a[1])*(b[1]-a[1]))/pow(dist_puntos(a,b),2);
 }
 
-static float encontrar_dist_segmento(float p[2], float a[2], float b[2]){
+static float encontrar_dist_segmento(float p[2], float pto_a[2], float pto_b[2], float f){
+    float a[2];
+    a[0]=pto_a[0]*f;
+    a[1]=pto_b[1]*f;
+    float b[2];
+    
     float alfa =calc_alfa(p[0], p[1], a, b);
     if (alfa <= 0)
         return dist_puntos(p, a);
@@ -118,10 +123,10 @@ static float encontrar_dist_segmento(float p[2], float a[2], float b[2]){
 }
 
 
-bool colision(float polilinea[][2], size_t n, float pos[2], float radio){ //retorna true si chocó
+bool colision(float polilinea[][2], size_t n, float pos[2], float radio, float f){ //retorna true si chocó
     float dist;
     for(size_t i = 0; i < n-1; i++){
-        dist=encontrar_dist_segmento(pos, polilinea[i],polilinea[i+1]);
+        dist=encontrar_dist_segmento(pos, polilinea[i],polilinea[i+1],f);
         if(dist<radio){
             return true;
         }

@@ -28,13 +28,13 @@ void iteracion_nave_inicio(nave_t *nave,float planeta[7][2]);
 void iteraciones_colisiones_inicio(nave_t nave, float planeta[7][2]);
 
 //se revisa que si algun elemento de una lista se interseca con la nave
-bool interseccion_lista_nave(nave_t *nave,size_t *cantidad, lista_t *lista,figura_t **figuras,char *nombre);
+bool interseccion_lista_nave(nave_t *nave,size_t *cantidad, lista_t *lista,figura_t **figuras,char *nombre, float f);
 //dibuja en en SDL todos los elementos de una lista
 void dibujar_lista(figura_t **figuras, lista_t *lista,char *nombre,SDL_Renderer *renderer, float escala);
 //revisa si hay interseccion entre los elementos de 2 listas o cuantas hay si es una municion a torreta
-size_t interseccion_lista_lista(lista_t *lista, lista_t *lista_2,size_t *cantidad_2);
+size_t interseccion_lista_lista(lista_t *lista, lista_t *lista_2,size_t *cantidad_2, float f);
 //revisa si la nave toca alguna polilinea,concretamente la superficie de un planeta
-bool interseccion_nave_polilinea(nave_t *nave,figura_t **figura,planeta_nombre nombre);
+bool interseccion_nave_polilinea(nave_t *nave,figura_t **figura,planeta_nombre nombre, float f);
 
 void texto(nave_t *nave, figura_t ***figuras, SDL_Renderer *renderer);
 

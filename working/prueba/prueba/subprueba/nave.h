@@ -2,7 +2,9 @@
 #define _NAVE_H_
 
 #include "figura.h"
+#include "config.h"
 #include <stdint.h>
+
 struct nave;
 
 typedef struct nave nave_t;
@@ -25,9 +27,7 @@ void nave_rotar_horario(nave_t *nave);
 void nave_rotar_antihorario(nave_t *nave);
 void puntos_torreta(nave_t *nave);
 void puntos_nivel(nave_t *nave, size_t puntos);
-void vidas_reiniciar(nave_t *nave);
-void set_disparar(nave_t *nave);
-void clear_disparar(nave_t *nave);
+
 //getters
 bool chorro_get(nave_t *nave);
 bool escudo_get(nave_t *nave);
@@ -36,7 +36,7 @@ void nave_velocidad_get(nave_t *nave, float velocidad[2]);
 double direccion_get(nave_t *nave);
 float combustible_get(nave_t *nave);
 uint8_t vidas_get(nave_t *nave);
-bool get_disparar(nave_t *nave);
+
 //destrucción
 
 void nave_destruir(nave_t *nave);

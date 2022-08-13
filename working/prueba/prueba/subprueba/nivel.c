@@ -17,7 +17,6 @@ struct reactor{
 struct nivel{
     figura_t *figura;
     bool infinito;
-    bool exito;
     lista_t *combustible;
     lista_t *torreta;
     reactor_t *reactor;
@@ -53,17 +52,6 @@ const bool cantidad_reactores(planeta_nombre nombre){
     [NIVEL1R]=1,
     [NIVEL1NW]=0,
     [NIVEL1SW]=0
-    };
-    return cantidad[nombre];
-}
-//bonus terminar planeta
-const size_t bonus_nivel(planeta_nombre nombre){
-    static const size_t cantidad[]={
-    [NIVEL1NE]=2000,
-    [NIVEL1SE]=4000,
-    [NIVEL1R]=9000,
-    [NIVEL1NW]=8000,
-    [NIVEL1SW]=6000
     };
     return cantidad[nombre];
 }
@@ -149,7 +137,6 @@ nivel_t *crear_nivel(figura_t **figuras,planeta_nombre nombre){
     
     nivel->figura=figura;
     nivel->infinito=infinito_fig(figura);
-    nivel->exito=false;
     nivel->combustible=lista_combustible(nombre);
     nivel->torreta=lista_torreta(nombre);
     nivel->reactor=crear_reactor(nombre);
@@ -253,9 +240,6 @@ void armar_lista_torreta(lista_t *lista, planeta_nombre planeta){
 void decremento_reactor(reactor_t *reactor){
     (reactor->tiempo)-=1/(JUEGO_FPS*25);
 }
-void set_nivel_pasado(nivel_t *nivel){
-    nivel->exito=true;
-}
 
 
 
@@ -267,11 +251,12 @@ nivel_t *cargar_datos_nivel(nivel_t **niveles,planeta_nombre nombre){
 }
 //getter externo
 bool get_infinito(nivel_t *nivel){
-    if(nivel->infinito)
-        return true;
-    else
-        return false;
+    return nivel->infinito;
 }
+/*reactor_t *get_reactor_nivel(nivel_t *nivel){
+    reactor_t reactor=nivel->reactor;
+    return reactor;
+}*/
 size_t get_cantidad_torretas(nivel_t *nivel){
     return lista_largo(nivel->torreta);
 }
@@ -297,9 +282,6 @@ void objeto_a_posicion(objeto_t *objeto,float *posicion){
 void objeto_a_direccion(objeto_t *objeto,float *direccion){
     *direccion=objeto->direccion;
 }
-bool get_nivel_pasado(nivel_t *nivel){
-    return nivel->exito;
-}
 //reactor
 bool check_reactor_nivel(nivel_t *nivel){
     reactor_t *reactor=nivel->reactor;
@@ -321,12 +303,6 @@ float get_tiempo(nivel_t *nivel){
     float tiempo=reactor->tiempo;
     return tiempo;
 }
-//puntos
-void puntos_planeta(nave_t *nave,planeta_nombre planeta){
-    size_t puntos=bonus_nivel(planeta);
-    puntos_nivel(nave,puntos);
-}
-
 
 //DESTRUIR
 //lista_destruir

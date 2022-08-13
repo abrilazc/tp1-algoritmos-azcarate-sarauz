@@ -75,14 +75,17 @@ void cargar_nivel(nave_t *nave, nivel_t **niveles, planeta_nombre planeta_actual
     
 }
 void planeta_finito(nave_t* nave,nivel_t **niveles, SDL_Renderer *renderer, figura_t ***figuras, planeta_nombre *planeta_actual, float *f, float *centro, bool *inicio){
-    calcular_escala(figuras[1],*planeta_actual,f, centro);
+    float min[2];
+    float max[2];
+    
+    calcular_escala(figuras[1],*planeta_actual,f, centro, min, max);
     if(colision_rebote_ni(nave, inicio))
         {
             cargar_pantalla_inicio(nave,niveles,figuras,*planeta_actual,false);
         }
-    float position[2]={0.0 ,0.0};//- *centro + VENTANA_ANCHO / 2 / (*f))*(*f)
+    printf("centro: %.2f\n",*centro);
+    float position[2]={(VENTANA_ANCHO/2.0)-(*centro)*(*f)-min[0]/2*(*f),0.0};//(-(*centro-max[0]+VENTANA_ANCHO/2/(*f)))*(*f)
     render_nave(nave, renderer, figuras,1);
-    printf("func_render_ni\n");
     if(*planeta_actual==NIVEL1R){
         printf("NIVEL1R");
         dibujar_figura(renderer,figuras[1], "NIVEL1R",position,*f);
@@ -92,27 +95,7 @@ void planeta_finito(nave_t* nave,nivel_t **niveles, SDL_Renderer *renderer, figu
         dibujar_figura(renderer,figuras[1], "NIVEL1NW",position,*f);
     }
 }
-/*
-bool dibujar_planeta_infinito(SDL_Renderer *renderer,figura_t **figuras,char *nombre, float posicion[2], float escala, float x_max, float x_min){
-    figura_t *figura=cargar_nombre(figuras,nombre);
-    polilinea_t **polilineas=polilinea_fig(figura);
-    size_t cant_poli=cantidad_poli_fig(figura);
-    
-    for(size_t i=0;i<cant_poli;i++){
-        polilinea_t *polilinea_original=polilineas[i];
-        polilinea_t *prepolilinea=polilinea_clonar(polilinea_original);
-        polilinea_t *postpolilinea=polilinea_clonar(polilinea_original);
-        
-        float pos_min[2]={posicion[0]+x_min,posicion[1]};
-        float pos_max[2]={posicion[0]+x_max,posicion[1]};
-        
-        if(dibujar_polilinea(renderer, polilinea_original, posicion, escala)==false) return false;
-        if(dibujar_polilinea(renderer, prepolilinea, pos_max, escala)==false) return false;
-        if(dibujar_polilinea(renderer, postpolilinea, pos_min, escala)==false) return false;
-    }
-    return true;
-}
-*/
+
 void planeta_infinito(nave_t* nave,nivel_t **niveles, SDL_Renderer *renderer, figura_t ***figuras, planeta_nombre *planeta_actual, float *f, float *centro, bool *inicio){
     float posicion_nave[2];
     
@@ -229,10 +212,13 @@ void pantalla_nivel(nave_t *nave, figura_t ***figuras,nivel_t **niveles, SDL_Ren
     //calcular_centro(*f,posicion[0],centro);
     computar_posicion(nave, NULL);
     //nivel_t *nivel=cargar_datos_nivel(niveles,*planeta_actual);
-    float origen[2]={VENTANA_ANCHO/2,VENTANA_ALTO* MARGEN_ALTURA};
+    float origen[2]={VENTANA_ANCHO*(1-MARGEN_NIVEL_FIJO),VENTANA_ALTO* MARGEN_NIVEL_FIJO};
+    
     if(interseccion_nave_polilinea(nave,figuras[1],*planeta_actual)){
         nave_posicion_set(nave,origen);
+        printf("colision con terreno\n");
     }
+    
     listas(nave,niveles,figuras,renderer,*planeta_actual,*f);
     
     if(*planeta_actual==NIVEL1R||*planeta_actual==NIVEL1NW)

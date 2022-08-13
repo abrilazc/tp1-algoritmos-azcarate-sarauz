@@ -1,0 +1,284 @@
+void dibujar_listas_sub(figura_t ***figs,SDL_Renderer *renderer,float f,float centro[2], planeta_nombre planeta_actual){
+    figura_t **figs_torretas=figs[6];
+    figura_t **figs_comb=figs[7];
+    lista_t *torretas=lista_torreta(planeta_actual);
+    lista_t *combustible=lista_combustible(planeta_actual);
+    if(!lista_esta_vacia(torretas)) dibujar_lista(figs_torretas,torretas,"TORRETAS",renderer,f,centro);
+    if(!lista_esta_vacia(combustible)) dibujar_lista(figs_comb,combustible,"COMBUSTIBLE",renderer,f,centro);
+}
+
+
+TORRETA:numero 0:
+341	        objeto_t *objeto=lista_iter_ver_actual(liter);
+(gdb) n
+342	        objeto_a_direccion(objeto,&direccion);
+(gdb) n
+343	        objeto_a_posicion(objeto,posicion);
+(gdb) n
+345	        posicion[0]-=origen[0];
+(gdb) 
+346	        posicion[1]-=origen[1];
+(gdb) 
+347	        dibujar_figura_bis(renderer,figuras,nombre,posicion,escala,direccion);
+(gdb) 
+
+polilinea 0 de TORRETA:
+
+ubicacion: 9.187314 -11.857203
+
+ubicacion: -9.941231 -16.558138
+
+ubicacion: -18.516056 -5.491415
+polilinea 1 de TORRETA:
+
+ubicacion: -11.778693 -14.186697
+
+ubicacion: -16.521574 -17.861622
+
+ubicacion: -21.421474 -11.537781
+348	        lista_iter_avanzar(liter);
+(gdb) 
+339	    for(size_t i=0;i<cantidad;i++){
+(gdb) 
+340	        printf("%s:numero %zd:\n",nombre,i);
+(gdb) 
+TORRETA:numero 1:
+341	        objeto_t *objeto=lista_iter_ver_actual(liter);
+(gdb) 
+342	        objeto_a_direccion(objeto,&direccion);
+(gdb) 
+343	        objeto_a_posicion(objeto,posicion);
+(gdb) 
+345	        posicion[0]-=origen[0];
+(gdb) 
+346	        posicion[1]-=origen[1];
+(gdb) 
+347	        dibujar_figura_bis(renderer,figuras,nombre,posicion,escala,direccion);
+(gdb) 
+
+polilinea 0 de TORRETA:
+
+ubicacion: 11.864516 9.177868
+
+ubicacion: 16.550215 -9.954414
+
+ubicacion: 5.476667 -18.520424
+polilinea 1 de TORRETA:
+
+ubicacion: 14.177312 -11.789988
+
+ubicacion: 17.848459 -16.535795
+
+ubicacion: 11.520718 -21.430656
+348	        lista_iter_avanzar(liter);
+(gdb) 
+339	    for(size_t i=0;i<cantidad;i++){
+(gdb) 
+340	        printf("%s:numero %zd:\n",nombre,i);
+(gdb) 
+TORRETA:numero 2:
+341	        objeto_t *objeto=lista_iter_ver_actual(liter);
+(gdb) 
+342	        objeto_a_direccion(objeto,&direccion);
+(gdb) 
+343	        objeto_a_posicion(objeto,posicion);
+(gdb) 
+345	        posicion[0]-=origen[0];
+(gdb) 
+346	        posicion[1]-=origen[1];
+(gdb) 
+347	        dibujar_figura_bis(renderer,figuras,nombre,posicion,escala,direccion);
+(gdb) 
+
+polilinea 0 de TORRETA:
+
+ubicacion: 9.187314 -11.857203
+
+ubicacion: -9.941231 -16.558138
+
+ubicacion: -18.516056 -5.491415
+polilinea 1 de TORRETA:
+
+ubicacion: -11.778693 -14.186697
+
+ubicacion: -16.521574 -17.861622
+
+ubicacion: -21.421474 -11.537781
+348	        lista_iter_avanzar(liter);
+(gdb) 
+339	    for(size_t i=0;i<cantidad;i++){
+(gdb) 
+340	        printf("%s:numero %zd:\n",nombre,i);
+(gdb) 
+TORRETA:numero 3:
+341	        objeto_t *objeto=lista_iter_ver_actual(liter);
+(gdb) 
+342	        objeto_a_direccion(objeto,&direccion);
+(gdb) 
+343	        objeto_a_posicion(objeto,posicion);
+(gdb) 
+345	        posicion[0]-=origen[0];
+(gdb) 
+346	        posicion[1]-=origen[1];
+(gdb) 
+347	        dibujar_figura_bis(renderer,figuras,nombre,posicion,escala,direccion);
+(gdb) 
+
+polilinea 0 de TORRETA:
+
+ubicacion: 11.864516 9.177868
+
+ubicacion: 16.550215 -9.954414
+
+ubicacion: 5.476667 -18.520424
+polilinea 1 de TORRETA:
+
+ubicacion: 14.177312 -11.789988
+
+ubicacion: 17.848459 -16.535795
+
+ubicacion: 11.520718 -21.430656
+348	        lista_iter_avanzar(liter);
+(gdb) 
+339	    for(size_t i=0;i<cantidad;i++){
+(gdb) 
+340	        printf("%s:numero %zd:\n",nombre,i);
+(gdb) 
+TORRETA:numero 4:
+341	        objeto_t *objeto=lista_iter_ver_actual(liter);
+(gdb) 
+342	        objeto_a_direccion(objeto,&direccion);
+(gdb) 
+343	        objeto_a_posicion(objeto,posicion);
+(gdb) 
+345	        posicion[0]-=origen[0];
+(gdb) 
+346	        posicion[1]-=origen[1];
+(gdb) 
+347	        dibujar_figura_bis(renderer,figuras,nombre,posicion,escala,direccion);
+(gdb) 
+
+polilinea 0 de TORRETA:
+
+ubicacion: 11.864516 9.177868
+
+ubicacion: 16.550215 -9.954414
+
+ubicacion: 5.476667 -18.520424
+polilinea 1 de TORRETA:
+
+ubicacion: 14.177312 -11.789988
+
+ubicacion: 17.848459 -16.535795
+
+ubicacion: 11.520718 -21.430656
+348	        lista_iter_avanzar(liter);
+(gdb) 
+339	    for(size_t i=0;i<cantidad;i++){
+(gdb) 
+340	        printf("%s:numero %zd:\n",nombre,i);
+(gdb) 
+TORRETA:numero 5:
+341	        objeto_t *objeto=lista_iter_ver_actual(liter);
+(gdb) 
+342	        objeto_a_direccion(objeto,&direccion);
+(gdb) 
+343	        objeto_a_posicion(objeto,posicion);
+(gdb) 
+345	        posicion[0]-=origen[0];
+(gdb) 
+346	        posicion[1]-=origen[1];
+(gdb) 
+347	        dibujar_figura_bis(renderer,figuras,nombre,posicion,escala,direccion);
+(gdb) 
+
+polilinea 0 de TORRETA:
+
+ubicacion: -15.000000 0.000000
+
+ubicacion: -7.000000 18.000000
+
+ubicacion: 7.000000 18.000000
+polilinea 1 de TORRETA:
+
+ubicacion: -4.000000 18.000000
+
+ubicacion: -4.000000 24.000000
+
+ubicacion: 4.000000 24.000000
+348	        lista_iter_avanzar(liter);
+(gdb) 
+339	    for(size_t i=0;i<cantidad;i++){
+(gdb) 
+340	        printf("%s:numero %zd:\n",nombre,i);
+(gdb) 
+TORRETA:numero 6:
+341	        objeto_t *objeto=lista_iter_ver_actual(liter);
+(gdb) 
+342	        objeto_a_direccion(objeto,&direccion);
+(gdb) 
+343	        objeto_a_posicion(objeto,posicion);
+(gdb) 
+345	        posicion[0]-=origen[0];
+(gdb) 
+346	        posicion[1]-=origen[1];
+(gdb) 
+347	        dibujar_figura_bis(renderer,figuras,nombre,posicion,escala,direccion);
+(gdb) 
+
+polilinea 0 de TORRETA:
+
+ubicacion: 9.187314 -11.857203
+
+ubicacion: -9.941231 -16.558138
+
+ubicacion: -18.516056 -5.491415
+polilinea 1 de TORRETA:
+
+ubicacion: -11.778693 -14.186697
+
+ubicacion: -16.521574 -17.861622
+
+ubicacion: -21.421474 -11.537781
+348	        lista_iter_avanzar(liter);
+(gdb) 
+339	    for(size_t i=0;i<cantidad;i++){
+(gdb) 
+340	        printf("%s:numero %zd:\n",nombre,i);
+(gdb) 
+TORRETA:numero 7:
+341	        objeto_t *objeto=lista_iter_ver_actual(liter);
+(gdb) 
+342	        objeto_a_direccion(objeto,&direccion);
+(gdb) 
+343	        objeto_a_posicion(objeto,posicion);
+(gdb) 
+345	        posicion[0]-=origen[0];
+(gdb) 
+346	        posicion[1]-=origen[1];
+(gdb) 
+347	        dibujar_figura_bis(renderer,figuras,nombre,posicion,escala,direccion);
+(gdb) 
+
+polilinea 0 de TORRETA:
+
+ubicacion: -11.849883 -9.196754
+
+ubicacion: -16.566050 9.928041
+
+ubicacion: -5.506158 18.511679
+polilinea 1 de TORRETA:
+
+ubicacion: -14.196073 11.767392
+
+ubicacion: -17.874773 16.507345
+
+ubicacion: -11.554836 21.412281
+348	        lista_iter_avanzar(liter);
+(gdb) 
+339	    for(size_t i=0;i<cantidad;i++){
+(gdb) 
+350	    lista_iter_destruir(liter);
+(gdb) 
+351	}
+(gdb) 

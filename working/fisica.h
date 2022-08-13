@@ -20,11 +20,12 @@ void colision_rebote(nave_t *nave); //llamada en caso de colisiones que causan u
 
 bool colision_rebote_ni(nave_t *nave, bool *inicio); //llamada en caso de colisiones que causan un rebote
 
+
 void computar_posicion(nave_t *nave, float pos_g[2]);
 
 void trasladar(float pos[2],float v[2]); //llamada para mover un objeto
 
-bool colision(float polilinea[][2], size_t n, float pos[2], float radio, float f); //llamada para verificar si la nave chocó, return true si chocó
+bool colision(float polilinea[][2], size_t n, float pos[2], float radio); //llamada para verificar si la nave chocó, return true si chocó
 
 void rotar_punto(float punto[2], float pos[2], float angulo);
 

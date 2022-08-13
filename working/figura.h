@@ -66,6 +66,7 @@ void extremos_figura(figura_t *figura, float minimos[2], float maximos[2]);
 figura_t *cargar_nombre(figura_t **bloque,char *nombre_figura);
 figura_t **cargar_tipo(figura_t **bloque,figura_tipo_t tipo,size_t *cantidad);
 bool dibujar_figura(SDL_Renderer *renderer,figura_t **bloque,char *nombre, float posicion[2], float escala);
+bool dibujar_figura_bis(SDL_Renderer *renderer,figura_t **bloque,char *nombre, float posicion[2], float escala, float direccion);
 
 //destruccion- liberacion de la memoria
 void figura_destruir(figura_t *figura);

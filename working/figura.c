@@ -229,6 +229,22 @@ bool dibujar_figura(SDL_Renderer *renderer,figura_t **figura,char *nombre, float
     }
     return true;
 }
+bool dibujar_figura_bis(SDL_Renderer *renderer,figura_t **figura,char *nombre, float posicion[2], float escala, float direccion){
+    figura_t *dibujo=cargar_nombre(figura,nombre);
+    if(!dibujo) return false;
+    
+    size_t cant_poli=cantidad_poli_fig(dibujo);
+    
+    polilinea_t **polilineas=polilinea_fig(dibujo);
+    
+    for(size_t i=0;i<cant_poli;i++){
+        polilinea_t *poli_dibu=polilinea_clonar(polilineas[i]);
+        polilinea_rotar(poli_dibu,direccion);
+        if(dibujar_polilinea(renderer, poli_dibu, posicion, escala)==false) return false;
+        polilinea_destruir(poli_dibu);
+    }
+    return true;
+}
 
 
 //destruir

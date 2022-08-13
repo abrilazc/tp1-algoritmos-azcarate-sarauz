@@ -21,9 +21,9 @@ typedef enum letras{
 typedef struct caracter cater_t;
 
 //pasa una palabra a dibujo de polilinea, apto solo para caracteres de la A a la Z, espacio y numero decimales
-void palabra_a_polilinea(SDL_Renderer *renderer,char *palabra, float posicion[2],  bool r, bool ge, bool b);
+void palabra_a_polilinea(SDL_Renderer *renderer,char *palabra, float posicion[2],  bool r, bool ge, bool b, float escala);
 //pasa un numero int a dibujo de polilinea, apto solo para numeros que necesiten menos de 10 caracteres
-void numero_a_polilinea(int numero,SDL_Renderer *renderer, float posicion[2],  bool r, bool ge, bool b);
+void numero_a_polilinea(int numero,SDL_Renderer *renderer, float posicion[2],  bool r, bool ge, bool b, float escala);
 
 extern const float caracter_a[7][2];
 extern const float caracter_b[12][2];

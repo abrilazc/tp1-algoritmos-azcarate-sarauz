@@ -141,43 +141,34 @@ void planeta_infinito(nave_t* nave,nivel_t **niveles, SDL_Renderer *renderer, fi
     if(*planeta_actual==NIVEL1NE){
         printf("NIVEL1NE: CENTRO: %.2f ESCALA: %.2f",*centro, *f);
         dibujar_figura(renderer,figuras[1], "NIVEL1NE",camara,*f);
-        //dibujar_polilinea(renderer,planeta_pol,camara,*f);
         camara[0]=(-(*centro-max[0]+VENTANA_ANCHO/2/(*f)))*(*f);
-        //dibujar_polilinea(renderer,planeta_pol,camara,*f);
         dibujar_figura(renderer,figuras[1], "NIVEL1NE",camara,*f);
         camara[0]=(-(*centro+max[0]+VENTANA_ANCHO/2/(*f)))*(*f);
-        //dibujar_polilinea(renderer,planeta_pol,camara,*f);
         dibujar_figura(renderer,figuras[1], "NIVEL1NE",camara,*f);
     }
     if(*planeta_actual==NIVEL1SE){
         printf("NIVEL1SE: CENTRO: %.2f ESCALA: %.2f",*centro, *f);
-        //dibujar_figura(renderer,figuras[1], "NIVEL1NE",camara,*f);
-        //dibujar_polilinea(renderer,planeta_pol,camara,*f);
+
         dibujar_figura(renderer,figuras[1],"NIVEL1SE", camara, *f);
         camara[0]=(-(*centro-max[0]+VENTANA_ANCHO/2/(*f)))*(*f);
-        //dibujar_polilinea(renderer,planeta_pol,camara,*f);
         dibujar_figura(renderer,figuras[1],"NIVEL1SE", camara, *f);
         camara[0]=(-(*centro+max[0]+VENTANA_ANCHO/2/(*f)))*(*f);
-        //dibujar_polilinea(renderer,planeta_pol,camara,*f);
         dibujar_figura(renderer,figuras[1],"NIVEL1SE", camara, *f);
 
     }
     if(*planeta_actual==NIVEL1SW){
         printf("NIVEL1SW: MIN=(%.2f,%.2f) MAX=(%.2f,%.2f)",min[0],min[1],max[0],max[1]);
-        //dibujar_polilinea(renderer,planeta_pol,camara,*f);
         dibujar_figura(renderer,figuras[1],"NIVEL1SW", camara, *f);
         camara[0]=(-(*centro-max[0]+VENTANA_ANCHO/2/(*f)))*(*f);
         dibujar_figura(renderer,figuras[1],"NIVEL1SW", camara, *f);
-        //dibujar_polilinea(renderer,planeta_pol,camara,*f);
         camara[0]=(-(*centro+max[0]+VENTANA_ANCHO/2/(*f)))*(*f);
         dibujar_figura(renderer,figuras[1],"NIVEL1SW", camara, *f);
-        //dibujar_polilinea(renderer,planeta_pol,camara,*f);
     }
     if(posicion_nave[1]>=VENTANA_ALTO){
             *inicio=true;
             cargar_pantalla_inicio(nave,niveles,figuras,*planeta_actual,false);
     }
-    
+    centro[0]+=(VENTANA_ANCHO*(*f)*(*f))/2.0;
 }
 
 bool pantalla_inicio_mostrar(nave_t *nave,figura_t ***figuras, nivel_t **niveles, SDL_Renderer *renderer, float *f, planeta_nombre *planeta_actual){
@@ -495,6 +486,11 @@ void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *re
 
     if(cantidad_combustible!=0){//y el escudo activado
         dibujar_lista(figuras[5],combustible,"COMBUSTIBLE",renderer,escala,origen); 
+        origen[0]-=(max[0]*escala);
+        dibujar_lista(figuras[5],combustible,"COMBUSTIBLE",renderer,escala,origen);
+        origen[0]+=2*(max[0]*escala);
+        dibujar_lista(figuras[5],combustible,"COMBUSTIBLE",renderer,escala,origen);
+        origen[0]-=(max[0]*escala);
         if(interseccion_lista_nave(nave,&cantidad_combustible, combustible,figuras[5], "COMBUSTIBLE")&& escudo_get(nave)){
             combustible_cargar(nave);
             //eliminar de la lista xd xd xd
@@ -503,6 +499,11 @@ void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *re
     
     if(cantidad_torretas!=0){
         dibujar_lista(figuras[6],torreta,"TORRETA",renderer,escala,origen);
+        origen[0]-=(max[0]*escala);
+        dibujar_lista(figuras[6],torreta,"TORRETA",renderer,escala,origen);
+        origen[0]+=2*(max[0]*escala);
+        dibujar_lista(figuras[6],torreta,"TORRETA",renderer,escala,origen);
+        origen[0]-=(max[0]*escala);
         if(interseccion_lista_nave(nave,&cantidad_torretas, torreta,figuras[6], "TORRETA")){
             if(cantidad_ataques<MAX_BAL_ENEM){
                 size_t numero_torreta=cantidad_torretas;

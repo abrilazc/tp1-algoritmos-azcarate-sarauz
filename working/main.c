@@ -39,6 +39,16 @@ int main() {
     nave_posicion_set(nave, posicion);
     bool held_down=false;
     size_t frame=0;
+    char puntaje[8]="PUNTAJE";
+    char combustible[12]="COMBUSTIBLE";
+    int tam_let=strlen(combustible);
+    float escala_letra=3;
+    float pos_puntaje[]={VENTANA_ANCHO*0.4,VENTANA_ALTO*0.9};
+    float pos_p[]={VENTANA_ANCHO*0.4+tam_let*ESP_LET*escala_letra,VENTANA_ALTO*0.9};
+    float pos_comb[]={VENTANA_ANCHO*0.4,VENTANA_ALTO*0.95};
+    float pos_c[]={VENTANA_ANCHO*0.4+tam_let*ESP_LET*escala_letra,VENTANA_ALTO*0.95};
+    //float escala=1;
+    
     
     // Queremos que todo se dibuje escalado por f:
     float f = 1;
@@ -61,21 +71,28 @@ int main() {
         }
 
         SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0x00);
-        SDL_RenderClear(renderer);
+        SDL_RenderClear(renderer);  
         SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0x00);
         
         // BEGIN código del alumno
         // Dibujamos la nave escalada por f en el centro de la pantalla:
+        palabra_a_polilinea(renderer,puntaje,pos_puntaje,false,true,true,escala_letra);
+        numero_a_polilinea(10500,renderer,pos_p,false,true,false,escala_letra);
+        palabra_a_polilinea(renderer,combustible,pos_comb,false,true,true,escala_letra);
+        numero_a_polilinea(combustible_get(nave),renderer,pos_c,false,true,false,escala_letra);
         if(nivel_inicio){
+            
             if(pantalla_inicio_spawn){
                 cargar_pantalla_inicio(nave,niveles,figuras,planeta_actual,pantalla_inicio_spawn);
                 pantalla_inicio_spawn=false;
+                //palabra_a_polilinea(renderer,"PUNTAJE",pos_puntaje,false,true,false);
             }
             nivel_inicio=pantalla_inicio_mostrar(nave, figuras, niveles, renderer, &f, &planeta_actual);
             }
         else{
             pantalla_nivel(nave,figuras,niveles,renderer,&nivel_inicio,&planeta_actual,&f, &centro);
-            listas(nave,niveles,figuras,renderer,planeta_actual,f);
+            
+            //listas(nave,niveles,figuras,renderer,planeta_actual,f);
 
         }
         

@@ -67,54 +67,32 @@ void colision_rebote(nave_t *nave){
     nave_posicion_get(nave, pos);
     nave_velocidad_get(nave, v);
     if(pos[0]<=0||pos[0]>=VENTANA_ANCHO){
+        printf("rebote x %.2f\n",v[0]);
         v[0]=(-v[0]);
     }
     else if(pos[1]<=0||pos[1]>=VENTANA_ALTO){
         v[1]=(-v[1]);
+        printf("rebote y %.2f\n",v[1]);
     }
     nave_velocidad_set(nave, v);
 }
-bool colision_rebote_ni(nave_t *nave, bool *inicio){
-    float pos[2];
-    float v[2];
-    nave_posicion_get(nave, pos);
-    nave_velocidad_get(nave, v);
-    if(pos[0]<=0||pos[0]>=VENTANA_ANCHO){
-        v[0]=(-v[0]);
-    }
-    else if(pos[1]>=VENTANA_ALTO){
-        *inicio=true;
-        return true;
-    }
-    else if(pos[1]<=0){
-        v[1]=(-v[1]);
-    }
-    nave_velocidad_set(nave, v);
-    return false;
+
+static float dist_puntos(float ax, float ay, float bx, float by){
+    return sqrt(pow(bx-ax,2)+pow(by-ay,2));
 }
 
-
-float dist_puntos(float a[2], float b[2]){
-    return sqrt(pow(b[0]-a[0],2)+pow(b[1]-a[1],2));
-}
-
-static float calc_alfa(float px, float py, float a[2], float b[2]){
-    return ((px-a[0])*(b[0]-a[0])+(py-a[1])*(b[1]-a[1]))/pow(dist_puntos(a,b),2);
+static float calc_alfa(float px, float py, float ax, float ay, float bx, float by){
+    return ((px-ax)*(bx-ax)+(py-ay)*(by-ay))/pow(dist_puntos(ax,ay,bx,by),2);
 }
 
 static float encontrar_dist_segmento(float p[2], float a[2], float b[2]){
-    float alfa =calc_alfa(p[0], p[1], a, b);
+    float alfa =calc_alfa(p[0], p[1], a[0], a[1], b[0],b[1]);
     if (alfa <= 0)
-        return dist_puntos(p, a);
+        return dist_puntos(p[0], p[1], a[0], a[1]);
     else if (alfa >= 1)
-        return dist_puntos(b, p);
-    else{
-        float aux[2];
-        aux[0]=a[0]+alfa*(b[0]-a[0]);
-        aux[1]=a[1]+alfa*(b[1]-a[1]);
-        return dist_puntos(aux,p);
-    }
-        
+        return dist_puntos(b[0], b[1], p[0], p[1]);
+    else
+        return dist_puntos(a[0]+alfa*(b[0]-a[0]),a[1]+alfa*(b[1]-a[1]),p[0],p[1]);
 }
 
 

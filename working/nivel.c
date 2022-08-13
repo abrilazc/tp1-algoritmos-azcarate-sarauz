@@ -250,13 +250,17 @@ void armar_lista_torreta(lista_t *lista, planeta_nombre planeta){
     }
 }
 //Seteos o reseteos
-void decremento_reactor(reactor_t *reactor){
-    (reactor->tiempo)-=1/(JUEGO_FPS*25);
+void decremento_reactor(nivel_t *nivel){
+    reactor_t *reactor=nivel->reactor;
+    (reactor->tiempo)-=DT;
 }
 void set_nivel_pasado(nivel_t *nivel){
     nivel->exito=true;
 }
-
+void set_reactor_off(nivel_t *nivel){
+    destruir_reactor(nivel->reactor);
+    nivel->reactor=NULL;
+}
 
 
 //CARGAS

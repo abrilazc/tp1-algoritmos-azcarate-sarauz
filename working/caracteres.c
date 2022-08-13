@@ -401,10 +401,9 @@ cater_t caracteres[] = {
 };
 
 
-void dibujar_letra(SDL_Renderer *renderer,char caracter, float posicion[2], bool r, bool ge, bool b){
+void dibujar_letra(SDL_Renderer *renderer,char caracter, float posicion[2], bool r, bool ge, bool b, float escala){
     
 	size_t cant_punt=sizeof(caracteres)/sizeof(caracteres[0]);
-    float escala=1;
 	for(size_t i=0;i<cant_punt;i++){
 		if(caracter==caracteres[i].letra){
 		polilinea_t* polilinea = polilinea_crear(caracteres[i].polilinea, caracteres[i].cantidad, color_crear(r, ge, b));
@@ -414,16 +413,22 @@ void dibujar_letra(SDL_Renderer *renderer,char caracter, float posicion[2], bool
     }
 }
 
-void palabra_a_polilinea(SDL_Renderer *renderer,char *palabra, float posicion[2],  bool r, bool ge, bool b){
+void palabra_a_polilinea(SDL_Renderer *renderer,char *palabra, float posicion[2],  bool r, bool ge, bool b, float escala){
 	size_t i=0;
-	posicion[0]+=ESP_LET;
+	//float escala=10;
+	float despl[2];
+	despl[0]=posicion[0];
+	despl[1]=posicion[1];
+	
 	while(palabra[i]!='\0'){
-		dibujar_letra(renderer, palabra[i],posicion,r,ge,b);
+		dibujar_letra(renderer, palabra[i],despl,r,ge,b,escala);
+		despl[0]+=ESP_LET*(escala);
+		i++;
 	}
 }
 
-void numero_a_polilinea(int numero,SDL_Renderer *renderer, float posicion[2],  bool r, bool ge, bool b){
+void numero_a_polilinea(int numero,SDL_Renderer *renderer, float posicion[2],  bool r, bool ge, bool b, float escala){
 	char palabra[10];
 	SDL_itoa(numero,palabra,10);//pasa el numero a palabra
-	palabra_a_polilinea(renderer,palabra,posicion, r,ge,b);
+	palabra_a_polilinea(renderer,palabra,posicion, r,ge,b,escala);
 }

@@ -73,6 +73,10 @@ void get_posicion_reactor(nivel_t *nivel, float *posicion);
 float get_direccion_reactor(nivel_t *nivel);
 //devuelve el tiempo restante del reactor
 float get_tiempo(nivel_t *nivel);
+//setea en 0 al reactor;
+void set_reactor_off(nivel_t *nivel);
+
+void decremento_reactor(nivel_t *nivel);
 
 //DESTRUIR
 //lista_destruir

@@ -14,7 +14,7 @@ bala_t *crear_bala(float posicion[2],float direccion){
     bala->posicion[0]=posicion[0];
     bala->posicion[1]=posicion[1];
     bala->direccion=direccion;
-    bala->tiempo=MAX_BAL_TIEM;
+    bala->tiempo=DT*25;
 
     return bala;
 }
@@ -29,16 +29,16 @@ bool destruir_disparos(lista_t *lista){
     lista_iter_t *lista_iter=lista_iter_crear(lista);
     size_t i=0;
     while(i<largo_lista){
-    bala_t *bala=lista_iter_ver_actual(lista_iter);
-    float tiempo=obtener_tiempo(bala);
-    if(tiempo<(MAX_BAL_TIEM/10)){
-        if(lista_iter_borrar(lista_iter)==NULL){
-            lista_iter_destruir(lista_iter);
-            return true;
+        bala_t *bala=lista_iter_ver_actual(lista_iter);
+        float tiempo=obtener_tiempo(bala);
+        restar_tiempo(bala,tiempo);
+        if(tiempo<(3*DT)){
+            if(lista_iter_borrar(lista_iter)==NULL){
+                lista_iter_destruir(lista_iter);
+                return true;
+            }
+            lista_iter_avanzar(lista_iter);
         }
-        lista_iter_avanzar(lista_iter);
-    }
-    restar_tiempo(bala,tiempo);
     }
     lista_iter_destruir(lista_iter);
     return false;
@@ -47,7 +47,7 @@ float obtener_tiempo(bala_t *bala){
     return bala->tiempo;
 }
 void restar_tiempo(bala_t *bala,float tiempo){
-    bala->tiempo=(tiempo-(1/JUEGO_FPS));
+    bala->tiempo-=DT;
 }
 void posicion_bala(bala_t *bala,float posicion[2]){
     posicion[0]=(bala->posicion)[0];

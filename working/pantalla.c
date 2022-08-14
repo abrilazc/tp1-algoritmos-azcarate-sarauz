@@ -382,11 +382,36 @@ size_t interseccion_lista_lista(lista_t *lista, lista_t *lista_2,size_t *cantida
     }
     return intersecciones;
 }
+
+bool choque_nave_terreno(nave_t *nave,figura_t **figuras,planeta_nombre nombre, float escala, float offset[2]){
+    float posicion_nave[2]; 
+    nave_posicion_get(nave,posicion_nave);
+    float r=5;
+    figura_t *figura=figuras[nombre];
+    size_t cantidad_poli=cantidad_poli_fig(figura);
+    
+    polilinea_t **polilineas=polilinea_fig(figura);
+    
+    for(size_t i=0;i<cantidad_poli;i++){
+        polilinea_t *polilinea=polilineas[i];
+        size_t puntos=polilinea_cantidad_puntos(polilinea);    
+        float puntos_polilinea[puntos][2];
+
+        for(size_t g=0; g<puntos;g++){
+            polilinea_obtener_punto(polilinea, g, &puntos_polilinea[g][0], &puntos_polilinea[g][1]);
+        }
+        if(colision(puntos_polilinea, puntos, posicion_nave, r)){//posi=posicion_nave
+            return true;
+        } 
+    }
+    return false;
+}
+
 //verifica si la nave se cruzó con las lineas del planeta
 bool interseccion_nave_polilinea(nave_t *nave,figura_t **figuras,planeta_nombre nombre){
     float posicion_nave[2]; 
     nave_posicion_get(nave,posicion_nave);
-    float r=50;
+    float r=5;
 
     figura_t *figura=figuras[nombre];
     size_t cantidad_poli=cantidad_poli_fig(figura);

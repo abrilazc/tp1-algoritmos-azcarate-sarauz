@@ -8,7 +8,8 @@
 #define POS_P4 {204, 455}
 #define POS_P5 {111,307}
 #define POS_ESTRELLA {457, 364}
-#define ESCALA_LETRA 3
+
+void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *renderer, planeta_nombre planeta_actual, float escala);
 //pantallas
 
 void pos_planetas(size_t n, float posicion[2]){
@@ -32,6 +33,7 @@ void cargar_pantalla_inicio(nave_t *nave,nivel_t **niveles,figura_t ***figuras, 
         printf("SPAWN EN BASE\n");
         pos[0]=388;
         pos[1]=218;
+        pos_planetas(0,pos);
         vidas_reiniciar(nave);
 
         //destruir_niveles(niveles,CANTIDAD_NIVELES);
@@ -65,37 +67,36 @@ void salir_nivel(nave_t *nave,nivel_t **niveles,figura_t ***figuras,planeta_nomb
 }
 
 void cargar_nivel(nave_t *nave, nivel_t **niveles, planeta_nombre planeta_actual){
-    float posicion[2]={VENTANA_ANCHO/2,VENTANA_ALTO*MARGEN_NIVEL_FIJO};
+    float posicion[2]={VENTANA_ANCHO/2,VENTANA_ALTO*0.9};
     float velocidad[2]={0,0};
     nave_posicion_set(nave, posicion);
     nave_velocidad_set(nave, velocidad);
     //nivel_t *nivel=cargar_datos_nivel(niveles, planeta_actual);
     
 }
-void planeta_finito(nave_t* nave,nivel_t **niveles, SDL_Renderer *renderer, figura_t ***figuras, planeta_nombre *planeta_actual, float *f, float centro[2], bool *inicio, bool *reinicio){
-    float min[2];
-    float max[2];
-    calcular_escala(figuras[1],*planeta_actual,f, centro,min, max);
+void planeta_finito(nave_t* nave,nivel_t **niveles, SDL_Renderer *renderer, figura_t ***figuras, planeta_nombre *planeta_actual, float *f, float *centro, bool *inicio){
+    calcular_escala(figuras[1],*planeta_actual,f, centro);
     if(colision_rebote_ni(nave, inicio))
         {
             cargar_pantalla_inicio(nave,niveles,figuras,*planeta_actual,false);
         }
-    centro[0]=(VENTANA_ANCHO/2.0)-(centro[0])*(*f)-min[0]/2*(*f);
+    float position[2]={( - *centro + VENTANA_ANCHO / 2 / (*f))*(*f),0.0};
     render_nave(nave, renderer, figuras,1);
+    printf("func_render_ni\n");
     if(*planeta_actual==NIVEL1R){
         printf("NIVEL1R");
-        dibujar_figura(renderer,figuras[1], "NIVEL1R",centro,*f);
+        dibujar_figura(renderer,figuras[1], "NIVEL1R",position,*f);
     }
     if(*planeta_actual==NIVEL1NW){
         printf("NIVEL1NW");
-        dibujar_figura(renderer,figuras[1], "NIVEL1NW",centro,*f);
+        dibujar_figura(renderer,figuras[1], "NIVEL1NW",position,*f);
     }
-    centro[0]+=2*(min[0]/2*(*f));
 }
-void planeta_infinito(nave_t* nave,nivel_t **niveles, SDL_Renderer *renderer, figura_t ***figuras, planeta_nombre *planeta_actual, float *f, float centro[2], bool *inicio, bool *spawn){
-    float posicion_nave[2];
-    float origen[2]={VENTANA_ANCHO/2,VENTANA_ALTO*MARGEN_ALTURA};
 
+void planeta_infinito(nave_t* nave,nivel_t **niveles, SDL_Renderer *renderer, figura_t ***figuras, planeta_nombre *planeta_actual, float *f, float *centro, bool *inicio){
+    float posicion_nave[2];
+    
+    polilinea_t *planeta_pol=polilinea_fig(figuras[1][*planeta_actual])[0];
     nave_posicion_get(nave, posicion_nave);
     *f = 1;
     if(posicion_nave[1] > VENTANA_ALTO * MARGEN_ALTURA)
@@ -103,95 +104,72 @@ void planeta_infinito(nave_t* nave,nivel_t **niveles, SDL_Renderer *renderer, fi
     if(*f < ESCALA_MINIMA)
         *f= ESCALA_MINIMA;
 
-    if((posicion_nave[0] - centro[0]) * (*f)> VENTANA_ANCHO / 2 * MARGEN_ANCHO)
-        centro[0] = posicion_nave[0] - VENTANA_ANCHO / 2 * MARGEN_ANCHO /(*f);
-    else if((centro[0] - posicion_nave[0]) * (*f)> VENTANA_ANCHO / 2 * MARGEN_ANCHO)
-        centro[0] = posicion_nave[0] + VENTANA_ANCHO / 2 * MARGEN_ANCHO /(*f);
+    if((posicion_nave[0] - *centro) * (*f)> VENTANA_ANCHO / 2 * MARGEN_ANCHO)
+        *centro = posicion_nave[0] - VENTANA_ANCHO / 2 * MARGEN_ANCHO /(*f);
+    else if((*centro - posicion_nave[0]) * (*f)> VENTANA_ANCHO / 2 * MARGEN_ANCHO)
+        *centro = posicion_nave[0] + VENTANA_ANCHO / 2 * MARGEN_ANCHO /(*f);
     float camara[2]={0,0};
-
-
+    
+    
     float min[2];
     float max[2];
     min_max(figuras[1], *planeta_actual, min,max);
-
-    if((((posicion_nave[0]-centro[0])*(*f)))>(VENTANA_ANCHO/2* MARGEN_ANCHO)){
-        centro[0]=(posicion_nave[0]-VENTANA_ANCHO/2*MARGEN_ANCHO/(*f));
+    
+    if((((posicion_nave[0]-*centro)*(*f)))>(VENTANA_ANCHO/2* MARGEN_ANCHO)){
+        *centro=(posicion_nave[0]-VENTANA_ANCHO/2*MARGEN_ANCHO/(*f));
     }
-    else if(((centro[0]-posicion_nave[0])*(*f))>VENTANA_ANCHO/2* MARGEN_ANCHO){
-        centro[0]=(posicion_nave[0]+VENTANA_ANCHO/2*MARGEN_ANCHO/(*f));
+    else if(((*centro-posicion_nave[0])*(*f))>VENTANA_ANCHO/2* MARGEN_ANCHO){
+        *centro=(posicion_nave[0]+VENTANA_ANCHO/2*MARGEN_ANCHO/(*f));
     }
+    
     if((posicion_nave[0]>max[0])){
         posicion_nave[0]-=max[0];
         nave_posicion_set(nave,posicion_nave);
-        centro[0]-=max[0];
+        *centro-=max[0];
     }
     else if((posicion_nave[0]<min[0])){
         posicion_nave[0]+=max[0];
         nave_posicion_set(nave,posicion_nave);
-        centro[0]+=max[0];
+        *centro+=max[0];
     }
-    float pos_aux[2]={posicion_nave[0]+(-centro[0])+VENTANA_ANCHO/2,posicion_nave[1]};
+    float pos_aux[2]={posicion_nave[0]+(-*centro)+VENTANA_ANCHO/2,posicion_nave[1]};
     nave_posicion_set(nave,pos_aux);
     render_nave(nave,renderer, figuras,1);
     nave_posicion_set(nave, posicion_nave);
-    camara[0]=(-(centro[0]+VENTANA_ANCHO/2/(*f)))*(*f);
+    camara[0]=(-(*centro+VENTANA_ANCHO/2/(*f)))*(*f);
     if(*planeta_actual==NIVEL1NE){
-        
-        printf("NIVEL1NE: CENTRO: %.2f ESCALA: %.2f",centro[0], *f);
-        for(size_t i=0;i<3;i++){
-            camara[0]=(-(centro[0]-max[0]+max[0]*i+VENTANA_ANCHO/2/(*f)))*(*f);
-            dibujar_figura(renderer,figuras[1], "NIVEL1NE",camara,*f);
-            if(interseccion_nave_polilinea(nave,figuras[1],*planeta_actual,*f,camara)){
-                if(!vidas_decrementar(nave)){
-                    *spawn=true;
-                    cargar_pantalla_inicio(nave,niveles,figuras,*planeta_actual,true);
-                }
-                else
-                    nave_posicion_set(nave,origen);
-            }
-        }
+        printf("NIVEL1NE: CENTRO: %.2f ESCALA: %.2f",*centro, *f);
+        dibujar_polilinea(renderer,planeta_pol,camara,*f);
+        camara[0]=(-(*centro-max[0]+VENTANA_ANCHO/2/(*f)))*(*f);
+        dibujar_polilinea(renderer,planeta_pol,camara,*f);
+        camara[0]=(-(*centro+max[0]+VENTANA_ANCHO/2/(*f)))*(*f);
+        dibujar_polilinea(renderer,planeta_pol,camara,*f);
     }
     if(*planeta_actual==NIVEL1SE){
-        printf("NIVEL1SE: CENTRO: %.2f ESCALA: %.2f",centro[0], *f);
-        for(size_t i=0;i<3;i++){
-            camara[0]=(-(centro[0]-max[0]+max[0]*i+VENTANA_ANCHO/2/(*f)))*(*f);
-            dibujar_figura(renderer,figuras[1], "NIVEL1SE",camara,*f);
-            if(interseccion_nave_polilinea(nave,figuras[1],*planeta_actual,*f,camara)){
-                if(!vidas_decrementar(nave)){
-                    *spawn=true;
-                    cargar_pantalla_inicio(nave,niveles,figuras,*planeta_actual,spawn);
-                }
-                else
-                    nave_posicion_set(nave,origen);
-            }
-
-        }
+        printf("NIVEL1SE: CENTRO: %.2f ESCALA: %.2f",*centro, *f);
+        //dibujar_figura(renderer,figuras[1], "NIVEL1NE",camara,*f);
+        dibujar_polilinea(renderer,planeta_pol,camara,*f);
+        camara[0]=(-(*centro-max[0]+VENTANA_ANCHO/2/(*f)))*(*f);
+        dibujar_polilinea(renderer,planeta_pol,camara,*f);
+        camara[0]=(-(*centro+max[0]+VENTANA_ANCHO/2/(*f)))*(*f);
+        dibujar_polilinea(renderer,planeta_pol,camara,*f);
 
     }
     if(*planeta_actual==NIVEL1SW){
         printf("NIVEL1SW: MIN=(%.2f,%.2f) MAX=(%.2f,%.2f)",min[0],min[1],max[0],max[1]);
-        for(size_t i=0;i<3;i++){
-            camara[0]=(-(centro[0]-max[0]+max[0]*i+VENTANA_ANCHO/2/(*f)))*(*f);
-            dibujar_figura(renderer,figuras[1], "NIVEL1NE",camara,*f);
-            if(interseccion_nave_polilinea(nave,figuras[1],*planeta_actual,*f,camara)){
-                if(!vidas_decrementar(nave)){
-                    *spawn=true;
-                    cargar_pantalla_inicio(nave,niveles,figuras,*planeta_actual,spawn);
-                }
-                else
-                    nave_posicion_set(nave,origen);
-            }  
-        }
-    }    
+        dibujar_polilinea(renderer,planeta_pol,camara,*f);
+        camara[0]=(-(*centro-max[0]+VENTANA_ANCHO/2/(*f)))*(*f);
+        dibujar_polilinea(renderer,planeta_pol,camara,*f);
+        camara[0]=(-(*centro+max[0]+VENTANA_ANCHO/2/(*f)))*(*f);
+        dibujar_polilinea(renderer,planeta_pol,camara,*f);
+    }
     if(posicion_nave[1]>=VENTANA_ALTO){
             *inicio=true;
             cargar_pantalla_inicio(nave,niveles,figuras,*planeta_actual,false);
     }
-    float centro_aux=centro[0];
-    centro[0]+=(*f)*VENTANA_ANCHO/2;
-    listas(nave,niveles,figuras,renderer,*planeta_actual,*f, centro);
-    centro[0]=centro_aux;
+    
 }
+
 bool pantalla_inicio_mostrar(nave_t *nave,figura_t ***figuras, nivel_t **niveles, SDL_Renderer *renderer, float *f, planeta_nombre *planeta_actual){
     *f=1;
     
@@ -204,18 +182,7 @@ bool pantalla_inicio_mostrar(nave_t *nave,figura_t ***figuras, nivel_t **niveles
         POS_P5,        
         POS_ESTRELLA
     };
-    float mat_tex[5][2];
 
-    for(size_t i=0;i<5;i++){
-        mat_tex[i][0]=planetas[i+1][0];
-        mat_tex[i][1]=planetas[i+1][1]+50;
-    }
-
-    palabra_a_polilinea(renderer,"2000",mat_tex[0],false,true,true,ESCALA_LETRA);
-    palabra_a_polilinea(renderer,"4000",mat_tex[1],false,true,true,ESCALA_LETRA);
-    palabra_a_polilinea(renderer,"6000",mat_tex[2],false,true,true,ESCALA_LETRA);
-    palabra_a_polilinea(renderer,"8000",mat_tex[3],false,true,true,ESCALA_LETRA);
-    palabra_a_polilinea(renderer,"9000",mat_tex[4],false,true,true,ESCALA_LETRA);
 
     float centro_grav[2];
     centro_grav[0]=planetas[6][0];
@@ -227,7 +194,7 @@ bool pantalla_inicio_mostrar(nave_t *nave,figura_t ***figuras, nivel_t **niveles
     texto(nave, figuras, renderer);
     return !colisiones_inicio(nave,niveles,planetas,planeta_actual);
 }
-void pantalla_nivel(nave_t *nave, figura_t ***figuras,nivel_t **niveles, SDL_Renderer *renderer, bool *goto_inicio, planeta_nombre *planeta_actual, float *f, float *centro, bool *reiniciar){
+void pantalla_nivel(nave_t *nave, figura_t ***figuras,nivel_t **niveles, SDL_Renderer *renderer, bool *goto_inicio, planeta_nombre *planeta_actual, float *f, float *centro){
     float posicion[2];
     nave_posicion_get(nave, posicion);
 
@@ -237,17 +204,14 @@ void pantalla_nivel(nave_t *nave, figura_t ***figuras,nivel_t **niveles, SDL_Ren
     
     
     if(*planeta_actual==NIVEL1R||*planeta_actual==NIVEL1NW){
-        planeta_finito(nave,niveles, renderer, figuras, planeta_actual,f, centro, goto_inicio, reiniciar);
-        listas(nave,niveles,figuras,renderer,*planeta_actual,*f, centro);
+        planeta_finito(nave,niveles, renderer, figuras, planeta_actual,f, centro, goto_inicio);
+        listas(nave,niveles,figuras,renderer,*planeta_actual,*f);
     }
     else{
-        planeta_infinito(nave,niveles, renderer, figuras, planeta_actual,f, centro, goto_inicio, reiniciar);
-    }
-    /*
-    if(goto_inicio||reiniciar){
-        cargar_pantalla_inicio(nave,niveles,figuras,*planeta_actual,reiniciar);
+        planeta_infinito(nave,niveles, renderer, figuras, planeta_actual,f, centro, goto_inicio);
+        listas(nave,niveles,figuras,renderer,*planeta_actual,*f);
     }    
-    */
+        
     texto(nave, figuras, renderer);
 }
 
@@ -291,6 +255,7 @@ static bool colisiones_inicio(nave_t *nave,nivel_t **niveles, float planeta_pos[
     }
     return false;
 }
+
 
 //sirve para iterar contra COMBUSTIBLE si este no es 0
 //cambiar a bool
@@ -360,12 +325,8 @@ void dibujar_lista(figura_t **figuras, lista_t *lista,char *nombre,SDL_Renderer 
         objeto_a_direccion(objeto,&direccion);
         objeto_a_posicion(objeto,posicion);
         //rotar_punto(posicion,origen,direccion);
-        posicion[0]*=escala;
         posicion[0]-=origen[0];
-        //posicion[0]-=VENTANA_ANCHO/2.0;
-        posicion[1]*=escala;
-        //posicion[1]-=origen[1];
-    //    posicion[0]-=VENTANA_ALTO/2.0;
+        posicion[1]-=origen[1];
         dibujar_figura_bis(renderer,figuras,nombre,posicion,escala,direccion);
         lista_iter_avanzar(liter);
     }
@@ -410,13 +371,11 @@ size_t interseccion_lista_lista(lista_t *lista, lista_t *lista_2,size_t *cantida
     }
     return intersecciones;
 }
-
-
 //verifica si la nave se cruzó con las lineas del planeta
-bool interseccion_nave_polilinea(nave_t *nave,figura_t **figuras,planeta_nombre nombre, float escala, float origen[2]){
+bool interseccion_nave_polilinea(nave_t *nave,figura_t **figuras,planeta_nombre nombre){
     float posicion_nave[2]; 
     nave_posicion_get(nave,posicion_nave);
-    float r=5;
+    float r=50;
 
     figura_t *figura=figuras[nombre];
     size_t cantidad_poli=cantidad_poli_fig(figura);
@@ -432,7 +391,7 @@ bool interseccion_nave_polilinea(nave_t *nave,figura_t **figuras,planeta_nombre 
             polilinea_obtener_punto(polilinea, g, &puntos_polilinea[g][0], &puntos_polilinea[g][1]);
         }
 
-        if(colision_offset(puntos_polilinea, puntos, posicion_nave, r, escala, origen)){
+        if(colision(puntos_polilinea, puntos, posicion_nave, r)){//posi=posicion_nave
             return true;
         } 
     }
@@ -469,7 +428,7 @@ void texto(nave_t *nave, figura_t ***figuras, SDL_Renderer *renderer){
 } 
 
 
-void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *renderer, planeta_nombre planeta_actual, float escala, float origen[2]){
+void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *renderer, planeta_nombre planeta_actual, float escala){
     nivel_t *nivel=cargar_datos_nivel(niveles, planeta_actual);
     //inicializo variables
     lista_t *combustible=get_lista_combustible(nivel);
@@ -482,16 +441,14 @@ void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *re
     size_t cantidad_torretas= get_cantidad_torretas(nivel);
     size_t cantidad_balas=lista_largo(balas_propias);
     size_t cantidad_ataques=lista_largo(balas_enemigas);
+    
+    float origen[]={VENTANA_ANCHO/2,VENTANA_ALTO*MARGEN_ALTURA};
 
     bool salir_nivel=false;
 
     //float posi[]={1667,113};
     printf("cantidad original: %zd\n", cantidad_torretas);
-    float min[2];
-    float max[2];
-    min_max(figuras[1], planeta_actual, min,max);
-    
-    origen[1]+=VENTANA_ALTO/2.0;
+
     //revisar choque borde:
    
     //void nave_polilinea(nave_t *nave,nivel_t *niveles,figura_t *figuras,planeta_nombre planeta_actual,bala_t *balas_propias, bala_t *balas_enemigas,float origen[2]);
@@ -508,11 +465,6 @@ void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *re
 
     if(cantidad_combustible!=0){//y el escudo activado
         dibujar_lista(figuras[5],combustible,"COMBUSTIBLE",renderer,escala,origen); 
-        origen[0]-=(max[0]*escala);
-        dibujar_lista(figuras[5],combustible,"COMBUSTIBLE",renderer,escala,origen);
-        origen[0]+=2*(max[0]*escala);
-        dibujar_lista(figuras[5],combustible,"COMBUSTIBLE",renderer,escala,origen);
-        origen[0]-=(max[0]*escala);
         if(interseccion_lista_nave(nave,&cantidad_combustible, combustible,figuras[5], "COMBUSTIBLE")&& escudo_get(nave)){
             combustible_cargar(nave);
             //eliminar de la lista xd xd xd
@@ -521,11 +473,6 @@ void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *re
     
     if(cantidad_torretas!=0){
         dibujar_lista(figuras[6],torreta,"TORRETA",renderer,escala,origen);
-        origen[0]-=(max[0]*escala);
-        dibujar_lista(figuras[6],torreta,"TORRETA",renderer,escala,origen);
-        origen[0]+=2*(max[0]*escala);
-        dibujar_lista(figuras[6],torreta,"TORRETA",renderer,escala,origen);
-        origen[0]-=(max[0]*escala);
         if(interseccion_lista_nave(nave,&cantidad_torretas, torreta,figuras[6], "TORRETA")){
             if(cantidad_ataques<MAX_BAL_ENEM){
                 size_t numero_torreta=cantidad_torretas;

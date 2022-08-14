@@ -128,24 +128,7 @@ bool colision(float polilinea[][2], size_t n, float pos[2], float radio){ //reto
     }
     return false;
 }
-bool colision_offset(float polilinea[][2], size_t n, float pos[2], float radio, float escala, float offset[2]){ //retorna true si chocó
-    float dist;
-    float a[2]={polilinea[0][0]*escala,polilinea[0][1]*escala};
-    float b[2];
-    
-    for(size_t i = 0; i < n-1; i++){
-        a[0]=polilinea[i][0]*escala-offset[0];
-        a[1]=polilinea[i][1]*escala-offset[1];
-        b[0]=polilinea[i+1][0]*escala-offset[0];
-        b[1]=polilinea[i+1][1]*escala-offset[1];
-        dist=encontrar_dist_segmento(pos,a,b);
 
-        if(dist<radio){
-            return true;
-        }
-    }
-    return false;
-}
 void rotar_punto(float punto[2], float pos[2], float angulo){
     float x=punto[0]-pos[0];
     float y=punto[1]-pos[1];

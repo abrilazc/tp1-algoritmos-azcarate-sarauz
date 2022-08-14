@@ -27,8 +27,6 @@ void trasladar(float pos[2],float v[2]); //llamada para mover un objeto
 
 bool colision(float polilinea[][2], size_t n, float pos[2], float radio); //llamada para verificar si la nave chocó, return true si chocó
 
-bool colision_offset(float polilinea[][2], size_t n, float pos[2], float radio, float escala, float offset[2]);
-
 void rotar_punto(float punto[2], float pos[2], float angulo);
 
 #endif 

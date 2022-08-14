@@ -90,7 +90,7 @@ int main() {
             nivel_inicio=pantalla_inicio_mostrar(nave, figuras, niveles, renderer, &f, &planeta_actual);
             }
         else{
-            pantalla_nivel(nave,figuras,niveles,renderer,&nivel_inicio,&planeta_actual,&f, &centro);
+            pantalla_nivel(nave,figuras,niveles,renderer,&nivel_inicio,&planeta_actual,&f, &centro, &pantalla_inicio_spawn);
             
             //listas(nave,niveles,figuras,renderer,planeta_actual,f);
 

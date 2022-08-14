@@ -32,7 +32,6 @@ void cargar_pantalla_inicio(nave_t *nave,nivel_t **niveles,figura_t ***figuras, 
         printf("SPAWN EN BASE\n");
         pos[0]=388;
         pos[1]=218;
-        pos_planetas(0,pos);
         vidas_reiniciar(nave);
 
         //destruir_niveles(niveles,CANTIDAD_NIVELES);
@@ -73,7 +72,7 @@ void cargar_nivel(nave_t *nave, nivel_t **niveles, planeta_nombre planeta_actual
     //nivel_t *nivel=cargar_datos_nivel(niveles, planeta_actual);
     
 }
-void planeta_finito(nave_t* nave,nivel_t **niveles, SDL_Renderer *renderer, figura_t ***figuras, planeta_nombre *planeta_actual, float *f, float centro[2], bool *inicio){
+void planeta_finito(nave_t* nave,nivel_t **niveles, SDL_Renderer *renderer, figura_t ***figuras, planeta_nombre *planeta_actual, float *f, float centro[2], bool *inicio, bool *reinicio){
     float min[2];
     float max[2];
     calcular_escala(figuras[1],*planeta_actual,f, centro,min, max);
@@ -93,8 +92,10 @@ void planeta_finito(nave_t* nave,nivel_t **niveles, SDL_Renderer *renderer, figu
     }
     centro[0]+=2*(min[0]/2*(*f));
 }
-void planeta_infinito(nave_t* nave,nivel_t **niveles, SDL_Renderer *renderer, figura_t ***figuras, planeta_nombre *planeta_actual, float *f, float centro[2], bool *inicio){
+void planeta_infinito(nave_t* nave,nivel_t **niveles, SDL_Renderer *renderer, figura_t ***figuras, planeta_nombre *planeta_actual, float *f, float centro[2], bool *inicio, bool *spawn){
     float posicion_nave[2];
+    float origen[2]={VENTANA_ANCHO/2,VENTANA_ALTO*MARGEN_ALTURA};
+
     nave_posicion_get(nave, posicion_nave);
     *f = 1;
     if(posicion_nave[1] > VENTANA_ALTO * MARGEN_ALTURA)
@@ -135,30 +136,53 @@ void planeta_infinito(nave_t* nave,nivel_t **niveles, SDL_Renderer *renderer, fi
     nave_posicion_set(nave, posicion_nave);
     camara[0]=(-(centro[0]+VENTANA_ANCHO/2/(*f)))*(*f);
     if(*planeta_actual==NIVEL1NE){
+        
         printf("NIVEL1NE: CENTRO: %.2f ESCALA: %.2f",centro[0], *f);
-        dibujar_figura(renderer,figuras[1], "NIVEL1NE",camara,*f);
-        camara[0]=(-(centro[0]-max[0]+VENTANA_ANCHO/2/(*f)))*(*f);
-        dibujar_figura(renderer,figuras[1], "NIVEL1NE",camara,*f);
-        camara[0]=(-(centro[0]+max[0]+VENTANA_ANCHO/2/(*f)))*(*f);
-        dibujar_figura(renderer,figuras[1], "NIVEL1NE",camara,*f);
+        for(size_t i=0;i<3;i++){
+            camara[0]=(-(centro[0]-max[0]+max[0]*i+VENTANA_ANCHO/2/(*f)))*(*f);
+            dibujar_figura(renderer,figuras[1], "NIVEL1NE",camara,*f);
+            if(interseccion_nave_polilinea(nave,figuras[1],*planeta_actual,*f,camara)){
+                if(!vidas_decrementar(nave)){
+                    *spawn=true;
+                    cargar_pantalla_inicio(nave,niveles,figuras,*planeta_actual,true);
+                }
+                else
+                    nave_posicion_set(nave,origen);
+            }
+        }
     }
     if(*planeta_actual==NIVEL1SE){
         printf("NIVEL1SE: CENTRO: %.2f ESCALA: %.2f",centro[0], *f);
-        dibujar_figura(renderer,figuras[1], "NIVEL1SE",camara,*f);
-        camara[0]=(-(centro[0]-max[0]+VENTANA_ANCHO/2/(*f)))*(*f);
-        dibujar_figura(renderer,figuras[1], "NIVEL1SE",camara,*f);
-        camara[0]=(-(centro[0]+max[0]+VENTANA_ANCHO/2/(*f)))*(*f);
-        dibujar_figura(renderer,figuras[1], "NIVEL1SE",camara,*f);
+        for(size_t i=0;i<3;i++){
+            camara[0]=(-(centro[0]-max[0]+max[0]*i+VENTANA_ANCHO/2/(*f)))*(*f);
+            dibujar_figura(renderer,figuras[1], "NIVEL1SE",camara,*f);
+            if(interseccion_nave_polilinea(nave,figuras[1],*planeta_actual,*f,camara)){
+                if(!vidas_decrementar(nave)){
+                    *spawn=true;
+                    cargar_pantalla_inicio(nave,niveles,figuras,*planeta_actual,spawn);
+                }
+                else
+                    nave_posicion_set(nave,origen);
+            }
+
+        }
 
     }
     if(*planeta_actual==NIVEL1SW){
         printf("NIVEL1SW: MIN=(%.2f,%.2f) MAX=(%.2f,%.2f)",min[0],min[1],max[0],max[1]);
-        dibujar_figura(renderer,figuras[1], "NIVEL1SW",camara,*f);
-        camara[0]=(-(centro[0]-max[0]+VENTANA_ANCHO/2/(*f)))*(*f);
-        dibujar_figura(renderer,figuras[1], "NIVEL1SW",camara,*f);
-        camara[0]=(-(centro[0]+max[0]+VENTANA_ANCHO/2/(*f)))*(*f);
-        dibujar_figura(renderer,figuras[1], "NIVEL1SW",camara,*f);
-    }
+        for(size_t i=0;i<3;i++){
+            camara[0]=(-(centro[0]-max[0]+max[0]*i+VENTANA_ANCHO/2/(*f)))*(*f);
+            dibujar_figura(renderer,figuras[1], "NIVEL1NE",camara,*f);
+            if(interseccion_nave_polilinea(nave,figuras[1],*planeta_actual,*f,camara)){
+                if(!vidas_decrementar(nave)){
+                    *spawn=true;
+                    cargar_pantalla_inicio(nave,niveles,figuras,*planeta_actual,spawn);
+                }
+                else
+                    nave_posicion_set(nave,origen);
+            }  
+        }
+    }    
     if(posicion_nave[1]>=VENTANA_ALTO){
             *inicio=true;
             cargar_pantalla_inicio(nave,niveles,figuras,*planeta_actual,false);
@@ -203,7 +227,7 @@ bool pantalla_inicio_mostrar(nave_t *nave,figura_t ***figuras, nivel_t **niveles
     texto(nave, figuras, renderer);
     return !colisiones_inicio(nave,niveles,planetas,planeta_actual);
 }
-void pantalla_nivel(nave_t *nave, figura_t ***figuras,nivel_t **niveles, SDL_Renderer *renderer, bool *goto_inicio, planeta_nombre *planeta_actual, float *f, float *centro){
+void pantalla_nivel(nave_t *nave, figura_t ***figuras,nivel_t **niveles, SDL_Renderer *renderer, bool *goto_inicio, planeta_nombre *planeta_actual, float *f, float *centro, bool *reiniciar){
     float posicion[2];
     nave_posicion_get(nave, posicion);
 
@@ -213,13 +237,17 @@ void pantalla_nivel(nave_t *nave, figura_t ***figuras,nivel_t **niveles, SDL_Ren
     
     
     if(*planeta_actual==NIVEL1R||*planeta_actual==NIVEL1NW){
-        planeta_finito(nave,niveles, renderer, figuras, planeta_actual,f, centro, goto_inicio);
+        planeta_finito(nave,niveles, renderer, figuras, planeta_actual,f, centro, goto_inicio, reiniciar);
         listas(nave,niveles,figuras,renderer,*planeta_actual,*f, centro);
     }
     else{
-        planeta_infinito(nave,niveles, renderer, figuras, planeta_actual,f, centro, goto_inicio);
+        planeta_infinito(nave,niveles, renderer, figuras, planeta_actual,f, centro, goto_inicio, reiniciar);
+    }
+    /*
+    if(goto_inicio||reiniciar){
+        cargar_pantalla_inicio(nave,niveles,figuras,*planeta_actual,reiniciar);
     }    
-        
+    */
     texto(nave, figuras, renderer);
 }
 
@@ -383,32 +411,9 @@ size_t interseccion_lista_lista(lista_t *lista, lista_t *lista_2,size_t *cantida
     return intersecciones;
 }
 
-bool choque_nave_terreno(nave_t *nave,figura_t **figuras,planeta_nombre nombre, float escala, float offset[2]){
-    float posicion_nave[2]; 
-    nave_posicion_get(nave,posicion_nave);
-    float r=5;
-    figura_t *figura=figuras[nombre];
-    size_t cantidad_poli=cantidad_poli_fig(figura);
-    
-    polilinea_t **polilineas=polilinea_fig(figura);
-    
-    for(size_t i=0;i<cantidad_poli;i++){
-        polilinea_t *polilinea=polilineas[i];
-        size_t puntos=polilinea_cantidad_puntos(polilinea);    
-        float puntos_polilinea[puntos][2];
-
-        for(size_t g=0; g<puntos;g++){
-            polilinea_obtener_punto(polilinea, g, &puntos_polilinea[g][0], &puntos_polilinea[g][1]);
-        }
-        if(colision(puntos_polilinea, puntos, posicion_nave, r)){//posi=posicion_nave
-            return true;
-        } 
-    }
-    return false;
-}
 
 //verifica si la nave se cruzó con las lineas del planeta
-bool interseccion_nave_polilinea(nave_t *nave,figura_t **figuras,planeta_nombre nombre){
+bool interseccion_nave_polilinea(nave_t *nave,figura_t **figuras,planeta_nombre nombre, float escala, float origen[2]){
     float posicion_nave[2]; 
     nave_posicion_get(nave,posicion_nave);
     float r=5;
@@ -427,7 +432,7 @@ bool interseccion_nave_polilinea(nave_t *nave,figura_t **figuras,planeta_nombre 
             polilinea_obtener_punto(polilinea, g, &puntos_polilinea[g][0], &puntos_polilinea[g][1]);
         }
 
-        if(colision(puntos_polilinea, puntos, posicion_nave, r)){//posi=posicion_nave
+        if(colision_offset(puntos_polilinea, puntos, posicion_nave, r, escala, origen)){
             return true;
         } 
     }

@@ -75,6 +75,7 @@ void cargar_nivel(nave_t *nave, nivel_t **niveles, planeta_nombre planeta_actual
 void planeta_finito(nave_t* nave,nivel_t **niveles, SDL_Renderer *renderer, figura_t ***figuras, planeta_nombre *planeta_actual, float *f, float centro[2], bool *inicio, bool *reinicio){
     float min[2];
     float max[2];
+    float origen[2]={VENTANA_ANCHO*MARGEN_NIVEL_FIJO,VENTANA_ANCHO*MARGEN_NIVEL_FIJO};
     calcular_escala(figuras[1],*planeta_actual,f, centro,min, max);
     if(colision_rebote_ni(nave, inicio))
         {
@@ -85,12 +86,23 @@ void planeta_finito(nave_t* nave,nivel_t **niveles, SDL_Renderer *renderer, figu
     if(*planeta_actual==NIVEL1R){
         printf("NIVEL1R");
         dibujar_figura(renderer,figuras[1], "NIVEL1R",centro,*f);
+
     }
     if(*planeta_actual==NIVEL1NW){
         printf("NIVEL1NW");
         dibujar_figura(renderer,figuras[1], "NIVEL1NW",centro,*f);
     }
+    
     centro[0]+=2*(min[0]/2*(*f));
+    if(interseccion_nave_polilinea(nave,figuras[1],*planeta_actual,*f,centro)){
+                if(!vidas_decrementar(nave)){
+                    *reinicio=true;
+                    *inicio=true;
+                    cargar_pantalla_inicio(nave,niveles,figuras,*planeta_actual,true);
+                }
+                else
+                    nave_posicion_set(nave,origen);
+    }
 }
 void planeta_infinito(nave_t* nave,nivel_t **niveles, SDL_Renderer *renderer, figura_t ***figuras, planeta_nombre *planeta_actual, float *f, float centro[2], bool *inicio, bool *spawn){
     float posicion_nave[2];
@@ -144,6 +156,7 @@ void planeta_infinito(nave_t* nave,nivel_t **niveles, SDL_Renderer *renderer, fi
             if(interseccion_nave_polilinea(nave,figuras[1],*planeta_actual,*f,camara)){
                 if(!vidas_decrementar(nave)){
                     *spawn=true;
+                    *inicio=true;
                     cargar_pantalla_inicio(nave,niveles,figuras,*planeta_actual,true);
                 }
                 else
@@ -159,6 +172,7 @@ void planeta_infinito(nave_t* nave,nivel_t **niveles, SDL_Renderer *renderer, fi
             if(interseccion_nave_polilinea(nave,figuras[1],*planeta_actual,*f,camara)){
                 if(!vidas_decrementar(nave)){
                     *spawn=true;
+                    *inicio=true;
                     cargar_pantalla_inicio(nave,niveles,figuras,*planeta_actual,spawn);
                 }
                 else
@@ -176,6 +190,7 @@ void planeta_infinito(nave_t* nave,nivel_t **niveles, SDL_Renderer *renderer, fi
             if(interseccion_nave_polilinea(nave,figuras[1],*planeta_actual,*f,camara)){
                 if(!vidas_decrementar(nave)){
                     *spawn=true;
+                    *inicio=true;
                     cargar_pantalla_inicio(nave,niveles,figuras,*planeta_actual,spawn);
                 }
                 else

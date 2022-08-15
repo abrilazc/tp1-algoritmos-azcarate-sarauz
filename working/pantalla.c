@@ -396,19 +396,19 @@ size_t interseccion_lista_lista(lista_t *lista, lista_t *lista_2,size_t *cantida
     size_t cantidad=lista_largo(lista);
     float posicion_lista[2];
     float posicion_lista_2[2]; 
-    float r=100;//radio de colision
+    float r=10;//radio de colision
     
     for(size_t i=0;i<cantidad;i++){
         bool pasar=false;
         lista_iter=lista_iter_crear(lista);
-        objeto_t *objeto=lista_iter_ver_actual(lista_iter);
+        bala_t *objeto=lista_iter_ver_actual(lista_iter);
         objeto_a_posicion(objeto,posicion_lista);    
-
-        for(size_t j=0;j<(*cantidad_2) || pasar==true;j++){
+        size_t j=0;
+        while(objeto!=NULL || pasar==true){
             lista_iter_2=lista_iter_crear(lista_2);
             objeto_t *objeto_2=lista_iter_ver_actual(lista_iter_2);
-            objeto_a_posicion(objeto_2,posicion_lista_2);
-            size_t puntos=sizeof(objeto_2)/sizeof(float);
+            posicion_bala(objeto_2,posicion_lista_2);
+            size_t puntos=2;
 
             if(colision(&posicion_lista_2, puntos, posicion_lista, r)){
                 objeto_t *dest=lista_iter_borrar(lista_iter);
@@ -489,16 +489,14 @@ void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *re
     //inicializo variables
     lista_t *combustible=get_lista_combustible(nivel);
     lista_t *torreta=get_lista_torreta(nivel);
-    lista_t *balas_propias=lista_crear();
-    lista_t *balas_enemigas=lista_crear();
+    lista_t *balas_propias=get_lista_balas_propias(nivel);
+    lista_t *balas_enemigas=get_lista_balas_enemigas(nivel);
     //ITERADOR
 
     size_t cantidad_combustible= get_cantidad_combustible(nivel);
     size_t cantidad_torretas= get_cantidad_torretas(nivel);
     size_t cantidad_balas=lista_largo(balas_propias);
     size_t cantidad_ataques=lista_largo(balas_enemigas);
-
-    bool salir_nivel=false;
 
     //float posi[]={1667,113};
     printf("cantidad original: %zd\n", cantidad_torretas);
@@ -509,16 +507,6 @@ void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *re
     origen[1]+=VENTANA_ALTO/2.0;
     //revisar choque borde:
    
-    //void nave_polilinea(nave_t *nave,nivel_t *niveles,figura_t *figuras,planeta_nombre planeta_actual,bala_t *balas_propias, bala_t *balas_enemigas,float origen[2]);
-    /*
-    if(interseccion_nave_polilinea(nave,figuras[5],planeta_actual)){
-        if(!vidas_decrementar(nave)){
-            salir_nivel(nave,niveles,figuras,planeta_actual,true,balas_propias,balas_enemigas);
-        }
-
-        nave_posicion_set(nave,origen);
-    }
-*/
     //void combustible_while(size_t cantidad_combustible,figuras_t **figuras,lista_t *combustible,SDL_Render *renderer, float escala, nave_t nave)
     float camara[2];
     camara[1]=origen[1];
@@ -528,9 +516,8 @@ void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *re
         dibujar_lista(figuras[5],combustible,"COMBUSTIBLE",renderer,escala,origen); 
         camara[0]=(-(origen[0]+VENTANA_ANCHO/2/escala))*(escala);
         dibujar_lista(figuras[5],combustible,"COMBUSTIBLE",renderer,escala,origen);
-        origen[0]+=2*(max[0]*escala);
+        camara[0]=(-(origen[0]+VENTANA_ANCHO/2/escala))*(escala);
         dibujar_lista(figuras[5],combustible,"COMBUSTIBLE",renderer,escala,origen);
-        origen[0]-=(max[0]*escala);
         if(interseccion_lista_nave(nave,&cantidad_combustible, combustible,figuras[5], "COMBUSTIBLE")&& escudo_get(nave)){
             combustible_cargar(nave);
             //eliminar de la lista xd xd xd
@@ -580,7 +567,7 @@ void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *re
         dibujar_lista(figuras[2],balas_enemigas,"DISPARO",renderer,escala,origen);
         if(interseccion_lista_nave(nave,&cantidad_ataques,balas_enemigas,figuras[2],"DISPARO")){
             if(!vidas_decrementar(nave)){
-                salir_nivel=true;
+                cargar_pantalla_inicio(nave,niveles,figuras,planeta_actual, true);
             }
         nave_posicion_set(nave,origen);    
         }
@@ -600,28 +587,33 @@ void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *re
                 numero_a_polilinea(get_tiempo(nivel),renderer,posicion_texto,true,true,true,escala*10);
             }
             else if(!vidas_decrementar(nave)){
-                salir_nivel=true;
+                cargar_pantalla_inicio(nave,niveles,figuras,planeta_actual,true);
             }else{
                 nave_posicion_set(nave,origen);
                 set_reactor_off(nivel);
             }
         }
     }
-    if(get_disparar(nave) && cantidad_balas<MAX_BAL_PROP){
         float pos_nave[2];
         nave_posicion_get(nave,pos_nave);
+    if(get_disparar(nave) && cantidad_balas<MAX_BAL_PROP){
+        float centrado[2];
+        //nave_posicion_get(nave,pos_nave);
+        centrado[0]=pos_nave[0]*escala+origen[0];
+        centrado[1]=pos_nave[1]*escala-origen[1]+((VENTANA_ALTO/2.0)); //verificar centrado
+        disparo(balas_propias,centrado,direccion_get(nave));
         disparo(balas_propias,pos_nave,direccion_get(nave));
     }
     if(lista_largo(balas_propias)!=0){
         dibujar_lista(figuras[2],balas_propias,"DISPARO",renderer,escala,origen);
         trayectoria_disparo(balas_propias);
-        //destruir_disparos(balas_propias);
+        destruir_disparos(balas_propias);
+
     }
-    if(salir_nivel){
-        lista_destruir(balas_propias,liquidar_municion);
-        lista_destruir(balas_enemigas,liquidar_municion);
+    if(pos_nave[1]>VENTANA_ALTO*0.95){
+        vaciar_bala(balas_propias);
+        vaciar_bala(balas_enemigas);
     }
-    
 
 
 

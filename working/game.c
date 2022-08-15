@@ -29,7 +29,10 @@ void registrar_teclas(nave_t *nave, SDL_Event event, bool *held_down){
         switch(event.key.keysym.sym) {
             case SDLK_UP:
                 // Prendemos el chorro:
-                chorro_set(nave);
+                    if(combustible_get(nave)>0)
+                        chorro_set(nave);
+                    else
+                        chorro_clear(nave);
                 break;
             case SDLK_DOWN:
                 //prendemos el escudo
@@ -37,7 +40,11 @@ void registrar_teclas(nave_t *nave, SDL_Event event, bool *held_down){
                     if(escudo_get(nave))
                         escudo_clear(nave);
                     else
-                        escudo_set(nave);
+                        if(combustible_get(nave)>0)
+                            escudo_set(nave);
+                        else
+                            escudo_clear(nave);
+
                 }
                     
                 break;

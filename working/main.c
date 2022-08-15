@@ -95,7 +95,11 @@ int main() {
             //listas(nave,niveles,figuras,renderer,planeta_actual,f);
 
         }
-        
+        if(combustible_get(nave)<=0){
+            chorro_clear(nave);
+            escudo_clear(nave);
+        }
+        combustible_usar(nave);
         nave_velocidad_get(nave, velocidad);
         nave_posicion_get(nave, posicion);
         printf("frame:%ld posicion:(%.2f,%.2f\n)",frame,posicion[0],posicion[1]);

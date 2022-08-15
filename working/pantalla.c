@@ -25,7 +25,7 @@ void pos_planetas(size_t n, float posicion[2]){
     posicion[1]=planetas[n][1];
 }
 
-static bool colisiones_inicio(nave_t *nave,nivel_t **niveles, float planeta_pos[7][2], planeta_nombre *planeta_actual);
+static bool colisiones_inicio(nave_t *nave,nivel_t **niveles,figura_t ***figuras, float planeta_pos[7][2], planeta_nombre *planeta_actual);
 void cargar_pantalla_inicio(nave_t *nave,nivel_t **niveles,figura_t ***figuras, planeta_nombre planeta_actual,bool spawn){
     float pos[2];
     if(spawn){
@@ -187,6 +187,7 @@ void planeta_infinito(nave_t* nave,nivel_t **niveles, SDL_Renderer *renderer, fi
         for(size_t i=0;i<3;i++){
             camara[0]=(-(centro[0]-max[0]+max[0]*i+VENTANA_ANCHO/2/(*f)))*(*f);
             dibujar_figura(renderer,figuras[1], "NIVEL1SW",camara,*f);
+            //camara[0]=-camara[0];
             if(interseccion_nave_polilinea(nave,figuras[1],*planeta_actual,*f,camara)){
                 if(!vidas_decrementar(nave)){
                     *spawn=true;
@@ -195,17 +196,16 @@ void planeta_infinito(nave_t* nave,nivel_t **niveles, SDL_Renderer *renderer, fi
                 }
                 else
                     nave_posicion_set(nave,origen);
-            }  
+            }
+            //camara[0]=-camara[0];  
         }
     }    
     if(posicion_nave[1]>=VENTANA_ALTO){
             *inicio=true;
             cargar_pantalla_inicio(nave,niveles,figuras,*planeta_actual,false);
     }
-    float centro_aux=centro[0];
-    camara[0]=(-(centro[0]-max[0]+VENTANA_ANCHO/2/(*f)))*(*f);
-    listas(nave,niveles,figuras,renderer,*planeta_actual,*f, camara);
-    centro[0]=centro_aux;
+    float aux[2]={(centro[0]+VENTANA_ANCHO/2/(*f))*(*f),centro[1]};
+    listas(nave,niveles,figuras,renderer,*planeta_actual,*f, aux);
 }
 bool pantalla_inicio_mostrar(nave_t *nave,figura_t ***figuras, nivel_t **niveles, SDL_Renderer *renderer, float *f, planeta_nombre *planeta_actual){
     *f=1;
@@ -240,7 +240,7 @@ bool pantalla_inicio_mostrar(nave_t *nave,figura_t ***figuras, nivel_t **niveles
     render_nave(nave,renderer, figuras, *f);
     dibujar_planetas(planetas,renderer,figuras);
     texto(nave, figuras, renderer);
-    return !colisiones_inicio(nave,niveles,planetas,planeta_actual);
+    return !colisiones_inicio(nave,niveles,figuras,planetas,planeta_actual);
 }
 void pantalla_nivel(nave_t *nave, figura_t ***figuras,nivel_t **niveles, SDL_Renderer *renderer, bool *goto_inicio, planeta_nombre *planeta_actual, float *f, float *centro, bool *reiniciar){
     float posicion[2];
@@ -285,13 +285,22 @@ void dibujar_planetas(float planeta[7][2], SDL_Renderer *renderer, figura_t ***f
         
 }
 
-static bool colisiones_inicio(nave_t *nave,nivel_t **niveles, float planeta_pos[7][2], planeta_nombre *planeta_actual){
+static bool colisiones_inicio(nave_t *nave,nivel_t **niveles,figura_t ***figuras, float planeta_pos[7][2], planeta_nombre *planeta_actual){
     float posicion[2];
     nave_posicion_get(nave, posicion);
     for(size_t i=1;i<7;i++){
         if(dist_puntos(planeta_pos[i],posicion)<RADIONAVE){
             if(i==6){
-                //choque contra estrella
+                if(!vidas_decrementar(nave)){
+                    cargar_pantalla_inicio(nave,niveles,figuras,*planeta_actual,true);
+                }
+                else{
+                    pos_planetas(0,posicion);
+                    nave_posicion_set(nave,posicion);
+                    float aux[2]={0,0};
+                    nave_velocidad_set(nave,aux);
+                }
+                    
                 break;
             }
             else if(i==3)
@@ -310,54 +319,36 @@ static bool colisiones_inicio(nave_t *nave,nivel_t **niveles, float planeta_pos[
 //sirve para iterar contra COMBUSTIBLE si este no es 0
 //cambiar a bool
 bool interseccion_lista_nave(nave_t *nave,size_t *cantidad, lista_t *lista,figura_t **figuras,char *nombre){
-    lista_iter_t *lista_iter;
-    lista_iter=lista_iter_crear(lista);
+    lista_iter_t *lista_iter=lista_iter_crear(lista);
     
-    for(size_t i=0;i<(*cantidad);i++){
-        float posicion_objeto[2];
-        float posicion_nave[2]; 
-        float r=100;//radio de colision
-        
-        objeto_t *objeto=lista_iter_ver_actual(lista_iter);
+    float posicion_objeto[2];
+    float posicion_nave[2]; 
+    float r=150;
+
+    if(!strcmp(nombre,"TORRETA")) r=100;//radio de colision
+
+    objeto_t *objeto;
+    nave_posicion_get(nave,posicion_nave);
+    size_t i=0;
+    while( (objeto=lista_iter_ver_actual(lista_iter))!=NULL){
         objeto_a_posicion(objeto,posicion_objeto);
-        nave_posicion_get(nave,posicion_nave);
         
-        figura_t *figura=cargar_nombre(figuras,nombre);
-        size_t cantidad_poli=cantidad_poli_fig(figura);
+        float distancia=dist_puntos(posicion_nave, posicion_objeto);
         
-        polilinea_t **polilineas=polilinea_fig(figura);
-        
-/*        size_t numero_poli=0;
-        
-        polilinea_t *polilinea=get_polilinea(polilineas,numero_poli,cantidad_poli);
-        size_t puntos=polilinea_cantidad_puntos(polilinea);
-*/        
-        for(size_t j=0; j<cantidad_poli;j++){
-            polilinea_t *polilinea=polilinea_clonar(get_polilinea(polilineas,j,cantidad_poli));//polilinea_clonar(polilineas[i]);
-            //polilinea_trasladar(polilinea, posicion_objeto);
-            size_t puntos=polilinea_cantidad_puntos(polilinea);
-            
-            float puntos_polilinea[puntos][2];
-
-            for(size_t g=0; g<puntos;g++){
-                polilinea_obtener_punto(polilinea, g, &puntos_polilinea[g][0], &puntos_polilinea[g][1]);
-            }
-
-            if(colision(puntos_polilinea, puntos, posicion_nave, r)){//posi=posicion_nave
-                if(!strcmp(nombre,"TORRETA")){
-                    //disparar
+        if(distancia<r){
+            if(!strcmp(nombre,"TORRETA")){
                     lista_iter_destruir(lista_iter);
+                    *cantidad=i;
                     return true;
-                }
-                objeto_t *dest=lista_iter_borrar(lista_iter);
-                lista_iter_destruir(lista_iter);
-                destruir_cosa(dest);
-                (*cantidad)--;
-                return true;
             }
-            polilinea_destruir(polilinea);
+            lista_iter_borrar(lista_iter);
+            (*cantidad)--;
+            lista_iter_destruir(lista_iter);
+            return true;
+        }else{
+            i++;
+            lista_iter_avanzar(lista_iter);
         }
-        lista_iter_avanzar(lista_iter);
     }
     lista_iter_destruir(lista_iter);
     return false;
@@ -396,21 +387,22 @@ size_t interseccion_lista_lista(lista_t *lista, lista_t *lista_2,size_t *cantida
     size_t cantidad=lista_largo(lista);
     float posicion_lista[2];
     float posicion_lista_2[2]; 
-    float r=10;//radio de colision
+    float r=150;//radio de colision
     
     for(size_t i=0;i<cantidad;i++){
         bool pasar=false;
         lista_iter=lista_iter_crear(lista);
         bala_t *objeto=lista_iter_ver_actual(lista_iter);
-        objeto_a_posicion(objeto,posicion_lista);    
-        size_t j=0;
-        while(objeto!=NULL || pasar==true){
-            lista_iter_2=lista_iter_crear(lista_2);
-            objeto_t *objeto_2=lista_iter_ver_actual(lista_iter_2);
-            posicion_bala(objeto_2,posicion_lista_2);
-            size_t puntos=2;
+        posicion_bala(objeto,posicion_lista);
+        size_t j=0;    
+        lista_iter_2=lista_iter_crear(lista_2);
+        objeto_t *objeto_2=lista_iter_ver_actual(lista_iter_2);
 
-            if(colision(&posicion_lista_2, puntos, posicion_lista, r)){
+        while( (objeto_2=lista_iter_ver_actual(lista_iter_2))!=NULL && pasar==true){
+            objeto_a_posicion(objeto_2,posicion_lista_2);
+            printf("j=%zd",j);
+            float distancia=dist_puntos(posicion_lista_2, posicion_lista);
+            if(distancia<r){
                 objeto_t *dest=lista_iter_borrar(lista_iter);
                 (*cantidad_2)--;
                 lista_iter_destruir(lista_iter_2);
@@ -420,6 +412,7 @@ size_t interseccion_lista_lista(lista_t *lista, lista_t *lista_2,size_t *cantida
             }else{
                 lista_iter_avanzar(lista_iter_2);
             }
+            j++;
         }
         lista_iter_destruir(lista_iter);
     }
@@ -508,16 +501,16 @@ void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *re
     //revisar choque borde:
    
     //void combustible_while(size_t cantidad_combustible,figuras_t **figuras,lista_t *combustible,SDL_Render *renderer, float escala, nave_t nave)
-    float camara[2];
-    camara[1]=origen[1];
-
+    
+    //float camara[2];
+    //camara[1]=origen[1];
     if(cantidad_combustible!=0){//y el escudo activado
-        camara[0]=(-(origen[0]-max[0]+VENTANA_ANCHO/2/escala))*(escala);
-        dibujar_lista(figuras[5],combustible,"COMBUSTIBLE",renderer,escala,origen); 
-        camara[0]=(-(origen[0]+VENTANA_ANCHO/2/escala))*(escala);
         dibujar_lista(figuras[5],combustible,"COMBUSTIBLE",renderer,escala,origen);
-        camara[0]=(-(origen[0]+VENTANA_ANCHO/2/escala))*(escala);
+        origen[0]-=(max[0]*escala);
         dibujar_lista(figuras[5],combustible,"COMBUSTIBLE",renderer,escala,origen);
+        origen[0]+=2*(max[0]*escala);
+        dibujar_lista(figuras[5],combustible,"COMBUSTIBLE",renderer,escala,origen);
+        origen[0]-=(max[0]*escala);
         if(interseccion_lista_nave(nave,&cantidad_combustible, combustible,figuras[5], "COMBUSTIBLE")&& escudo_get(nave)){
             combustible_cargar(nave);
             //eliminar de la lista xd xd xd

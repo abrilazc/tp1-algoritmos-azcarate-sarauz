@@ -87,6 +87,7 @@ bool vidas_decrementar(nave_t *nave){
     if(nave->vidas==0)
         return false;
     nave->vidas--;
+    nave->combustible=JUEGO_COMBUSTIBLE_INICIAL;
     return true;
 }
 

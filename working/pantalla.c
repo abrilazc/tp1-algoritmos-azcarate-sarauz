@@ -186,7 +186,7 @@ void planeta_infinito(nave_t* nave,nivel_t **niveles, SDL_Renderer *renderer, fi
         printf("NIVEL1SW: MIN=(%.2f,%.2f) MAX=(%.2f,%.2f)",min[0],min[1],max[0],max[1]);
         for(size_t i=0;i<3;i++){
             camara[0]=(-(centro[0]-max[0]+max[0]*i+VENTANA_ANCHO/2/(*f)))*(*f);
-            dibujar_figura(renderer,figuras[1], "NIVEL1NE",camara,*f);
+            dibujar_figura(renderer,figuras[1], "NIVEL1SW",camara,*f);
             if(interseccion_nave_polilinea(nave,figuras[1],*planeta_actual,*f,camara)){
                 if(!vidas_decrementar(nave)){
                     *spawn=true;
@@ -203,8 +203,8 @@ void planeta_infinito(nave_t* nave,nivel_t **niveles, SDL_Renderer *renderer, fi
             cargar_pantalla_inicio(nave,niveles,figuras,*planeta_actual,false);
     }
     float centro_aux=centro[0];
-    centro[0]+=(*f)*VENTANA_ANCHO/2;
-    listas(nave,niveles,figuras,renderer,*planeta_actual,*f, centro);
+    camara[0]=(-(centro[0]-max[0]+VENTANA_ANCHO/2/(*f)))*(*f);
+    listas(nave,niveles,figuras,renderer,*planeta_actual,*f, camara);
     centro[0]=centro_aux;
 }
 bool pantalla_inicio_mostrar(nave_t *nave,figura_t ***figuras, nivel_t **niveles, SDL_Renderer *renderer, float *f, planeta_nombre *planeta_actual){
@@ -520,10 +520,13 @@ void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *re
     }
 */
     //void combustible_while(size_t cantidad_combustible,figuras_t **figuras,lista_t *combustible,SDL_Render *renderer, float escala, nave_t nave)
+    float camara[2];
+    camara[1]=origen[1];
 
     if(cantidad_combustible!=0){//y el escudo activado
+        camara[0]=(-(origen[0]-max[0]+VENTANA_ANCHO/2/escala))*(escala);
         dibujar_lista(figuras[5],combustible,"COMBUSTIBLE",renderer,escala,origen); 
-        origen[0]-=(max[0]*escala);
+        camara[0]=(-(origen[0]+VENTANA_ANCHO/2/escala))*(escala);
         dibujar_lista(figuras[5],combustible,"COMBUSTIBLE",renderer,escala,origen);
         origen[0]+=2*(max[0]*escala);
         dibujar_lista(figuras[5],combustible,"COMBUSTIBLE",renderer,escala,origen);
@@ -586,14 +589,17 @@ void listas(nave_t *nave,nivel_t **niveles,figura_t ***figuras, SDL_Renderer *re
         if(check_reactor_nivel(nivel)){
             if(get_tiempo(nivel)>0){
                 float posicion_r[2];
+                float centrado[2];
                 float direccion_r=0;
                 get_posicion_reactor(nivel,posicion_r);
+                centrado[0]=posicion_r[0]*escala+origen[0];
+                centrado[1]=posicion_r[1]*escala-origen[1]+((VENTANA_ALTO/2.0));
                 direccion_r=get_direccion_reactor(nivel);
-                dibujar_figura_bis(renderer,figuras[7],"REACTOR",posicion_r,escala,direccion_r);
+                dibujar_figura_bis(renderer,figuras[7],"REACTOR",centrado,escala,direccion_r);
                 float posicion_texto[]={VENTANA_ANCHO/2,VENTANA_ALTO* MARGEN_ALTURA};
                 numero_a_polilinea(get_tiempo(nivel),renderer,posicion_texto,true,true,true,escala*10);
-                decremento_reactor(nivel);
-            }else if(!vidas_decrementar(nave)){
+            }
+            else if(!vidas_decrementar(nave)){
                 salir_nivel=true;
             }else{
                 nave_posicion_set(nave,origen);

@@ -3,7 +3,7 @@ struct bala{
     float posicion[2];
     float direccion;
     float velocidad;
-    size_t tiempo;
+    float tiempo;
 };
 
 bala_t *crear_bala(float posicion[2],float direccion){
@@ -47,7 +47,7 @@ float obtener_tiempo(bala_t *bala){
     return bala->tiempo;
 }
 void restar_tiempo(bala_t *bala,float tiempo){
-    bala->tiempo=(tiempo-(1/JUEGO_FPS));
+    bala->tiempo-=DT;
 }
 void posicion_bala(bala_t *bala,float posicion[2]){
     posicion[0]=(bala->posicion)[0];
@@ -65,8 +65,9 @@ void trayectoria_disparo(lista_t *lista){
         bala_t *bala=lista_iter_ver_actual(lista_iter);
         float direccion=direccion_bala(bala);
         posicion_bala(bala,posicion_actual);
-        float velocidad[]={MAX_BAL_VELO,MAX_BAL_VELO};
-        rotar_punto(velocidad,posicion_actual,direccion);
+        float velocidad[]={MAX_BAL_VELO*cos(direccion),MAX_BAL_VELO*sin(direccion)};
+        //float velocidad[]={MAX_BAL_VELO,MAX_BAL_VELO};
+        //rotar_punto(velocidad,posicion_actual,direccion);
         trasladar(posicion_actual,velocidad);
         lista_iter_avanzar(lista_iter);
     }

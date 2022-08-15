@@ -55,6 +55,8 @@ size_t get_cantidad_torretas(nivel_t *nivel);
 size_t get_cantidad_combustible(nivel_t *nivel);
 lista_t *get_lista_torreta(nivel_t *nivel);
 lista_t *get_lista_combustible(nivel_t *nivel);
+lista_t *get_lista_balas_propias(nivel_t *nivel);
+lista_t *get_lista_balas_enemigas(nivel_t *nivel);
 figura_t *get_figura_nivel(nivel_t *nivel);
 bool get_nivel_pasado(nivel_t *nivel);
 

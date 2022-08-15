@@ -88,6 +88,8 @@ bool dibujar_polilinea(SDL_Renderer *renderer,polilinea_t *poli_dibu, float posi
     SDL_SetRenderDrawColor(renderer, r, g, b, 0x00);
     //arreglar matriz[][] de las cosas de abajo
     for(size_t j=0;j<cant_punt-1;j++){
+    printf("\n (%f %f)",(matriz[j][0]*escala+posicion[0]),-(matriz[j][1]*escala+posicion[1]) + VENTANA_ALTO);
+    printf("\n (%f %f) \n",(matriz[j+1][0]*escala+posicion[0]),-(matriz[j+1][1]*escala+posicion[1]) + VENTANA_ALTO);
     SDL_RenderDrawLine(
         renderer,   
         (matriz[j][0]*escala+posicion[0]),

@@ -21,6 +21,8 @@ struct nivel{
     lista_t *combustible;
     lista_t *torreta;
     reactor_t *reactor;
+    lista_t *balas_propias;
+    lista_t *balas_enemigas;
 };
 
 
@@ -153,6 +155,8 @@ nivel_t *crear_nivel(figura_t **figuras,planeta_nombre nombre){
     nivel->combustible=lista_combustible(nombre);
     nivel->torreta=lista_torreta(nombre);
     nivel->reactor=crear_reactor(nombre);
+    nivel->balas_propias=lista_crear();
+    nivel->balas_enemigas=lista_crear();
 
     return nivel;
 }
@@ -290,6 +294,14 @@ lista_t *get_lista_combustible(nivel_t *nivel){
     lista_t *combustible=nivel->combustible;
     return combustible;
 }
+lista_t *get_lista_balas_propias(nivel_t *nivel){
+    lista_t *balas_propias=nivel->balas_propias;
+    return balas_propias;
+}
+lista_t *get_lista_balas_enemigas(nivel_t *nivel){
+    lista_t *balas_enemigas=nivel->balas_enemigas;
+    return balas_enemigas;
+}
 figura_t *get_figura_nivel(nivel_t *nivel){
   figura_t *figura=nivel->figura;
   return figura;
@@ -345,6 +357,8 @@ void destruir_reactor(reactor_t *reactor){
 }
 //nivel
 void destruir_nivel(nivel_t *nivel){
+    lista_destruir(nivel->balas_propias,liquidar_municion);
+    lista_destruir(nivel->balas_enemigas,liquidar_municion);
     lista_destruir(nivel->combustible,destruir_bien);
     lista_destruir(nivel->torreta,destruir_bien);
     destruir_reactor(nivel->reactor);

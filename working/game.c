@@ -64,6 +64,9 @@ void registrar_teclas(nave_t *nave, SDL_Event event, bool *held_down){
             case SDLK_DOWN:
                 *held_down=false;
                 break;
+            case SDLK_SPACE:
+                clear_disparar(nave);
+                break;
         }
     }
 }

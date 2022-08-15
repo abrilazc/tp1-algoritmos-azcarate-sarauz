@@ -14,14 +14,14 @@ bala_t *crear_bala(float posicion[2],float direccion){
     bala->posicion[0]=posicion[0];
     bala->posicion[1]=posicion[1];
     bala->direccion=direccion;
-    bala->tiempo=DT*25;
+    bala->tiempo=25;
 
     return bala;
 }
 
 bool disparo(lista_t *lista,float posicion[2],float direccion){
     bala_t *bala=crear_bala(posicion,direccion);
-    return lista_insertar_primero(lista,bala);
+    return lista_insertar_ultimo(lista,bala);
 }
 
 bool destruir_disparos(lista_t *lista){
@@ -58,6 +58,11 @@ float direccion_bala(bala_t *bala){
     return bala->direccion;
 }
 
+static void set_posicion_bala(bala_t *bala, float posicion[2]){
+    (bala->posicion)[0]=posicion[0];
+    (bala->posicion)[1]=posicion[1];
+}
+
 void trayectoria_disparo(lista_t *lista){
     size_t largo=lista_largo(lista);
     float posicion_actual[2];
@@ -66,15 +71,25 @@ void trayectoria_disparo(lista_t *lista){
         bala_t *bala=lista_iter_ver_actual(lista_iter);
         float direccion=direccion_bala(bala);
         posicion_bala(bala,posicion_actual);
-        float velocidad[]={MAX_BAL_VELO,MAX_BAL_VELO};
-        rotar_punto(velocidad,posicion_actual,direccion);
+        float velocidad[]={MAX_BAL_VELO*cos(direccion),MAX_BAL_VELO*sin(direccion)};
+        //float velocidad[]={MAX_BAL_VELO,MAX_BAL_VELO};
+        //rotar_punto(velocidad,posicion_actual,direccion);
         trasladar(posicion_actual,velocidad);
+        set_posicion_bala(bala,posicion_actual);
         lista_iter_avanzar(lista_iter);
     }
     lista_iter_destruir(lista_iter);
 }
 
 
+void vaciar_bala(lista_t *lista){
+    lista_iter_t *listar=lista_iter_crear(lista);
+    while(lista_iter_ver_actual(listar)!=NULL){
+        lista_iter_borrar(listar);
+        lista_iter_avanzar(listar);
+    }
+    lista_iter_destruir(listar);
+}
 void destruir_bala(bala_t *bala){
     free(bala);
 }
